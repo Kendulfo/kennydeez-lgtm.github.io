@@ -62,6 +62,17 @@ The accent tiles in the hero use `--accent-1` / `--accent-2`.
 used via `<svg class="ic" viewBox="0 0 24 24"><use href="#i-name"/></svg>`.
 Every icon svg needs that `viewBox` or it renders cropped.
 
+## Deployment
+
+Hosted on GitHub Pages from the repo `kennydeez-lgtm.github.io`, served at
+<https://mynameiskennethdulfo.com>.
+
+The `CNAME` file at the repo root tells Pages which domain to serve — don't delete it.
+DNS lives at GoDaddy: the apex has four `A` records pointing at GitHub's Pages IPs
+(`185.199.108–111.153`), and `www` is a `CNAME` to `kennydeez-lgtm.github.io`.
+
+Pushing to `main` publishes. There is no build step, so what's in the repo is what ships.
+
 ## What was fixed vs. the original
 
 The live site had a few broken things, corrected here:
