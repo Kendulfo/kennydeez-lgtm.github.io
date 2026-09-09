@@ -222,13 +222,23 @@ button {
   .app.is-collapsed .sidebar__label,
   .app.is-collapsed .sidebar__copy { display: none; }
 
-  .app.is-collapsed .sidebar__top { justify-content: center; }
+  /* Hide the name/role wrapper outright — an empty flex item plus the row's
+     gap would push the chevron off the rail's centre line. */
+  .app.is-collapsed .sidebar__top { justify-content: center; gap: 0; }
+  .app.is-collapsed .sidebar__top > div { display: none; }
 
-  /* Centre the icon in each row, keep a comfortable hit target */
+  /* The hidden "Navigation" label was carrying the space above the nav,
+     so the rail has to restore it explicitly. */
+  .app.is-collapsed .nav { margin-top: 26px; }
+
+  /* Square, centred targets — the active pill reads as deliberate in a rail */
   .app.is-collapsed .nav__item {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0 auto;
     justify-content: center;
     gap: 0;
-    padding: 8px;
   }
 
   .app.is-collapsed .sidebar__cta {
