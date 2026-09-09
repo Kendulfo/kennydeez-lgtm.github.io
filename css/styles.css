@@ -314,6 +314,9 @@ button {
 }
 .nav__item svg { flex: none; }
 
+/* Separates the CTA from the last nav item (the rail overrides this) */
+.sidebar__cta { margin-top: 16px; }
+
 .sidebar__spacer { flex: 1; min-height: 24px; }
 
 .sidebar__foot {
