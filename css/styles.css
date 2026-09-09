@@ -59,8 +59,9 @@
   --radius-lg:   14px;
   --radius-full: 9999px;
 
-  --sidebar-w:   280px;
-  --content-max: 1000px;
+  --sidebar-w:    280px;
+  --sidebar-rail: 76px;   /* collapsed, icons-only width */
+  --content-max:  1000px;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
@@ -162,7 +163,7 @@ button {
   transition: margin-left 0.3s var(--ease);
 }
 
-.app.is-collapsed .main { margin-left: 0; }
+/* Collapsed behaviour lives in the rail block below (desktop only). */
 
 .container {
   width: 100%;
@@ -197,7 +198,55 @@ button {
   transition: transform 0.3s var(--ease);
 }
 
-.app.is-collapsed .sidebar { transform: translateX(-100%); }
+/* ---- Collapsed rail: icons only, still on screen --------------------------
+   Desktop only. Below 820px the sidebar is an off-canvas drawer instead, so
+   the rail must not apply there.
+   -------------------------------------------------------------------------- */
+.sidebar,
+.nav__item,
+.sidebar__cta { transition: width 0.3s var(--ease), padding 0.3s var(--ease),
+                            margin 0.3s var(--ease), background-color 0.2s var(--ease); }
+
+.sidebar__collapse svg { transition: transform 0.3s var(--ease); }
+
+@media (min-width: 821px) {
+  /* Collapsing just redefines the width token — sidebar and main both follow it */
+  .app.is-collapsed { --sidebar-w: var(--sidebar-rail); }
+
+  .app.is-collapsed .sidebar { padding-left: 10px; padding-right: 10px; }
+
+  /* Hide every text label, keep the icons */
+  .app.is-collapsed .nav__label,
+  .app.is-collapsed .sidebar__name,
+  .app.is-collapsed .sidebar__role,
+  .app.is-collapsed .sidebar__label,
+  .app.is-collapsed .sidebar__copy { display: none; }
+
+  .app.is-collapsed .sidebar__top { justify-content: center; }
+
+  /* Centre the icon in each row, keep a comfortable hit target */
+  .app.is-collapsed .nav__item {
+    justify-content: center;
+    gap: 0;
+    padding: 8px;
+  }
+
+  .app.is-collapsed .sidebar__cta {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 16px auto 0;
+  }
+
+  .app.is-collapsed .sidebar__back {
+    justify-content: center;
+    padding: 6px;
+    margin-bottom: 14px;
+  }
+
+  /* Chevron flips to point the way it will move */
+  .app.is-collapsed .sidebar__collapse svg { transform: rotate(180deg); }
+}
 
 .sidebar__top {
   display: flex;
@@ -297,9 +346,6 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   box-shadow: var(--shadow-lg);
   z-index: 60;
 }
-
-/* When the sidebar is collapsed on desktop, the FAB becomes the way back */
-.app.is-collapsed .menu-fab { display: grid; }
 
 .scrim {
   display: none;

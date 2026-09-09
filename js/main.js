@@ -62,18 +62,38 @@
   function openMenu()  { sidebar.classList.add('is-open');  scrim.classList.add('is-open'); }
   function closeMenu() { sidebar.classList.remove('is-open'); scrim.classList.remove('is-open'); }
 
+  // Collapsed = narrow icons-only rail (desktop). Persisted between visits.
+  function setCollapsed(collapsed) {
+    app.classList.toggle('is-collapsed', collapsed);
+    localStorage.setItem('sidebar', collapsed ? 'collapsed' : 'expanded');
+
+    var btn = document.querySelector('[data-action="collapse"]');
+    if (btn) {
+      btn.setAttribute('aria-expanded', String(!collapsed));
+      var label = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+    }
+
+    // Only show hover tooltips when the labels are hidden.
+    var tipped = document.querySelectorAll('[data-tip]');
+    for (var i = 0; i < tipped.length; i++) {
+      if (collapsed) tipped[i].setAttribute('title', tipped[i].getAttribute('data-tip'));
+      else tipped[i].removeAttribute('title');
+    }
+  }
+
   /* ------------------------------------------------------- Global actions */
   document.addEventListener('click', function (e) {
     var actionEl = e.target.closest('[data-action]');
     if (actionEl) {
       var action = actionEl.getAttribute('data-action');
       if (action === 'theme')      { toggleTheme(); return; }
-      if (action === 'collapse')   { app.classList.add('is-collapsed'); return; }
-      if (action === 'menu') {
-        if (app.classList.contains('is-collapsed')) app.classList.remove('is-collapsed');
-        else openMenu();
+      if (action === 'collapse') {
+        setCollapsed(!app.classList.contains('is-collapsed'));
         return;
       }
+      if (action === 'menu')       { openMenu(); return; }
       if (action === 'close-menu') { closeMenu(); return; }
       if (action === 'back')       { showView('home'); return; }
     }
@@ -175,6 +195,7 @@
   }
 
   /* ------------------------------------------------------------------ Boot */
+  setCollapsed(localStorage.getItem('sidebar') === 'collapsed');
   routeFromHash();
   revealAll(document);
   updateActiveNav();

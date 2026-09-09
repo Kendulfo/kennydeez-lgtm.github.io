@@ -46,9 +46,9 @@
 
   <!-- Sidebar ============================================================ -->
   <aside class="sidebar" id="sidebar">
-    <button class="sidebar__back" data-action="back">
+    <button class="sidebar__back" data-action="back" data-tip="Back">
       <svg class="ic" viewBox="0 0 24 24" width="16" height="16"><use href="#i-back"/></svg>
-      Back
+      <span class="nav__label">Back</span>
     </button>
 
     <div class="sidebar__top">
@@ -56,23 +56,23 @@
         <h2 class="sidebar__name">Kenneth Dulfo</h2>
         <p class="sidebar__role">Product Designer</p>
       </div>
-      <button class="icon-btn sidebar__collapse" data-action="collapse" aria-label="Collapse sidebar">
+      <button class="icon-btn sidebar__collapse" data-action="collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">
         <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-chevron-left"/></svg>
       </button>
     </div>
 
     <h3 class="sidebar__label">Navigation</h3>
     <nav class="nav" id="nav">
-      <a class="nav__item" href="#hero"    data-nav="hero"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg>Home</a>
-      <a class="nav__item" href="#about"   data-nav="about"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg>About</a>
-      <a class="nav__item" href="#designs" data-nav="designs"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-grid"/></svg>Designs</a>
-      <a class="nav__item" href="#resume"  data-nav="resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg>Resume</a>
-      <a class="nav__item" href="#work"    data-nav="work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg>Work</a>
+      <a class="nav__item" href="#hero"    data-nav="hero"    data-tip="Home"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg><span class="nav__label">Home</span></a>
+      <a class="nav__item" href="#about"   data-nav="about"   data-tip="About"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg><span class="nav__label">About</span></a>
+      <a class="nav__item" href="#designs" data-nav="designs" data-tip="Designs"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-grid"/></svg><span class="nav__label">Designs</span></a>
+      <a class="nav__item" href="#resume"  data-nav="resume"  data-tip="Resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg><span class="nav__label">Resume</span></a>
+      <a class="nav__item" href="#work"    data-nav="work"    data-tip="Work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg><span class="nav__label">Work</span></a>
     </nav>
 
-    <a class="btn btn--outline btn--block" href="#contact" style="margin-top:16px">
+    <a class="btn btn--outline btn--block sidebar__cta" href="#contact" data-tip="Get in Touch">
       <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
-      Get in Touch
+      <span class="nav__label">Get in Touch</span>
     </a>
 
     <div class="sidebar__spacer"></div>
