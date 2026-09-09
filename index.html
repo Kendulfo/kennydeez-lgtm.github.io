@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kenneth Dulfo — Portfolio</title>
+<meta name="description" content="Senior Product Designer specializing in design systems, component libraries, and scalable design solutions that bridge design and development.">
+<link rel="stylesheet" href="css/styles.css">
+<script>
+  // Set theme before paint to avoid a flash of the wrong theme.
+  (function () {
+    var t = localStorage.getItem('theme');
+    if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+</head>
+<body>
+
+<!-- Reusable icons ------------------------------------------------------- -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-home"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></g>
+    <g id="i-user"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></g>
+    <g id="i-grid"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></g>
+    <g id="i-file"><path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/><path d="M14 3v4h4"/></g>
+    <g id="i-brief"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></g>
+    <g id="i-mail"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g>
+    <g id="i-arrow"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></g>
+    <g id="i-back"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></g>
+    <g id="i-cal"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></g>
+    <g id="i-pin"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></g>
+    <g id="i-download"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 20h16"/></g>
+    <g id="i-palette"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.2"/><circle cx="12" cy="7.5" r="1.2"/><circle cx="15.5" cy="10" r="1.2"/></g>
+    <g id="i-code"><path d="m9 8-5 4 5 4"/><path d="m15 8 5 4-5 4"/></g>
+    <g id="i-users"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.4 2.9-5.5 6.5-5.5s6.5 2.1 6.5 5.5"/><path d="M17 5.5a3.5 3.5 0 0 1 0 6.6"/><path d="M18.5 14.5c2 .8 3 2.4 3 4.5"/></g>
+    <g id="i-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g>
+    <g id="i-moon"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></g>
+    <g id="i-menu"><path d="M4 7h16M4 12h16M4 17h16"/></g>
+    <g id="i-chevron-left"><path d="m14 6-6 6 6 6"/></g>
+  </defs>
+</svg>
+
+<div class="app" id="app">
+
+  <!-- Sidebar ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar__back" data-action="back">
+      <svg class="ic" viewBox="0 0 24 24" width="16" height="16"><use href="#i-back"/></svg>
+      Back
+    </button>
+
+    <div class="sidebar__top">
+      <div>
+        <h2 class="sidebar__name">Kenneth Dulfo</h2>
+        <p class="sidebar__role">Product Designer</p>
+      </div>
+      <button class="icon-btn sidebar__collapse" data-action="collapse" aria-label="Collapse sidebar">
+        <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-chevron-left"/></svg>
+      </button>
+    </div>
+
+    <h3 class="sidebar__label">Navigation</h3>
+    <nav class="nav" id="nav">
+      <a class="nav__item" href="#hero"    data-nav="hero"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg>Home</a>
+      <a class="nav__item" href="#about"   data-nav="about"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg>About</a>
+      <a class="nav__item" href="#designs" data-nav="designs"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-grid"/></svg>Designs</a>
+      <a class="nav__item" href="#resume"  data-nav="resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg>Resume</a>
+      <a class="nav__item" href="#work"    data-nav="work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg>Work</a>
+    </nav>
+
+    <a class="btn btn--outline btn--block" href="#contact" style="margin-top:16px">
+      <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
+      Get in Touch
+    </a>
+
+    <div class="sidebar__spacer"></div>
+
+    <div class="sidebar__foot">
+      <button class="icon-btn" data-action="theme" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="ic ic--sun" viewBox="0 0 24 24" width="15" height="15"><use href="#i-sun"/></svg>
+        <svg class="ic ic--moon" viewBox="0 0 24 24" width="15" height="15" hidden><use href="#i-moon"/></svg>
+      </button>
+      <p class="sidebar__copy">© 2025 Portfolio</p>
+    </div>
+  </aside>
+
+  <div class="scrim" id="scrim" data-action="close-menu"></div>
+  <button class="menu-fab" data-action="menu" aria-label="Open menu">
+    <svg class="ic" viewBox="0 0 24 24" width="20" height="20"><use href="#i-menu"/></svg>
+  </button>
+
+  <!-- Main =============================================================== -->
+  <main class="main">
+
+    <!-- ===== HOME VIEW ================================================= -->
+    <div class="view" id="view-home">
+
+      <!-- Hero -->
+      <section class="section section--hero" id="hero">
+        <div class="container">
+          <div class="hero">
+            <div class="hero__tiles">
+              <div class="tile tile--light"><svg class="ic" viewBox="0 0 24 24" width="28" height="28"><use href="#i-palette"/></svg></div>
+              <div class="tile tile--one"><svg class="ic" viewBox="0 0 24 24" width="28" height="28"><use href="#i-code"/></svg></div>
+              <div class="tile tile--two"><svg class="ic" viewBox="0 0 24 24" width="28" height="28"><use href="#i-users"/></svg></div>
+            </div>
+
+            <h1 class="hero__title">
+              Hi! My name is Kenneth!
+              <span>I'm a Product Designer.</span>
+            </h1>
+
+            <p class="hero__lede">
+              Senior Product Designer specializing in design systems, component libraries,
+              and scalable design solutions that bridge design and development.
+            </p>
+
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="#work">
+                View Work
+                <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg>
+              </a>
+              <a class="btn btn--outline" href="#contact">
+                <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
+                Get in Touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="section" id="about">
+        <div class="container">
+          <div class="about__grid">
+            <div class="about__body reveal">
+              <span class="eyebrow">About</span>
+              <h2 class="h-section">Building bridges between design and development</h2>
+              <p class="lede">
+                With over 11 years of experience in product design, I specialize in creating
+                design systems that not only look beautiful but also scale efficiently across
+                teams and products.
+              </p>
+              <p class="lede">
+                My approach combines user-centered design principles with technical
+                implementation knowledge, ensuring designs that are both delightful for users
+                and feasible for development teams.
+              </p>
+
+              <div class="grid-3 about__stats">
+                <div class="card stat"><div class="stat__num">50+</div><div class="stat__label">Components Built</div></div>
+                <div class="card stat"><div class="stat__num">15+</div><div class="stat__label">Products Shipped</div></div>
+                <div class="card stat"><div class="stat__num">3</div><div class="stat__label">Design Systems</div></div>
+              </div>
+            </div>
+
+            <div class="portrait reveal" data-delay="1">
+              <img src="assets/portrait.png" alt="Kenneth Dulfo portrait" width="2048" height="2048">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Designs (placeholder — this section was empty on the original site) -->
+      <section class="section" id="designs">
+        <div class="container">
+          <div class="reveal">
+            <span class="eyebrow">Designs</span>
+            <h2 class="h-section">Selected visual work</h2>
+            <p class="lede">
+              A gallery of UI explorations, design system artefacts, and visual studies.
+              <!-- TODO: drop your design tiles in the grid below. -->
+            </p>
+          </div>
+
+          <div class="work__grid">
+            <!-- Duplicate a card like this for each design -->
+            <div class="card project" data-soon>
+              <div class="project__media" style="display:grid;place-items:center;color:var(--muted-fg)">
+                <svg class="ic" viewBox="0 0 24 24" width="28" height="28"><use href="#i-grid"/></svg>
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Add your first design</h3>
+                <p class="project__desc">
+                  Replace this card with a real piece — an image, a title, and a short caption.
+                </p>
+                <span class="badge-soon">Placeholder</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resume -->
+      <section class="section" id="resume">
+        <div class="container">
+          <div class="reveal">
+            <span class="eyebrow">Resume</span>
+            <h2 class="h-section">Experience &amp; Background</h2>
+            <p class="lede">
+              A comprehensive overview of my professional journey, education, and skills in
+              product design and design systems.
+            </p>
+            <div class="resume__actions">
+              <a class="btn btn--primary" href="assets/kenneth-dulfo-resume.pdf" download>
+                <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-download"/></svg>
+                Download Resume
+              </a>
+              <a class="btn btn--outline" href="assets/kenneth-dulfo-resume.pdf" target="_blank" rel="noopener">
+                View Full Resume
+                <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="resume__grid">
+            <!-- Experience + education -->
+            <div>
+              <div class="block reveal">
+                <h3 class="block-title">Professional Experience</h3>
+                <div class="timeline">
+
+                  <article class="job">
+                    <h4 class="job__title">UI/UX Manager</h4>
+                    <p class="job__org">Eastwest Ageas Insurance</p>
+                    <p class="job__meta">
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Jun 2024 – Present</span>
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>BGC, Taguig</span>
+                    </p>
+                    <ul class="bullets">
+                      <li>Managing a team of designers and researchers, providing guidance, mentorship, and support to help them grow professionally</li>
+                      <li>Leading efforts to understand user needs through research methods such as interviews, surveys, and usability testing, and using insights to inform design decisions</li>
+                      <li>Working closely with product managers, developers, and other stakeholders to ensure that design considerations are integrated into the product development process</li>
+                    </ul>
+                  </article>
+
+                  <article class="job">
+                    <h4 class="job__title">UX Consultant</h4>
+                    <p class="job__org">AIA</p>
+                    <p class="job__meta">
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Feb 2020 – Jun 2022</span>
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>Makati, NCR</span>
+                    </p>
+                    <ul class="bullets">
+                      <li>Mentor less senior designers and build the best-in-class in-house design experience capabilities for Group within the Philippines</li>
+                      <li>Collaborate with peers and cross functional teams to execute best-in-class design based on requirements and project briefing that deliver on both customer and business outcomes</li>
+                      <li>Designed a design library that is used by our global team and increased developer efficiency by 60%</li>
+                    </ul>
+                  </article>
+
+                  <article class="job">
+                    <h4 class="job__title">Lead UI/UX Designer</h4>
+                    <p class="job__org">Entrego PH</p>
+                    <p class="job__meta">
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Jun 2020 – Feb 2023</span>
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>MCX, Muntinlupa</span>
+                    </p>
+                    <ul class="bullets">
+                      <li>Lead and participate in user and market research to produce product analysis and constructive improvement practices</li>
+                      <li>Designed the MyEntrego App from conception to completion and launched it successfully on the App Store</li>
+                      <li>Mentored 3 junior designers on design systems best practices</li>
+                    </ul>
+                  </article>
+
+                  <article class="job">
+                    <h4 class="job__title">Senior UI/UX Designer</h4>
+                    <p class="job__org">Contentserv AG</p>
+                    <p class="job__meta">
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Apr 2018 – Jun 2020</span>
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>Makati, NCR</span>
+                    </p>
+                    <ul class="bullets">
+                      <li>Created user-centered designs for 15+ client projects</li>
+                      <li>Specialized in SaaS website applications</li>
+                      <li>Developed the company brand</li>
+                    </ul>
+                  </article>
+
+                  <article class="job">
+                    <h4 class="job__title">UI/UX Designer</h4>
+                    <p class="job__org">Triple One Technologies</p>
+                    <p class="job__meta">
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>2018 – 2020</span>
+                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>Makati, NCR</span>
+                    </p>
+                    <ul class="bullets">
+                      <li>Designing graphic user interface elements, like menus, tabs and widgets</li>
+                      <li>Responsible for creating banners that will be used in main website</li>
+                      <li>Gathering and evaluating user requirements, in collaboration with product managers and developers</li>
+                    </ul>
+                  </article>
+
+                </div>
+              </div>
+
+              <div class="block reveal">
+                <h3 class="block-title">Education</h3>
+                <div class="card">
+                  <h4 class="job__title">Bachelor of Arts in Multimedia Arts</h4>
+                  <p class="job__org">De La Salle College of Saint Benilde</p>
+                  <p class="job__meta">
+                    <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>2010 – 2014</span>
+                  </p>
+                  <ul class="bullets">
+                    <li>Graduated Dean's Lister</li>
+                    <li>Multimedia Max</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills + quick stats -->
+            <div>
+              <div class="card aside-card reveal">
+                <h3 class="block-title">Core Skills</h3>
+
+                <div class="skills__group">
+                  <h4>Design Tools</h4>
+                  <div class="chips">
+                    <span class="chip">Figma</span><span class="chip">Sketch</span>
+                    <span class="chip">Adobe Creative Suite</span><span class="chip">Miro</span>
+                    <span class="chip">Framer</span>
+                  </div>
+                </div>
+
+                <div class="skills__group">
+                  <h4>Certificate</h4>
+                  <div class="chips">
+                    <span class="chip">Google UX Certified</span>
+                    <span class="chip">Professional Scrum Master</span>
+                  </div>
+                </div>
+
+                <div class="skills__group">
+                  <h4>Research</h4>
+                  <div class="chips">
+                    <span class="chip">User Interviews</span><span class="chip">Usability Testing</span>
+                    <span class="chip">A/B Testing</span><span class="chip">Analytics</span>
+                  </div>
+                </div>
+
+                <div class="skills__group">
+                  <h4>Leadership</h4>
+                  <div class="chips">
+                    <span class="chip">Design Systems</span><span class="chip">Mentoring</span>
+                    <span class="chip">Cross-functional Collaboration</span>
+                    <span class="chip">Workshop Facilitation</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card aside-card reveal" data-delay="1">
+                <h3 class="block-title">Quick Stats</h3>
+                <div class="quick-stats">
+                  <div class="quick-stats__row"><span>Experience</span><span>11+ Years</span></div>
+                  <div class="quick-stats__row"><span>Projects Completed</span><span>50+</span></div>
+                  <div class="quick-stats__row"><span>Design Systems</span><span>3 Major</span></div>
+                  <div class="quick-stats__row"><span>Team Members Mentored</span><span>15+</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Work -->
+      <section class="section" id="work">
+        <div class="container">
+          <div class="reveal">
+            <span class="eyebrow">Featured Work</span>
+            <h2 class="h-section">Design Systems &amp; Products</h2>
+            <p class="lede">
+              A collection of design systems, component libraries, and products I've designed
+              and built over the years. Click on any project to view the detailed case study.
+            </p>
+          </div>
+
+          <div class="work__grid">
+
+            <button class="card project reveal" data-case="aia">
+              <div class="project__media">
+                <img src="assets/aia-design-system.png" alt="AIA Digital Design System" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">AIA Digital Design System</h3>
+                <p class="project__desc">
+                  A comprehensive design system built from scratch for a large insurance company,
+                  featuring 50+ components, design tokens, and extensive documentation. Reduced
+                  design-to-development time by 60%.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Figma</span><span class="chip">React</span>
+                  <span class="chip">TypeScript</span><span class="chip">Storybook</span>
+                  <span class="chip">Design Tokens</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+            <button class="card project reveal" data-delay="1" data-case="banking">
+              <div class="project__media">
+                <img src="assets/mobile-banking.png" alt="Mobile Banking App" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Mobile Banking App</h3>
+                <p class="project__desc">
+                  Redesigned mobile banking interface with focus on accessibility and user
+                  experience. Implemented across iOS and Android platforms.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">UI/UX</span>
+                  <span class="chip">Figma</span><span class="chip">Prototyping</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+            <div class="card project reveal" data-soon>
+              <div class="project__media">
+                <img src="assets/ecommerce.jpg" alt="E-commerce Platform" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">E-commerce Platform</h3>
+                <p class="project__desc">
+                  Complete redesign of an e-commerce platform with improved conversion rates and
+                  user engagement metrics.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Web Design</span><span class="chip">React</span>
+                  <span class="chip">E-commerce</span><span class="chip">UX Research</span>
+                </div>
+                <span class="badge-soon">Case study coming soon</span>
+              </div>
+            </div>
+
+            <div class="card project reveal" data-delay="1" data-soon>
+              <div class="project__media">
+                <img src="assets/component-library.jpg" alt="Component Library" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Component Library</h3>
+                <p class="project__desc">
+                  Open-source component library used by 500+ developers, featuring comprehensive
+                  documentation and testing.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Open Source</span><span class="chip">Components</span>
+                  <span class="chip">Documentation</span><span class="chip">Testing</span>
+                </div>
+                <span class="badge-soon">Case study coming soon</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="contact reveal">
+            <h2 class="h-section" style="margin:0 auto">Let's work together</h2>
+            <p class="lede">
+              I'm always interested in discussing new opportunities, design challenges, or just
+              talking shop about design systems and component libraries.
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary" href="mailto:kendulfo@gmail.com">
+                <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
+                Start a Conversation
+              </a>
+            </div>
+            <p class="contact__note">Based in Manila, available for remote work worldwide</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="container">
+          <span>© 2025 Kenneth Dulfo. All rights reserved.</span>
+          <span>Built with HTML &amp; CSS</span>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ===== CASE STUDY: AIA =========================================== -->
+    <article class="view" id="view-aia" hidden>
+      <div class="container">
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Figma</span><span class="chip">React</span>
+            <span class="chip">Chromatic</span><span class="chip">Storybook</span>
+            <span class="chip">Design Tokens</span>
+          </div>
+          <h1 class="cs__title">AIA Digital Design System</h1>
+          <p class="cs__sub">Building a comprehensive design system from scratch for a fast-growing insurance business</p>
+
+          <dl class="cs__meta">
+            <div><dt>Role</dt><dd>UX Consultant</dd></div>
+            <div><dt>Duration</dt><dd>2 Years</dd></div>
+            <div><dt>Team</dt><dd>3 designers, 4 developers, 1 PM</dd></div>
+            <div><dt>Impact</dt><dd>60% faster dev time</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img">
+          <img src="assets/aia-design-system.png" alt="AIA Digital Design System">
+        </div>
+
+        <div class="prose">
+          <section>
+            <h2>Overview</h2>
+            <p>
+              When I joined AIA, they had grown from 5 to 50 designers in 18 months. Their product
+              had evolved organically, resulting in inconsistent UI patterns, duplicated components,
+              and a development process that was slowing down with each new feature. I was tasked
+              with creating a comprehensive design system that would scale with the company's rapid
+              growth.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              The main challenge was creating a system that could adapt to different regions while
+              being flexible enough to accommodate rapid feature development. We needed to establish
+              design principles, create a token system, build 50+ components, and migrate existing
+              products without disrupting ongoing development.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              I led the creation of a comprehensive design system built on atomic design principles.
+              We established a robust token system, created extensive component documentation, and
+              implemented a phased migration strategy that allowed teams to adopt the system
+              gradually.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Discovery &amp; Audit</h3>
+                  <ul class="bullets">
+                    <li>Conducted a comprehensive audit of existing UI patterns across all products, identifying 200+ unique variations of what should have been standard components.</li>
+                    <li>Interviewed stakeholders from design, engineering, and product teams to understand pain points and requirements.</li>
+                    <li>Analyzed competitor design systems and industry best practices to inform our approach.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Foundation &amp; Principles</h3>
+                  <ul class="bullets">
+                    <li>Established core design principles focused on clarity, efficiency, and scalability that would guide all design decisions.</li>
+                    <li>Created a comprehensive token system covering colors, typography, spacing, and motion that could adapt to light and dark themes.</li>
+                    <li>Defined component hierarchy and naming conventions that would scale with the system's growth.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Component Development</h3>
+                  <ul class="bullets">
+                    <li>Built 50+ components starting with foundational elements like buttons and inputs, then progressing to complex patterns.</li>
+                    <li>Each component included multiple variants, states, and comprehensive documentation with usage guidelines.</li>
+                    <li>Collaborated closely with engineers to ensure components were built with accessibility, performance, and developer experience in mind.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Documentation &amp; Testing</h3>
+                  <ul class="bullets">
+                    <li>Created extensive documentation including design guidelines, component specs, and implementation examples.</li>
+                    <li>Set up automated visual regression testing to catch breaking changes early in the development process.</li>
+                    <li>Established governance processes for proposing, reviewing, and implementing changes to the system.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>The Component Library</h2>
+            <div class="showcase">
+              <div class="marquee" id="marquee"></div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">60%</div>
+                <div class="result__label">Development Speed</div>
+                <p class="result__desc">Faster feature development with reusable components</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">95%</div>
+                <div class="result__label">Design Consistency</div>
+                <p class="result__desc">UI consistency across all products</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">100%</div>
+                <div class="result__label">Component Adoption</div>
+                <p class="result__desc">Teams using the design system</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>Early collaboration with engineering teams is crucial for creating components that are both design-forward and developer-friendly.</li>
+              <li>Incremental adoption works better than big-bang migrations — teams can adopt the system at their own pace while seeing immediate benefits.</li>
+              <li>Documentation is just as important as the components themselves — clear guidelines prevent misuse and ensure consistency.</li>
+              <li>Building a governance process early helps maintain system quality as it scales and more contributors join.</li>
+              <li>Regular audit cycles help identify gaps and opportunities for improvement as the product evolves.</li>
+              <li>Token systems provide flexibility for theming and ensure visual consistency across all components and products.</li>
+            </ul>
+          </section>
+        </div>
+
+        <button class="card next-project" data-case="banking">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">Mobile Banking App</div>
+            <p class="project__desc">Redesigning the mobile experience with our new design system</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+    <!-- ===== CASE STUDY: MOBILE BANKING ================================ -->
+    <article class="view" id="view-banking" hidden>
+      <div class="container">
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Mobile</span><span class="chip">UI/UX</span>
+            <span class="chip">Figma</span><span class="chip">Prototyping</span>
+            <span class="chip">Accessibility</span>
+          </div>
+          <h1 class="cs__title">Mobile Banking App</h1>
+          <p class="cs__sub">Redesigning a mobile banking interface with focus on accessibility and user experience</p>
+
+          <dl class="cs__meta">
+            <div><dt>Role</dt><dd>Senior Product Designer</dd></div>
+            <div><dt>Duration</dt><dd>6 months</dd></div>
+            <div><dt>Team</dt><dd>2 designers, 3 developers, 1 PM</dd></div>
+            <div><dt>Impact</dt><dd>2.1 → 4.6 star rating</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img">
+          <img src="assets/mobile-banking.png" alt="Mobile Banking App">
+        </div>
+
+        <div class="prose">
+          <section>
+            <h2>Overview</h2>
+            <p>
+              The existing mobile banking app had low user satisfaction scores and poor
+              accessibility compliance. Users struggled with complex navigation and critical
+              banking tasks. I led a complete redesign focusing on simplifying user flows and
+              ensuring the app met WCAG 2.1 AA standards.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              The existing app had a 2.1 star rating in app stores, with users citing confusing
+              navigation, slow transaction flows, and poor accessibility. We needed to redesign the
+              entire experience while maintaining security standards and regulatory compliance.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              We conducted extensive user research to understand pain points, redesigned the
+              information architecture, and created a mobile-first design system. The new design
+              prioritized clarity, speed, and accessibility across all user flows.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>User Research</h3>
+                  <ul class="bullets">
+                    <li>Conducted usability testing with 20 existing users to identify key pain points and friction areas.</li>
+                    <li>Performed accessibility audits and tested with users who rely on assistive technologies.</li>
+                    <li>Analyzed support tickets and app store reviews to understand common issues and user needs.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Information Architecture</h3>
+                  <ul class="bullets">
+                    <li>Redesigned the app's navigation structure based on user mental models and task frequency.</li>
+                    <li>Simplified the flow for core banking tasks like transfers, bill pay, and account management.</li>
+                    <li>Created a dashboard that surfaces the most relevant information and actions for each user.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Visual Design &amp; Prototyping</h3>
+                  <ul class="bullets">
+                    <li>Applied our design system to create a cohesive mobile experience with larger touch targets and improved contrast ratios.</li>
+                    <li>Built high-fidelity prototypes to test new interaction patterns and validate design decisions.</li>
+                    <li>Ensured all designs met WCAG 2.1 AA accessibility standards from the start.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Testing &amp; Iteration</h3>
+                  <ul class="bullets">
+                    <li>Conducted multiple rounds of usability testing throughout the design process.</li>
+                    <li>Worked with the QA team to ensure accessibility compliance and smooth implementation.</li>
+                    <li>Created detailed specifications and worked closely with developers during implementation.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">4.6★</div>
+                <div class="result__label">App Store Rating</div>
+                <p class="result__desc">Improved from 2.1 to 4.6 stars</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">85%</div>
+                <div class="result__label">Task Completion</div>
+                <p class="result__desc">Users completing core banking tasks</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">AA</div>
+                <div class="result__label">Accessibility Score</div>
+                <p class="result__desc">WCAG 2.1 AA compliance achieved</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>Accessibility considerations should be integrated from the beginning of the design process, not added as an afterthought.</li>
+              <li>Mobile banking users prioritize speed and clarity over visual complexity — simple interfaces perform better.</li>
+              <li>Regular testing with real users throughout the design process catches issues that internal teams miss.</li>
+              <li>Working closely with developers during implementation ensures the final product matches the design vision.</li>
+              <li>Security and compliance requirements can actually improve UX when properly considered in the design process.</li>
+            </ul>
+          </section>
+        </div>
+
+        <button class="card next-project" data-case="aia">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">AIA Digital Design System</div>
+            <p class="project__desc">Building a design system from scratch for a fast-growing insurance business</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
