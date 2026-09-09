@@ -28,6 +28,26 @@
   syncThemeIcon();
 
   /* ----------------------------------------------------------- View router */
+
+  // Case-study videos start when their view opens and stop when it closes, so
+  // nothing plays behind a hidden view. Muted is not a preference here —
+  // browsers refuse to autoplay video that has sound.
+  function syncVideos(target) {
+    var vids = document.querySelectorAll('.view video');
+    for (var i = 0; i < vids.length; i++) {
+      var vid = vids[i];
+      if (target && target.contains(vid)) {
+        vid.muted = true;
+        var playing = vid.play();
+        // A browser that still blocks it just leaves the poster and controls up.
+        if (playing && playing.catch) playing.catch(function () {});
+      } else {
+        vid.pause();
+        vid.currentTime = 0;
+      }
+    }
+  }
+
   // Views: 'home' | 'aia' | 'banking'
   function showView(name, push) {
     var views = document.querySelectorAll('.view');
@@ -46,6 +66,7 @@
 
     window.scrollTo(0, 0);
     revealAll(target);
+    syncVideos(target);
     closeMenu();
   }
 
