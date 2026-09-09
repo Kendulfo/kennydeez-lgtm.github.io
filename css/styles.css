@@ -816,6 +816,15 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 .cs__hero-img img { width: 100%; object-fit: cover; object-position: top center; }
 
+/* Video hero: show the whole 16:9 frame rather than cropping it */
+.cs__hero-img--video { max-height: none; background: #000; line-height: 0; }
+.cs__hero-img--video video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
 .prose { margin-top: 56px; }
 .prose h2 {
   font-size: var(--text-2xl);
