@@ -48,7 +48,15 @@
     }
   }
 
-  // Views: 'home' | 'aia' | 'banking'
+  // Views that own a plain top-level hash instead of the #case/ prefix.
+  var PLAIN_HASH = { 'contact-form': '#contact-form' };
+
+  function hashFor(name) {
+    if (name === 'home') return '#hero';
+    return PLAIN_HASH[name] || ('#case/' + name);
+  }
+
+  // Views: 'home' | 'contact-form' | 'aia' | 'banking'
   function showView(name, push) {
     var views = document.querySelectorAll('.view');
     for (var i = 0; i < views.length; i++) views[i].hidden = true;
@@ -60,7 +68,7 @@
     document.body.classList.toggle('is-case-study', isCase);
 
     if (push !== false) {
-      var hash = isCase ? '#case/' + name : '#hero';
+      var hash = hashFor(name);
       if (location.hash !== hash) history.pushState({ view: name }, '', hash);
     }
 
@@ -71,6 +79,12 @@
   }
 
   function routeFromHash() {
+    for (var key in PLAIN_HASH) {
+      if (location.hash === PLAIN_HASH[key] && document.getElementById('view-' + key)) {
+        showView(key, false);
+        return;
+      }
+    }
     var m = /^#case\/(.+)$/.exec(location.hash);
     if (m && document.getElementById('view-' + m[1])) {
       showView(m[1], false);
@@ -119,9 +133,12 @@
       if (action === 'back')       { showView('home'); return; }
     }
 
-    // Project cards / next-project cards
-    var caseEl = e.target.closest('[data-case]');
-    if (caseEl) { showView(caseEl.getAttribute('data-case')); return; }
+    // Project cards, next-project cards, and anything else that opens a view
+    var viewEl = e.target.closest('[data-case], [data-view]');
+    if (viewEl) {
+      showView(viewEl.getAttribute('data-case') || viewEl.getAttribute('data-view'));
+      return;
+    }
 
     // In-page nav links: make sure we are on the home view first
     var link = e.target.closest('a[href^="#"]');
@@ -213,6 +230,52 @@
     marquee.innerHTML =
       '<div class="marquee__row">' + demos + '</div>' +
       '<div class="marquee__row" aria-hidden="true">' + demos + '</div>';
+  }
+
+  /* --------------------------------------------------------- Contact form */
+  // Posts to FormSubmit, which relays the message to the address in the form's
+  // action. Without JS the plain form POST still works — it just navigates away.
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    var cfStatus = document.getElementById('cf-status');
+    var cfSubmit = document.getElementById('cf-submit');
+
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
+
+      cfStatus.className = 'form__status';
+      cfStatus.textContent = 'Sending…';
+      contactForm.classList.add('is-sending');
+      cfSubmit.disabled = true;
+
+      // Same endpoint, /ajax/ prefix — returns JSON instead of redirecting.
+      var endpoint = contactForm.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(contactForm)
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; });
+        })
+        .then(function (data) {
+          var ok = data && (data.success === true || data.success === 'true');
+          if (!ok) throw new Error((data && data.message) || 'Send failed');
+          contactForm.reset();
+          cfStatus.className = 'form__status is-ok';
+          cfStatus.textContent = 'Thanks — your message is on its way.';
+        })
+        .catch(function () {
+          cfStatus.className = 'form__status is-error';
+          cfStatus.textContent = 'Could not send. Please email kendulfo@gmail.com directly.';
+        })
+        .then(function () {
+          contactForm.classList.remove('is-sending');
+          cfSubmit.disabled = false;
+        });
+    });
   }
 
   /* ------------------------------------------------------------------ Boot */

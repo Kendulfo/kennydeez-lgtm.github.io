@@ -501,10 +501,10 @@
               talking shop about design systems and component libraries.
             </p>
             <div class="hero__actions">
-              <a class="btn btn--primary" href="mailto:kendulfo@gmail.com">
+              <button class="btn btn--primary" data-view="contact-form">
                 <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
                 Start a Conversation
-              </a>
+              </button>
             </div>
             <p class="contact__note">Based in Manila, available for remote work worldwide</p>
           </div>
@@ -518,6 +518,62 @@
         </div>
       </footer>
     </div>
+
+    <!-- ===== CONTACT FORM ============================================== -->
+    <article class="view" id="view-contact-form" hidden>
+      <div class="container">
+        <header class="cs__head">
+          <span class="eyebrow">Contact</span>
+          <h1 class="cs__title">Start a conversation</h1>
+          <p class="cs__sub">
+            Tell me a little about what you're working on and I'll get back to you by email.
+          </p>
+        </header>
+
+        <!-- The action attribute is the no-JS fallback; main.js intercepts and
+             posts to FormSubmit's AJAX endpoint so the page never navigates. -->
+        <form class="card form" id="contact-form"
+              action="https://formsubmit.co/kendulfo@gmail.com"
+              method="POST">
+
+          <input type="hidden" name="_subject" value="New message from mynameiskennethdulfo.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <!-- Bots fill this in; humans never see it -->
+          <input type="text" name="_honey" class="form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="field">
+            <label for="cf-name">Name</label>
+            <input id="cf-name" name="name" type="text" required autocomplete="name"
+                   placeholder="Your name">
+          </div>
+
+          <div class="field">
+            <label for="cf-email">Email</label>
+            <input id="cf-email" name="email" type="email" required autocomplete="email"
+                   placeholder="you@example.com">
+          </div>
+
+          <div class="field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" rows="7" required
+                      placeholder="What would you like to talk about?"></textarea>
+          </div>
+
+          <div class="form__foot">
+            <button class="btn btn--primary" type="submit" id="cf-submit">
+              <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
+              Send message
+            </button>
+            <p class="form__status" id="cf-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <p class="contact__note" style="text-align:left;margin-bottom:96px">
+          Prefer regular email? <a class="link" href="mailto:kendulfo@gmail.com">kendulfo@gmail.com</a>
+        </p>
+      </div>
+    </article>
 
     <!-- ===== CASE STUDY: AIA =========================================== -->
     <article class="view" id="view-aia" hidden>
