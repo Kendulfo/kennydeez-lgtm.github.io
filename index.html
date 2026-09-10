@@ -532,8 +532,10 @@
 
         <!-- The action attribute is the no-JS fallback; main.js intercepts and
              posts to FormSubmit's AJAX endpoint so the page never navigates. -->
+        <!-- FormSubmit's hashed endpoint — keeps the destination address out of
+             the page source. Rotate it from the FormSubmit dashboard if needed. -->
         <form class="card form" id="contact-form"
-              action="https://formsubmit.co/kendulfo@gmail.com"
+              action="https://formsubmit.co/a812194f9e22cadcd4993f896b3236fb"
               method="POST">
 
           <input type="hidden" name="_subject" value="New message from mynameiskennethdulfo.com">
