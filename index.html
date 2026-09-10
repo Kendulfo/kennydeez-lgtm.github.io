@@ -459,11 +459,13 @@
               <div class="project__body">
                 <h3 class="project__title">Segstream Design System</h3>
                 <p class="project__desc">
-                  <!-- TODO: one or two lines describing the Segstream design system -->
-                  A design system built for Segstream. Case study in progress.
+                  A full rebuild around a three-tier token architecture: 40 component sets at
+                  485 variants, seven variable collections, real dark mode, and an entire
+                  retheme that takes five edits.
                 </p>
                 <div class="chips project__tags">
-                  <span class="chip">Design Systems</span><span class="chip">Figma</span>
+                  <span class="chip">Figma</span><span class="chip">Design Tokens</span>
+                  <span class="chip">Design Systems</span><span class="chip">Dark Mode</span>
                 </div>
                 <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
               </div>
@@ -566,21 +568,22 @@
       <div class="container">
         <header class="cs__head">
           <div class="chips">
-            <!-- TODO: real tags -->
-            <span class="chip">Design Systems</span><span class="chip">Figma</span>
-            <span class="chip">Design Tokens</span>
+            <span class="chip">Figma</span><span class="chip">Design Tokens</span>
+            <span class="chip">Design Systems</span><span class="chip">Dark Mode</span>
+            <span class="chip">Component Library</span>
           </div>
           <h1 class="cs__title">Segstream Design System</h1>
           <p class="cs__sub">
-            <!-- TODO: one line on what this system is and who it serves -->
-            A design system built for Segstream.
+            Rebuilding a design system so that everything themeable lives in variables —
+            one token edit moves the entire product, with no manual cleanup.
           </p>
 
           <dl class="cs__meta">
-            <div><dt>Role</dt><dd>TODO</dd></div>
-            <div><dt>Duration</dt><dd>TODO</dd></div>
-            <div><dt>Team</dt><dd>TODO</dd></div>
-            <div><dt>Impact</dt><dd>TODO</dd></div>
+            <!-- TODO: confirm your role title and team size -->
+            <div><dt>Role</dt><dd>Design System Lead</dd></div>
+            <div><dt>Version</dt><dd>v2.0, Sep 2026</dd></div>
+            <div><dt>Scale</dt><dd>40 sets · 485 variants</dd></div>
+            <div><dt>Impact</dt><dd>Retheme in 5 edits</dd></div>
           </dl>
         </header>
 
@@ -592,17 +595,39 @@
         <div class="prose">
           <section>
             <h2>Overview</h2>
-            <p><!-- TODO -->What the project was, and the context you joined it in.</p>
+            <p>
+              Segstream's design system, rebuilt so that everything themeable lives in
+              variables. Version 2.0 ships 40 component sets at 485 variants and 300+ tokens
+              across seven variable collections, with real light and dark modes, three density
+              modes, and a type scale that responds to desktop and mobile. The organising
+              promise is simple: one token edit moves the entire product, and nothing in the
+              file needs manual cleanup afterwards.
+            </p>
           </section>
 
           <section>
             <h2>The Challenge</h2>
-            <p><!-- TODO -->The problem the design system needed to solve.</p>
+            <p>
+              The original file had 19 component sets and 245 variables, and it had drifted.
+              Colour was bound directly to primitives in places, so a brand change meant
+              hunting through components rather than editing a ramp. Dark mode existed in name
+              only. There was no icon set, and the documentation was built from raw hex values
+              that quietly disagreed with the components they described. Rethemeing was manual
+              work with no way to know when it was finished.
+            </p>
           </section>
 
           <section>
             <h2>The Solution</h2>
-            <p><!-- TODO -->The approach you took and why.</p>
+            <p>
+              A three-tier token architecture, held together by one rule: a component never
+              binds to a primitive. Raw hex lives in a hidden primitives collection. A semantic
+              layer — background, foreground, border, brand, status, shadow — carries both
+              modes and aliases those primitives. Component tokens alias the semantic and
+              layout tiers in turn. On top of that structure, an entire retheme collapses to
+              five edits: the brand ramp, an optional neutral ramp, two font families, three
+              radius values, and a single logo component.
+            </p>
           </section>
 
           <section>
@@ -611,36 +636,45 @@
               <div class="step">
                 <div class="step__num">1</div>
                 <div>
-                  <h3>TODO — first phase</h3>
+                  <h3>Audit what was there</h3>
                   <ul class="bullets">
-                    <li>TODO</li>
+                    <li>Catalogued the existing file: 19 component sets, 245 variables, and documentation generated from raw hex rather than from the tokens themselves</li>
+                    <li>Traced where colour bound straight to primitives, which is what made rethemeing a manual hunt</li>
+                    <li>Established that dark mode was present in name only, and that there was no icon set to speak of</li>
                   </ul>
                 </div>
               </div>
               <div class="step">
                 <div class="step__num">2</div>
                 <div>
-                  <h3>TODO — second phase</h3>
+                  <h3>Rebuild the token foundation</h3>
                   <ul class="bullets">
-                    <li>TODO</li>
+                    <li>Seven variable collections arranged in three tiers, each with scopes and descriptions, and primitives hidden from publishing so they cannot be bound by accident</li>
+                    <li>A semantic colour layer carrying genuine light and dark modes, verifiable side by side on the Colors page before a single screen is touched</li>
+                    <li>Layout tokens with Compact, Default and Spacious density modes, and a typography collection with separate desktop and mobile scales</li>
                   </ul>
                 </div>
               </div>
               <div class="step">
                 <div class="step__num">3</div>
                 <div>
-                  <h3>TODO — third phase</h3>
+                  <h3>Rebuild the component library</h3>
                   <ul class="bullets">
-                    <li>TODO</li>
+                    <li>40 component sets at 485 variants, each page following the same shape so reading one teaches you how to navigate the rest</li>
+                    <li>A shared property vocabulary — Variant, Type, State, Checked, Size, Mode — so the same word means the same thing on every component instead of being reinvented per family</li>
+                    <li>A local 54-glyph icon set drawn on a 24px grid, with every fill bound to a token so an icon inside a button inherits that button's foreground colour</li>
+                    <li>Building blocks prefixed with a dot to keep them out of the asset panel while still composing the larger components</li>
                   </ul>
                 </div>
               </div>
               <div class="step">
                 <div class="step__num">4</div>
                 <div>
-                  <h3>TODO — fourth phase</h3>
+                  <h3>Document it so it holds</h3>
                   <ul class="bullets">
-                    <li>TODO</li>
+                    <li>Foundations pages render from live variables — the swatches on screen are the tokens, so documentation cannot drift from the system</li>
+                    <li>Patterns and Templates built only from instances, demonstrating how components combine without introducing new one-off drawings</li>
+                    <li>Every component page lints at zero across all eight checks, making "no raw values" an enforced property rather than a stated intention</li>
                   </ul>
                 </div>
               </div>
@@ -651,19 +685,19 @@
             <h2>Results &amp; Impact</h2>
             <div class="results">
               <div class="card result">
-                <div class="result__num">—</div>
-                <div class="result__label">TODO</div>
-                <p class="result__desc">TODO</p>
+                <div class="result__num">485</div>
+                <div class="result__label">Variants Shipped</div>
+                <p class="result__desc">Across 40 component sets, up from 19 sets previously</p>
               </div>
               <div class="card result">
-                <div class="result__num">—</div>
-                <div class="result__label">TODO</div>
-                <p class="result__desc">TODO</p>
+                <div class="result__num">5</div>
+                <div class="result__label">Edits to Retheme</div>
+                <p class="result__desc">Brand ramp, neutral ramp, fonts, radius, logo</p>
               </div>
               <div class="card result">
-                <div class="result__num">—</div>
-                <div class="result__label">TODO</div>
-                <p class="result__desc">TODO</p>
+                <div class="result__num">0</div>
+                <div class="result__label">Lint Findings</div>
+                <p class="result__desc">Every component page clean on all eight checks</p>
               </div>
             </div>
           </section>
@@ -671,9 +705,12 @@
           <section>
             <h2>Key Learnings</h2>
             <ul class="bullets">
-              <li>TODO</li>
-              <li>TODO</li>
-              <li>TODO</li>
+              <li>If something cannot be changed through a property, that is a gap in the component — not a reason to detach. Exposing every visible property is what keeps instances intact.</li>
+              <li>Composition beats redrawing. A modal footer holds real Button instances; redrawing a component inside another quietly breaks the token chain that everything else depends on.</li>
+              <li>An overridden font size survives happily until the scale changes, then silently disagrees with everything around it. Binding every text node to a style avoids a class of bug that is invisible until it is everywhere.</li>
+              <li>Density and breakpoint belong on the page frame, not on individual components. Setting them per component is how a system starts to contradict itself.</li>
+              <li>Documentation that renders from live tokens cannot drift. Documentation built from copied values always does.</li>
+              <li>State the limits in the open. Success, warning and error keep their own colour scales because Figma variables cannot compute colour — recolouring them means editing 33 more stops. Writing that down is better than letting the next person discover it halfway through a rebrand.</li>
             </ul>
           </section>
         </div>
