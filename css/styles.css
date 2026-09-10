@@ -472,19 +472,31 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   height: 66px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  animation: tile-float 6s var(--ease) infinite;
+  /* ease-in-out reads as drifting; the site's --ease is a hard ease-out
+     that makes a looping float look like it snaps. */
+  animation: tile-float 4.5s ease-in-out infinite;
 }
-.tile:nth-child(2) { animation-delay: 0.4s; }
-.tile:nth-child(3) { animation-delay: 0.8s; }
+.tile:nth-child(2) { animation-delay: 0.45s; }
+.tile:nth-child(3) { animation-delay: 0.9s; }
+.tile:nth-child(4) { animation-delay: 1.35s; }
 
 /* Stays light in both themes — matches the original hero */
 .tile--light { background: oklch(0.985 0 0); color: oklch(0.145 0 0); }
 .tile--one   { background: var(--accent-1); color: #fff; }
 .tile--two   { background: var(--accent-2); color: #fff; }
+.tile--dark  { background: #1f1e1d; color: #d97757; }
 
+/* The shadow deepens as the tile rises, which is what actually sells the
+   lift — travel alone reads as sliding. */
 @keyframes tile-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    box-shadow: var(--shadow-md);
+  }
+  50% {
+    transform: translateY(-18px) rotate(-3deg);
+    box-shadow: var(--shadow-lg);
+  }
 }
 
 .hero__title {
