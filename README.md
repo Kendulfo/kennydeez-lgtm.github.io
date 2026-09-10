@@ -78,7 +78,8 @@ Pushing to `main` publishes. There is no build step, so what's in the repo is wh
 The live site had a few broken things, corrected here:
 
 - **"Designs" section was empty** — `#showcase` rendered at 0px height, so the nav
-  item scrolled to nothing. Rebuilt as a real section with a placeholder card.
+  item scrolled to nothing. The section and its nav item have since been removed
+  outright; add them back if there's ever real visual work to show.
 - **Mobile Banking case study had the wrong `<h1>`** — it read "AIA Digital Design
   System". Now titled correctly.
 - **"Next Project" on Mobile Banking** linked to E-commerce Platform but actually
@@ -94,5 +95,4 @@ The live site had a few broken things, corrected here:
   `assets/kenneth-dulfo-resume.pdf`, which does not exist yet. Drop the file in.
 - **E-commerce Platform** and **Component Library** have no case studies. Their
   images are Unsplash placeholders from the original site, not real project shots.
-- **Designs section** needs real content.
 - The contact button opens `mailto:kendulfo@gmail.com` — swap in a form if preferred.
