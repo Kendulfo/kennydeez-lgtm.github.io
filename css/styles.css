@@ -745,6 +745,14 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 .project:hover .project__media img { transform: scale(1.04); }
 
+/* Stand-in for a project image that doesn't exist yet */
+.project__media--placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--muted-fg);
+  background: var(--input-bg);
+}
+
 .project__body { padding: 22px; }
 .project__title {
   font-size: var(--text-lg);
@@ -939,6 +947,15 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   max-height: 460px;
 }
 .cs__hero-img img { width: 100%; object-fit: cover; object-position: top center; }
+
+/* Stand-in until real case-study media exists */
+.cs__hero-img--placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  color: var(--muted-fg);
+  background: var(--input-bg);
+}
 
 /* Video hero: show the whole 16:9 frame rather than cropping it */
 .cs__hero-img--video { max-height: none; background: #000; line-height: 0; }
