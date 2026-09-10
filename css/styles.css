@@ -158,6 +158,13 @@ button {
   flex: none;
 }
 
+/* Multi-colour mark — each path carries its own brand fill, so only make
+   sure nothing inherits a stroke onto it. */
+.figma-mark {
+  stroke: none;
+  flex: none;
+}
+
 /* --------------------------------------------------------------------------
    3. Layout shell
    -------------------------------------------------------------------------- */
