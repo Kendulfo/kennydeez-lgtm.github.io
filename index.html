@@ -587,10 +587,11 @@
           </dl>
         </header>
 
-        <!-- TODO: replace with a real image or video of the work -->
-        <div class="cs__hero-img cs__hero-img--placeholder">
-          <svg class="ic" viewBox="0 0 24 24" width="40" height="40"><use href="#i-grid"/></svg>
-        </div>
+        <!-- Cover frame exported from the Figma file. Uses a background image so a
+             missing file degrades to a plain panel instead of a broken-image icon. -->
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/segstream-cover.png')"
+             role="img" aria-label="Segstream Design System cover"></div>
 
         <div class="prose">
           <section>
@@ -678,6 +679,48 @@
                   </ul>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the System</h2>
+            <p>
+              Templates are assembled only from instances, so every screen below inherits the
+              same tokens — change the ramp and all of them move together.
+            </p>
+
+            <!-- Exports from the Figma file. Each tile falls back to a plain panel until
+                 its image exists, so nothing renders broken in the meantime. -->
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/segstream-dashboard.png')"></div>
+                <figcaption>Dashboard template, composed entirely from component instances</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/segstream-settings.png')"></div>
+                <figcaption>Settings template — density and breakpoint set once on the page frame</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/segstream-signin.png')"></div>
+                <figcaption>Sign in, drawing on the same tokens at a different scale</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/segstream-icons.png')"></div>
+                <figcaption>54 glyphs on a 24px grid, each fill bound to a token</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/segstream-mobile-home.png')"></div>
+                <figcaption>Mobile home, showing the responsive type scale in its mobile mode</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/segstream-mobile-form.png')"></div>
+                <figcaption>Mobile form — inputs, labels and helpers from the Forms pattern</figcaption>
+              </figure>
             </div>
           </section>
 
