@@ -151,6 +151,13 @@ button {
   stroke-linejoin: round;
 }
 
+/* Brand marks (Simple Icons) are solid glyphs, not strokes */
+.brand {
+  fill: currentColor;
+  stroke: none;
+  flex: none;
+}
+
 /* --------------------------------------------------------------------------
    3. Layout shell
    -------------------------------------------------------------------------- */
@@ -560,6 +567,22 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   gap: 48px;
   margin-top: 56px;
   align-items: start;
+}
+
+/* Keep the skills column in view while the long experience list scrolls past.
+   Desktop only — below 1025px the grid collapses to a single column, where a
+   pinned block would just be in the way. */
+@media (min-width: 1025px) {
+  .resume__aside {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    /* On short screens the column is taller than the viewport, so let it
+       scroll within itself rather than clipping the Quick Stats card. */
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
 
 .block-title {
