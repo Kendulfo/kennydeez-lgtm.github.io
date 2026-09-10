@@ -267,9 +267,17 @@
           cfStatus.className = 'form__status is-ok';
           cfStatus.textContent = 'Thanks — your message is on its way.';
         })
-        .catch(function () {
+        .catch(function (err) {
+          // FormSubmit's own reasons ("needs activation", "open through a web
+          // server") are addressed to the site owner, not the visitor — so log
+          // them where they can be found instead of showing them on the page.
+          if (window.console && console.error) {
+            console.error('[contact form] ' + ((err && err.message) || 'unknown error'));
+          }
           cfStatus.className = 'form__status is-error';
-          cfStatus.textContent = 'Could not send. Please email kendulfo@gmail.com directly.';
+          cfStatus.innerHTML =
+            'Could not send. Please email ' +
+            '<a class="link" href="mailto:kendulfo@gmail.com">kendulfo@gmail.com</a> directly.';
         })
         .then(function () {
           contactForm.classList.remove('is-sending');
