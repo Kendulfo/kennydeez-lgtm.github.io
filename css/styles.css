@@ -998,6 +998,83 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   color: var(--muted-fg);
 }
 
+/* ---- Figma embed, loaded on demand --------------------------------------- */
+.figma-embed {
+  margin-top: 24px;
+  aspect-ratio: 16 / 10;
+  min-height: 340px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--input-bg);
+}
+
+.figma-embed__poster {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px;
+  text-align: center;
+  background: url('../assets/segstream-cover.png') center / cover no-repeat;
+}
+
+/* Scrim so the label stays readable over the cover art */
+.figma-embed__poster::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 12, 0.62);
+  transition: background-color 0.25s var(--ease);
+}
+.figma-embed__poster:hover::before { background: rgba(10, 10, 12, 0.54); }
+.figma-embed__poster > * { position: relative; }
+
+.figma-embed__badge {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 4px;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.25s var(--ease);
+}
+.figma-embed__poster:hover .figma-embed__badge { transform: translateY(-4px) scale(1.04); }
+
+.figma-embed__label {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: #fff;
+}
+
+.figma-embed__hint {
+  max-width: 42ch;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.figma-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.figma-embed__aside {
+  margin-top: 12px;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--muted-fg);
+}
+
 /* Video hero: show the whole 16:9 frame rather than cropping it */
 .cs__hero-img--video { max-height: none; background: #000; line-height: 0; }
 .cs__hero-img--video video {

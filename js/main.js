@@ -129,6 +129,7 @@
         return;
       }
       if (action === 'menu')       { openMenu(); return; }
+      if (action === 'load-figma') { mountFigma(actionEl.closest('.figma-embed')); return; }
       if (action === 'close-menu') { closeMenu(); return; }
       if (action === 'back')       { showView('home'); return; }
     }
@@ -230,6 +231,29 @@
     marquee.innerHTML =
       '<div class="marquee__row">' + demos + '</div>' +
       '<div class="marquee__row" aria-hidden="true">' + demos + '</div>';
+  }
+
+  /* ---------------------------------------------------------- Figma embed */
+  // Built only when asked. Figma's viewer is heavy, so loading it for everyone
+  // who scrolls past would cost far more than the section is worth.
+  function mountFigma(wrap) {
+    if (!wrap || wrap.getAttribute('data-loaded')) return;
+    wrap.setAttribute('data-loaded', 'true');
+
+    var key = wrap.getAttribute('data-figma-file');
+    var name = wrap.getAttribute('data-figma-name') || 'file';
+    var theme = root.classList.contains('dark') ? 'dark' : 'light';
+
+    var frame = document.createElement('iframe');
+    frame.src = 'https://embed.figma.com/design/' + key + '/' + name +
+                '?embed-host=portfolio&page-selector=1&viewer=1&theme=' + theme;
+    frame.title = 'Segstream Design System in Figma';
+    frame.setAttribute('allow', 'fullscreen');
+    frame.setAttribute('allowfullscreen', 'true');
+    frame.setAttribute('loading', 'lazy');
+
+    wrap.innerHTML = '';
+    wrap.appendChild(frame);
   }
 
   /* --------------------------------------------------------- Contact form */
