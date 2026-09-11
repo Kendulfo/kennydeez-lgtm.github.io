@@ -470,6 +470,25 @@
               </div>
             </button>
 
+            <button class="card project reveal" data-delay="1" data-case="ewb">
+              <div class="project__media">
+                <img src="assets/ewb-overview.png" alt="EastWest Ageas policy linking" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Policy Linking &amp; Cross-Sell</h3>
+                <p class="project__desc">
+                  Bringing EastWest Ageas insurance policies into the EastWest Bank app —
+                  identity, consent, and every way the link can fail, plus a lead path for
+                  customers who hold no policy yet.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">User Flows</span>
+                  <span class="chip">UX Writing</span><span class="chip">Edge Cases</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
           </div>
         </div>
       </section>
@@ -805,6 +824,253 @@
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">AIA Digital Design System</div>
             <p class="project__desc">Building a design system from scratch for a fast-growing insurance business</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+    <!-- ===== CASE STUDY: EWB × AGEAS ==================================== -->
+    <article class="view" id="view-ewb" hidden>
+      <div class="container">
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Mobile</span><span class="chip">User Flows</span>
+            <span class="chip">UX Writing</span><span class="chip">Edge Cases</span>
+            <span class="chip">Cross-Sell</span>
+          </div>
+          <h1 class="cs__title">Linking an Insurance Policy Inside a Banking App</h1>
+          <p class="cs__sub">
+            EastWest Bank customers hold EastWest Ageas policies they can only see by logging
+            into a separate site. This flow brings those policies into the banking app —
+            proving identity, capturing consent, and handling every way the link can fail.
+          </p>
+
+          <dl class="cs__meta">
+            <div><dt>Role</dt><dd>Product design — flows, states, UX writing</dd></div>
+            <div><dt>Platform</dt><dd>Mobile · EastWest Bank app</dd></div>
+            <div><dt>Partner</dt><dd>EastWest Ageas Life Insurance</dd></div>
+            <div><dt>Scope</dt><dd>9 flows · 80+ screens</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/ewb-overview.png');aspect-ratio:2920/1780"
+             role="img" aria-label="Overview board for the policy linking flows"></div>
+
+        <div class="prose">
+          <section>
+            <h2>Overview</h2>
+            <p>
+              Plenty of EastWest Bank customers also hold an EastWest Ageas life insurance
+              policy — but the two lived apart. Checking a policy meant leaving the banking
+              app, remembering a second set of credentials, and signing into an insurance
+              site built for a different purpose. Most people simply never looked.
+              This project brings those policies into the app customers already open daily,
+              and designs the whole connection: who you say you are, what you agree to, and
+              what happens when any part of it goes wrong.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              Linking a bank account to an insurer is only partly a technical problem. It is
+              mostly a trust problem. The flow has to prove identity convincingly enough to
+              justify showing financial products, ask for consent in language a person can
+              actually read, and never strand someone when a policy number is mistyped, a
+              one-time code expires, or the insurer's system stops answering. The happy path
+              is the short part of this work — the failures are where the experience is won
+              or lost, and they are usually the part nobody draws.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              One clear journey — prompt, consent, policy number, one-time code, handoff —
+              with every branch off it designed rather than left for the back end to explain.
+              Friction is sized to consequence: linking moves quickly, unlinking stops to
+              confirm. Failures are separated by cause, so a wrong code and an expired code
+              say different things and offer different ways forward. Contact details are
+              validated at the point of entry instead of failing silently later. And a
+              customer who holds no policy meets a short introduction rather than a locked
+              door.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Map the journey end to end</h3>
+                  <ul class="bullets">
+                    <li>Charted the happy path first — prompt, consent, policy number, one-time code, handoff — so the shape of the journey was settled before any state was styled</li>
+                    <li>Numbered every step in flow order, with letters marking alternate routes branching off a step, so a reviewer can follow a path without guessing</li>
+                    <li>Laid the work out in lanes that read left to right, each lane a phase, keeping an 80-screen flow legible on one board</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Earn the link with identity and consent</h3>
+                  <ul class="bullets">
+                    <li>Designed verification as a sequence a person can follow — account details, then a one-time code — rather than one intimidating form</li>
+                    <li>Wrote consent in plain language, making it clear what is being connected and what the bank will be able to see</li>
+                    <li>Sized friction to consequence: linking is quick, while unlinking pauses to confirm, because the cost of an accidental unlink falls on the customer</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Design the failures, not just the success</h3>
+                  <ul class="bullets">
+                    <li>Six edge-case sets covering one-time codes, policy numbers, contact details, account linking, and the back end itself refusing to answer</li>
+                    <li>Separated failures by cause — a wrong code and an expired code are different problems and get different messages and different next steps</li>
+                    <li>Replayed the entire journey against a failing API, which surfaces gaps the happy path hides</li>
+                    <li>Gave every refusal a named reason and a route out, so no screen is a dead end</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Turn a dead end into an introduction</h3>
+                  <ul class="bullets">
+                    <li>Designed a lead-capture path for customers with no policy to link, so the flow still has somewhere to go</li>
+                    <li>Kept it to what is genuinely needed to follow up, rather than a full application inside a banking app</li>
+                    <li>Designed its failure states too — field rejections and submission failures — so the cross-sell path holds up as well as the primary one</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the Flows</h2>
+            <p>
+              Primary journeys and edge cases are mapped on the same board, annotated so
+              engineering can read a path without a walkthrough.
+            </p>
+
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/ewb-flow-crosssell.png')"></div>
+                <figcaption>The cross-sell path mapped end to end, lane by lane</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/ewb-flow-otp.png')"></div>
+                <figcaption>One-time code failures — wrong versus expired, each with its own route out</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/ewb-dashboard.png')"></div>
+                <figcaption>The dashboard, where a linked policy surfaces alongside everyday banking</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/ewb-consent.png')"></div>
+                <figcaption>Consent in plain language, before anything is connected</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/ewb-otp.png')"></div>
+                <figcaption>One-time code entry, with resend and expiry handled as distinct states</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/ewb-crosssell.png')"></div>
+                <figcaption>Lead capture for customers who hold no policy yet</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Explore the Live File</h2>
+            <p>
+              Every flow, state and annotation on one board — including the edge cases that
+              rarely make it into a portfolio.
+            </p>
+
+            <div class="figma-embed"
+                 data-figma-file="bTmXh3piwEyCbfDOX1Cfsc"
+                 data-figma-name="EWB">
+              <button class="figma-embed__poster" type="button" data-action="load-figma"
+                      style="background-image:url('assets/ewb-overview.png')">
+                <span class="figma-embed__badge">
+                  <svg class="figma-mark" viewBox="0 0 38 57" width="26" height="39" aria-hidden="true"><use href="#b-figma-color"/></svg>
+                </span>
+                <span class="figma-embed__label">Open the interactive file</span>
+                <span class="figma-embed__hint">Loads Figma here — follow any path, primary or edge case</span>
+              </button>
+            </div>
+
+            <p class="figma-embed__aside">
+              Prefer a new tab?
+              <a class="link" href="https://www.figma.com/design/bTmXh3piwEyCbfDOX1Cfsc/EWB"
+                 target="_blank" rel="noopener noreferrer">Open it in Figma</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">1</div>
+                <div class="result__label">Place to Look</div>
+                <p class="result__desc">Policies surface in the app customers already use, not a separate site</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">0</div>
+                <div class="result__label">Dead Ends</div>
+                <p class="result__desc">Every refusal names its reason and offers a way forward</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">9</div>
+                <div class="result__label">Flows Mapped</div>
+                <p class="result__desc">Primary journeys and edge cases, numbered in flow order</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">80+</div>
+                <div class="result__label">Screens Designed</div>
+                <p class="result__desc">Every state drawn, not only the path where nothing goes wrong</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">6</div>
+                <div class="result__label">Edge-Case Sets</div>
+                <p class="result__desc">Codes, policy numbers, contact details, linking and API failure</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">2</div>
+                <div class="result__label">Systems Bridged</div>
+                <p class="result__desc">A banking app and an insurer's platform, joined by one consented link</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>Friction should be proportional to consequence. Linking a policy can be quick; unlinking one should not be, because the person who pays for a mistaken tap is the customer.</li>
+              <li>Two different failures deserve two different messages. Collapsing "wrong code" and "expired code" into one generic error tells someone that something broke without telling them what to do about it.</li>
+              <li>Validating contact details at the point of entry prevents the worst kind of failure — the silent one, where a confirmation is sent somewhere the customer will never see it.</li>
+              <li>A refusal without a route out is a dead end. Naming the reason and offering the next step turns a stopped journey into a recoverable one.</li>
+              <li>Replaying the whole journey against a failing back end is the fastest way to find the states nobody designed.</li>
+              <li>Annotating a large flow in the file itself — numbered steps, lettered branches, lanes for phases — means engineering can read a path without a meeting to explain it.</li>
+            </ul>
+          </section>
+        </div>
+
+        <button class="card next-project" data-case="segstream">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">Segstream Design System</div>
+            <p class="project__desc">A full rebuild around a three-tier token architecture</p>
           </div>
           <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
         </button>
