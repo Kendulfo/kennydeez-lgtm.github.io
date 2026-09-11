@@ -1123,6 +1123,8 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   font-weight: 600;
   letter-spacing: -0.03em;
   color: var(--accent-1);
+  /* Word values like "In-App" would otherwise break at the hyphen */
+  white-space: nowrap;
 }
 .result__label { margin-top: 6px; font-weight: 500; }
 .result__desc  { margin-top: 4px; font-size: var(--text-sm); color: var(--muted-fg); }
