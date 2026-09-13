@@ -572,8 +572,22 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   border: 1px solid var(--border);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  /* Slower and shallower than the hero tiles — a large element needs less
+     travel to read as floating, and more would become distracting beside text */
+  animation: portrait-float 8s ease-in-out infinite;
 }
 .portrait img { width: 100%; height: auto; object-fit: cover; }
+
+@keyframes portrait-float {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: var(--shadow-lg);
+  }
+  50% {
+    transform: translateY(-14px);
+    box-shadow: 0 26px 38px -12px rgba(0, 0, 0, 0.20);
+  }
+}
 
 /* --------------------------------------------------------------------------
    9. Resume
@@ -1253,7 +1267,7 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .tile, .marquee { animation: none; }
+  .tile, .marquee, .portrait { animation: none; }
 }
 
 /* --------------------------------------------------------------------------
