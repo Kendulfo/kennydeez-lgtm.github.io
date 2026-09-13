@@ -584,9 +584,12 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 48px;
-  margin-top: 56px;
   align-items: start;
 }
+
+/* Header sits inside the left column, so its spacing lives here rather than
+   as a top margin on the grid */
+.resume__intro { margin-bottom: 56px; }
 
 /* Keep the skills column in view while the long experience list scrolls past.
    Desktop only — below 1025px the grid collapses to a single column, where a
