@@ -209,17 +209,22 @@ button {
   border-right: 1px solid var(--sidebar-border);
   z-index: 50;
   overflow-y: auto;
-  transition: transform 0.3s var(--ease);
+  /* Transitions are declared once, in the rail block below — a second
+     `transition` shorthand here would silently replace them. */
 }
 
 /* ---- Collapsed rail: icons only, still on screen --------------------------
    Desktop only. Below 820px the sidebar is an off-canvas drawer instead, so
    the rail must not apply there.
    -------------------------------------------------------------------------- */
+/* transform must be listed here: this shorthand is the last one to touch
+   .sidebar, so anything omitted stops transitioning entirely. It drives both
+   the desktop rail collapse and the mobile drawer slide. */
 .sidebar,
 .nav__item,
-.sidebar__cta { transition: width 0.3s var(--ease), padding 0.3s var(--ease),
-                            margin 0.3s var(--ease), background-color 0.2s var(--ease); }
+.sidebar__cta { transition: transform 0.34s var(--ease), width 0.3s var(--ease),
+                            padding 0.3s var(--ease), margin 0.3s var(--ease),
+                            box-shadow 0.34s var(--ease), background-color 0.2s var(--ease); }
 
 .sidebar__collapse svg { transition: transform 0.3s var(--ease); }
 
@@ -375,13 +380,21 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 
 .scrim {
-  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
   z-index: 45;
+  /* display can't be transitioned, so the scrim used to pop in while the panel
+     slid. Fading instead keeps the two in step; visibility stops it swallowing
+     taps while closed, and flips only once the fade has finished. */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.34s var(--ease), visibility 0.34s;
 }
-.scrim.is-open { display: block; }
+.scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+}
 
 /* --------------------------------------------------------------------------
    5. Buttons
@@ -1285,6 +1298,8 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .tile, .marquee, .portrait { animation: none; }
+  /* the drawer still opens and closes, it just stops sliding and fading */
+  .sidebar, .nav__item, .sidebar__cta, .scrim { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1300,8 +1315,12 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 @media (max-width: 820px) {
   :root { --text-6xl: 40px; --text-4xl: 28px; }
 
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.is-open { transform: none; }
+  .sidebar { transform: translateX(-100%); box-shadow: none; }
+  .sidebar.is-open {
+    transform: none;
+    /* reads as a panel above the page rather than part of it */
+    box-shadow: 0 0 48px rgba(0, 0, 0, 0.42);
+  }
   .main { margin-left: 0; }
   .menu-fab { display: grid; }
   .sidebar__collapse { display: none; }
