@@ -1017,9 +1017,10 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 /* Phone screens, sat on the panel at a readable size. Neither cover nor contain
    has a middle setting — cover always scales by width, so it shows the same
    sliver of design however the source is cropped. Sizing to a share of the tile
-   is the actual dial: 62% shows roughly the top 400px of a 393px-wide screen. */
+   is the actual dial: lower shows more of the screen, higher shows less.
+   48% puts roughly the top 510px of a 393px-wide screen in view. */
 .shot__img--screen {
-  background-size: 62% auto;
+  background-size: 48% auto;
   background-position: top center;
 }
 
