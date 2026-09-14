@@ -1007,6 +1007,13 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 /* Tall or small frames letterbox instead of cropping to fill */
 .shot__img--contain { background-size: contain; }
 
+/* Very tall screens: crop to the top at full width, rather than shrinking the
+   whole scroll into a sliver nobody can read */
+.shot__img--top {
+  background-size: cover;
+  background-position: top center;
+}
+
 .shot figcaption {
   margin-top: 10px;
   font-family: var(--font-ui);
