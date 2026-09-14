@@ -509,6 +509,25 @@
               </div>
             </button>
 
+            <button class="card project reveal" data-delay="1" data-case="kwik">
+              <div class="project__media">
+                <img src="assets/kwik-cover.png" alt="KwikCare health plans in GCash" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">KwikCare in GCash</h3>
+                <p class="project__desc">
+                  Health cover sold inside a wallet app — five plan tiers, a guided four-step
+                  purchase with health declaration and document upload, and a policy dashboard
+                  for every plan.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">Fintech</span>
+                  <span class="chip">Insurance</span><span class="chip">Purchase Flow</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
           </div>
         </div>
       </section>
@@ -1348,6 +1367,263 @@
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">Policy Linking &amp; Cross-Sell</div>
             <p class="project__desc">Bringing insurance policies into a banking app, edge cases and all</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+    <!-- ===== CASE STUDY: KWIKCARE × GCASH =============================== -->
+    <article class="view" id="view-kwik" hidden>
+      <div class="container">
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Mobile</span><span class="chip">Fintech</span>
+            <span class="chip">Insurance</span><span class="chip">Purchase Flow</span>
+            <span class="chip">Design Specs</span>
+          </div>
+          <h1 class="cs__title">Selling Health Cover Inside a Wallet App</h1>
+          <p class="cs__sub">
+            KwikCare plans bought without ever leaving GCash — five tiers priced from ₱995 a
+            month, a guided four-step purchase with health declaration and document upload,
+            and a policy dashboard for every plan.
+          </p>
+
+          <dl class="cs__meta">
+            <!-- TODO: confirm role title and engagement -->
+            <div><dt>Role</dt><dd>Product Designer — flows, UI, specs</dd></div>
+            <div><dt>Platform</dt><dd>Mobile · GCash</dd></div>
+            <div><dt>Underwriter</dt><dd>PhilCare</dd></div>
+            <div><dt>Scope</dt><dd>5 plan tiers · 4-step purchase</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/kwik-cover.png')"
+             role="img" aria-label="KwikCare in GCash cover"></div>
+
+        <div class="prose">
+          <section>
+            <h2>Overview</h2>
+            <p>
+              KwikCare is health cover sold as a monthly subscription, underwritten by PhilCare
+              and bought inside GCash — the wallet a large share of the Philippines already has
+              open. The work covers the whole commercial path: comparing five plan tiers,
+              understanding what each actually covers, completing a health declaration and
+              document upload, paying from a wallet balance, and then living with the policy
+              afterwards.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              Insurance is difficult to sell on a phone for two reasons. The product is hard to
+              compare — benefit limits, exclusions and waiting periods do not fit on a card —
+              and the purchase asks for exactly the things people abandon forms over: identity
+              documents, proof of income, and a declaration about their own health. Doing this
+              inside someone else's app raises the bar again: the flow has to feel like a
+              native part of GCash, or the trust that made the wallet worth using does not
+              carry across to the insurance sitting inside it.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              Tiers are presented as a comparison rather than a brochure: each plan leads with
+              its price and its maximum benefit limit, then lists what it actually includes.
+              Every tier carries its own covered-and-excluded breakdown instead of one generic
+              table, because the differences between plans are the entire decision. The
+              purchase is cut into four named steps so the length is visible from the start,
+              and the health declaration is kept short and in-flow rather than deferred to a
+              form nobody finishes.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Wireframe the whole purchase before styling any of it</h3>
+                  <ul class="bullets">
+                    <li>Laid out the full path — plan selection, policy holder details, documents, review, payment handoff — in low fidelity first</li>
+                    <li>Settled the step count early, which is what determines whether the purchase feels finishable</li>
+                    <li>Used the wireframes to expose the awkward middle of the flow, where identity and health questions land</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Make five tiers genuinely comparable</h3>
+                  <ul class="bullets">
+                    <li>Led every plan card with price and maximum benefit limit, the two numbers the decision actually turns on</li>
+                    <li>Gave each tier its own covered, excluded and expanded-detail views rather than one shared table that hides the differences</li>
+                    <li>Marked the popular tier explicitly, so the default choice is obvious to someone who does not want to become an expert</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Design the parts people abandon</h3>
+                  <ul class="bullets">
+                    <li>Split the purchase into four named steps — insurer details, policy holder information, document upload, review — so progress is always legible</li>
+                    <li>Designed the health declaration as a short in-flow set of statements, with a popup for the detail rather than a wall of text inline</li>
+                    <li>Specified document upload states properly: accepted formats, size limits, in-progress and attached, because this is where a purchase quietly dies</li>
+                    <li>Ended on an explicit review of everything captured before any money moves</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Iterate, then specify it for build</h3>
+                  <ul class="bullets">
+                    <li>Worked through four versions, keeping the superseded ones archived rather than deleted so the reasoning stays visible</li>
+                    <li>Built a prototype of the working design so the flow could be walked rather than described</li>
+                    <li>Produced a specifications page for handoff, alongside FAQ, how-to-claim and contact screens that the product needs after the sale</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the Work</h2>
+            <p>
+              From the wireframes that set the structure through to the specs that shipped it.
+            </p>
+
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwik-plans.png')"></div>
+                <figcaption>Plan selection — price and benefit limit lead, details follow</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwik-benefits.png')"></div>
+                <figcaption>Benefit breakdown, written per tier rather than as one shared table</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwik-policyowner.png')"></div>
+                <figcaption>Policy holder details — step two of four, with progress always visible</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwik-declaration.png')"></div>
+                <figcaption>Health declaration, kept short and in-flow</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwik-review.png')"></div>
+                <figcaption>The full review before payment — everything captured, in one place</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwik-faq.png')"></div>
+                <figcaption>FAQ and claims support, designed as part of the product</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/kwik-wireframes.png')"></div>
+                <figcaption>The wireframes that settled the structure before any styling</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/kwik-specs.png')"></div>
+                <figcaption>Specifications for handoff — the design, written down</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Explore the Live File</h2>
+            <p>
+              Wireframes, four design versions, the prototype and the specs, all on one canvas.
+            </p>
+
+            <div class="figma-embed"
+                 data-figma-file="k6X0P1LiDvI00VzbJ06nbu"
+                 data-figma-name="Kwik-x-Gcash">
+              <button class="figma-embed__poster" type="button" data-action="load-figma"
+                      style="background-image:url('assets/kwik-cover.png')">
+                <span class="figma-embed__badge">
+                  <svg class="figma-mark" viewBox="0 0 38 57" width="26" height="39" aria-hidden="true"><use href="#b-figma-color"/></svg>
+                </span>
+                <span class="figma-embed__label">Open the interactive file</span>
+                <span class="figma-embed__hint">Loads Figma here — wireframes, versions, prototype and specs</span>
+              </button>
+            </div>
+
+            <p class="figma-embed__aside">
+              Prefer a new tab?
+              <a class="link" href="https://www.figma.com/design/k6X0P1LiDvI00VzbJ06nbu/Kwik-x-Gcash"
+                 target="_blank" rel="noopener noreferrer">Open it in Figma</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <p>
+              What it changes for someone deciding whether they can afford health cover.
+            </p>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">5</div>
+                <div class="result__label">Plan Tiers</div>
+                <p class="result__desc">Cover that scales to a budget, starting at ₱995 a month</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">In-App</div>
+                <div class="result__label">End to End</div>
+                <p class="result__desc">Compare, buy, pay and manage without leaving GCash</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">4</div>
+                <div class="result__label">Steps to Buy</div>
+                <p class="result__desc">Named and numbered, so the length is known before starting</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">₱250k</div>
+                <div class="result__label">Top Cover</div>
+                <p class="result__desc">Maximum benefit limit at the highest tier, stated plainly on the card</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">0</div>
+                <div class="result__label">Branch Visits</div>
+                <p class="result__desc">Declaration and documents handled inside the flow, not in a queue</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">Every</div>
+                <div class="result__label">Tier Documented</div>
+                <p class="result__desc">Covered and excluded written per plan, not buried in one generic table</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>Insurance is bought on comparison, not description. Leading each card with price and benefit limit does more for the decision than a page of benefit copy underneath it.</li>
+              <li>One shared benefits table hides exactly the thing a buyer is trying to work out. Writing covered and excluded per tier costs more effort and answers the actual question.</li>
+              <li>Naming and numbering the steps is the cheapest way to stop a long form feeling endless — people abandon uncertainty more than they abandon length.</li>
+              <li>The health declaration is the most fragile moment in the purchase. Short, in-flow, with detail behind a tap, beats a legally complete wall of text nobody reads.</li>
+              <li>Document upload deserves real state design — formats, size limits, in-progress, attached. It is where purchases quietly die, and it is usually specified last.</li>
+              <li>Selling inside someone else's app means inheriting their trust. The flow has to feel continuous with the wallet, or the credibility does not transfer to the product sitting in it.</li>
+            </ul>
+          </section>
+        </div>
+
+        <button class="card next-project" data-case="entrego">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">myEntrego Delivery App</div>
+            <p class="project__desc">A parcel app taken from user research through to launch on both stores</p>
           </div>
           <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
         </button>
