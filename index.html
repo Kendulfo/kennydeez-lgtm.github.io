@@ -490,6 +490,25 @@
               </div>
             </button>
 
+            <button class="card project reveal" data-case="entrego">
+              <div class="project__media">
+                <img src="assets/entrego-cover.png" alt="myEntrego delivery app" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">myEntrego Delivery App</h3>
+                <p class="project__desc">
+                  A customer-facing parcel app taken from user research and journey mapping
+                  through to 113 shipped screens — live on the App Store and Google Play at
+                  4.8 stars.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">UX Research</span>
+                  <span class="chip">Journey Mapping</span><span class="chip">iOS &amp; Android</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
           </div>
         </div>
       </section>
@@ -1075,6 +1094,260 @@
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">Segstream Design System</div>
             <p class="project__desc">A full rebuild around a three-tier token architecture</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+    <!-- ===== CASE STUDY: ENTREGO ======================================= -->
+    <article class="view" id="view-entrego" hidden>
+      <div class="container">
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Mobile</span><span class="chip">UX Research</span>
+            <span class="chip">Journey Mapping</span><span class="chip">Information Architecture</span>
+            <span class="chip">iOS &amp; Android</span>
+          </div>
+          <h1 class="cs__title">Designing a Delivery App from Research to Launch</h1>
+          <p class="cs__sub">
+            myEntrego is a customer-facing parcel app — book a delivery, pay for it, and see
+            where it is. I owned it end to end, from user research through to the 113 screens
+            that shipped on the App Store and Google Play.
+          </p>
+
+          <dl class="cs__meta">
+            <div><dt>Role</dt><dd>Lead UI/UX Designer — end to end</dd></div>
+            <div><dt>Platform</dt><dd>iOS &amp; Android</dd></div>
+            <div><dt>Scope</dt><dd>113 screens · 2 personas</dd></div>
+            <div><dt>Outcome</dt><dd>4.8★, shipped to both stores</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/entrego-cover.png')"
+             role="img" aria-label="myEntrego delivery app cover"></div>
+
+        <div class="prose">
+          <section>
+            <h2>Overview</h2>
+            <p>
+              Entrego is a Philippine logistics company, and myEntrego is how its customers
+              actually reach it — booking a delivery, paying for it, and tracking where the
+              parcel has got to. This was mine from the first interview to the last screen:
+              research and personas, a journey map, the information architecture, the booking
+              flow, and 113 designed screens. It shipped to both app stores and settled at
+              around 4.8 stars, with parcel tracking pulling the most repeat traffic.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              Sending a parcel through a logistics provider meant phone calls, guesswork about
+              cost, and no way to know where anything was once it left your hands. The research
+              made the friction specific rather than general: booking took too many steps,
+              addresses were hard to pin down, and the bill could not be read in full. The app
+              also had to make sense to two very different people — a seller running a small
+              business from her phone, and a courier who had spent ten years on a motorcycle
+              and described himself as afraid of technology.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              Every significant decision traces back to something a real user said. Booking
+              became a guided flow with saved addresses, so the second delivery is far quicker
+              than the first. A shipping fee calculator puts the cost up front, before anyone
+              commits. And tracking was made available without logging in at all — the thing
+              people do most often became the thing that asks least of them, which is what
+              turned it into the app's most returned-to screen.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Research actual users, not assumed ones</h3>
+                  <ul class="bullets">
+                    <li>Built two personas from gathered data rather than invention — Rica, a freelancer growing an online selling business, and Roger, a courier ten years into the job</li>
+                    <li>Recorded frustrations in the users' own terms: a tedious booking process, trouble locating an address, and a bill that could not be seen in full</li>
+                    <li>Kept a self-described "tech phobic but willing to learn" user in scope, which set the standard for how much each screen had to explain itself</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Map the journey, including how it feels</h3>
+                  <ul class="bullets">
+                    <li>Plotted the end-to-end journey in swimlanes — steps, actions, expectations, thoughts — and ran a feelings lane alongside them</li>
+                    <li>Marked where people were confused or frustrated, and treated those low points as the brief rather than as commentary</li>
+                    <li>Turned the "potential improvements" lane into the backlog the screens were designed against</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Settle the structure before the pixels</h3>
+                  <ul class="bullets">
+                    <li>Built a sitemap covering profile, saved addresses, bank accounts, the fee calculator, serviceable-area checking, pouch requests, FAQs and legal</li>
+                    <li>Drew booking as a decision tree with explicit yes/no branches, including how saved addresses short-circuit the long path</li>
+                    <li>Resolved the awkward questions on the flow board, where changing your mind costs nothing</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Design it, then ship it</h3>
+                  <ul class="bullets">
+                    <li>113 screens from first-run onboarding through to payment confirmation</li>
+                    <li>Standard delivery, drop-off, scheduling, remittances, tracking and modal states all specified rather than left implied</li>
+                    <li>Shipped to the App Store and Google Play, where it has held around 4.8 stars</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the Work</h2>
+            <p>
+              The research artefacts and the screens they produced, in the order they happened.
+            </p>
+
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img" style="background-image:url('assets/entrego-persona.png')"></div>
+                <figcaption>Personas built from gathered data — goals, frustrations and all</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-journey.png')"></div>
+                <figcaption>The journey in swimlanes, with feelings plotted beside actions</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-sitemap.png')"></div>
+                <figcaption>Information architecture, from profile and addresses through to legal</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-flow.png')"></div>
+                <figcaption>Booking as a decision tree, saved addresses included</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-home.png')"></div>
+                <figcaption>The home dashboard in its quietest state — nothing in transit</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-track.png')"></div>
+                <figcaption>Tracking a parcel without signing in first</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-fee.png')"></div>
+                <figcaption>The shipping fee calculator — cost before commitment</figcaption>
+              </figure>
+
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/entrego-booking.png')"></div>
+                <figcaption>Standard delivery booking, filled in</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Explore the Live File</h2>
+            <p>
+              Research, flows and all 113 screens on one canvas.
+            </p>
+
+            <div class="figma-embed"
+                 data-figma-file="VwBj0qoGf6c2ieKSTSNM6f"
+                 data-figma-name="Entrego-Mobile-App">
+              <button class="figma-embed__poster" type="button" data-action="load-figma"
+                      style="background-image:url('assets/entrego-cover.png')">
+                <span class="figma-embed__badge">
+                  <svg class="figma-mark" viewBox="0 0 38 57" width="26" height="39" aria-hidden="true"><use href="#b-figma-color"/></svg>
+                </span>
+                <span class="figma-embed__label">Open the interactive file</span>
+                <span class="figma-embed__hint">Loads Figma here — personas, journey map, flows and every screen</span>
+              </button>
+            </div>
+
+            <p class="figma-embed__aside">
+              Prefer a new tab?
+              <a class="link" href="https://www.figma.com/design/VwBj0qoGf6c2ieKSTSNM6f/Entrego-Mobile-App"
+                 target="_blank" rel="noopener noreferrer">Open it in Figma</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <p>
+              What shipped, and what it changed for the person sending a parcel.
+            </p>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">4.8★</div>
+                <div class="result__label">Store Rating</div>
+                <p class="result__desc">Held across the App Store and Google Play after launch</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">2</div>
+                <div class="result__label">Stores Live</div>
+                <p class="result__desc">Shipped on iOS and Android, not a prototype or a concept</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">0</div>
+                <div class="result__label">Logins to Track</div>
+                <p class="result__desc">Check a parcel without an account — the most returned-to screen</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">Upfront</div>
+                <div class="result__label">Shipping Costs</div>
+                <p class="result__desc">A fee calculator, so price is known before anyone commits</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">113</div>
+                <div class="result__label">Screens Shipped</div>
+                <p class="result__desc">Onboarding through to payment confirmation, states included</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">2</div>
+                <div class="result__label">Personas Researched</div>
+                <p class="result__desc">The merchant sending parcels and the courier delivering them</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>Personas built from gathered data change what gets built; invented ones just decorate a deck. Rica's three frustrations became three features — saved addresses, a fee calculator, and readable billing.</li>
+              <li>Running a feelings lane beside the actions turns a journey map into a brief. The dips are the work; everything else is context.</li>
+              <li>Designing for the person who calls himself afraid of technology is the most useful constraint available. If the flow holds for Roger, it holds for everyone above him.</li>
+              <li>Putting tracking behind a login would have protected a sign-up metric and lost the habit. The thing people do most often should ask the least of them.</li>
+              <li>Showing cost before commitment removes the most common reason a booking is abandoned halfway.</li>
+              <li>Owning the work from research through to launch means nothing is lost in translation between what a user said and what finally shipped.</li>
+            </ul>
+          </section>
+        </div>
+
+        <button class="card next-project" data-case="ewb">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">Policy Linking &amp; Cross-Sell</div>
+            <p class="project__desc">Bringing insurance policies into a banking app, edge cases and all</p>
           </div>
           <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
         </button>
