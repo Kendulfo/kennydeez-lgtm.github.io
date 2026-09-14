@@ -563,7 +563,9 @@
 
           <input type="hidden" name="_subject" value="New message from mynameiskennethdulfo.com">
           <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
+          <!-- Captcha is a redirect challenge, so this form posts natively rather
+               than over fetch. _next brings the sender back here afterwards. -->
+          <input type="hidden" name="_next" value="https://mynameiskennethdulfo.com/?sent=1">
           <!-- Bots fill this in; humans never see it -->
           <input type="text" name="_honey" class="form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
@@ -592,6 +594,10 @@
             </button>
             <p class="form__status" id="cf-status" role="status" aria-live="polite"></p>
           </div>
+
+          <p class="form__hint">
+            You'll be asked to confirm you're human, then brought straight back here.
+          </p>
         </form>
 
         <p class="contact__note" style="text-align:left;margin-bottom:96px">

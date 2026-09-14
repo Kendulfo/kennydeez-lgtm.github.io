@@ -257,6 +257,7 @@
   }
 
   /* --------------------------------------------------------- Contact form */
+  var confirmSent = null;   // set below; invoked from Boot once routing has run
   // Posts to FormSubmit, which relays the message to the address in the form's
   // action. Without JS the plain form POST still works — it just navigates away.
   var contactForm = document.getElementById('contact-form');
@@ -264,55 +265,34 @@
     var cfStatus = document.getElementById('cf-status');
     var cfSubmit = document.getElementById('cf-submit');
 
-    contactForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!contactForm.checkValidity()) { contactForm.reportValidity(); return; }
+    // The form posts natively so FormSubmit can serve its captcha challenge —
+    // intercepting with fetch would only ever receive the challenge, not a send.
+    contactForm.addEventListener('submit', function () {
+      if (!contactForm.checkValidity()) return;   // let the browser show its own prompts
 
       cfStatus.className = 'form__status';
-      cfStatus.textContent = 'Sending…';
+      cfStatus.textContent = 'Taking you to a quick human check…';
       contactForm.classList.add('is-sending');
-      cfSubmit.disabled = true;
-
-      // Same endpoint, /ajax/ prefix — returns JSON instead of redirecting.
-      var endpoint = contactForm.action.replace('formsubmit.co/', 'formsubmit.co/ajax/');
-
-      fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: new FormData(contactForm)
-      })
-        .then(function (r) {
-          return r.json().catch(function () { return {}; });
-        })
-        .then(function (data) {
-          var ok = data && (data.success === true || data.success === 'true');
-          if (!ok) throw new Error((data && data.message) || 'Send failed');
-          contactForm.reset();
-          cfStatus.className = 'form__status is-ok';
-          cfStatus.textContent = 'Thanks — your message is on its way.';
-        })
-        .catch(function (err) {
-          // FormSubmit's own reasons ("needs activation", "open through a web
-          // server") are addressed to the site owner, not the visitor — so log
-          // them where they can be found instead of showing them on the page.
-          if (window.console && console.error) {
-            console.error('[contact form] ' + ((err && err.message) || 'unknown error'));
-          }
-          cfStatus.className = 'form__status is-error';
-          cfStatus.innerHTML =
-            'Could not send. Please email ' +
-            '<a class="link" href="mailto:kendulfo@gmail.com">kendulfo@gmail.com</a> directly.';
-        })
-        .then(function () {
-          contactForm.classList.remove('is-sending');
-          cfSubmit.disabled = false;
-        });
+      // deferred: disabling a submit button synchronously can cancel the post
+      setTimeout(function () { cfSubmit.disabled = true; }, 0);
     });
+
+    // FormSubmit sends people back to ?sent=1 once the captcha is cleared.
+    // Called from Boot, after routing, so it isn't immediately overridden.
+    confirmSent = function () {
+      if (new URLSearchParams(location.search).get('sent') !== '1') return;
+      showView('contact-form', false);
+      cfStatus.className = 'form__status is-ok';
+      cfStatus.textContent = 'Thanks — your message is on its way. I’ll reply by email.';
+      // drop the flag so a refresh doesn't repeat the confirmation
+      history.replaceState({}, '', location.pathname + '#contact-form');
+    };
   }
 
   /* ------------------------------------------------------------------ Boot */
   setCollapsed(localStorage.getItem('sidebar') === 'collapsed');
   routeFromHash();
+  if (confirmSent) confirmSent();
   revealAll(document);
   updateActiveNav();
 })();
