@@ -39,6 +39,10 @@
   --accent-2:           oklch(0.600 0.118 184.704);  /* teal   */
   --accent-3:           oklch(0.398 0.070 227.392);  /* deep blue */
 
+  /* Case-study result figures. Its own token rather than --accent-1, so the
+     hero tiles stay orange and this stays red in both themes. */
+  --result:             oklch(0.577 0.245 27.325);  /* red */
+
   /* Typography */
   --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -98,6 +102,9 @@
   --accent-1:           oklch(0.488 0.243 264.376); /* blue    */
   --accent-2:           oklch(0.696 0.170 162.480); /* emerald */
   --accent-3:           oklch(0.769 0.188 70.080);  /* amber   */
+
+  /* Same red, lifted so it still reads against the dark surface */
+  --result:             oklch(0.704 0.191 22.216);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
@@ -1016,6 +1023,7 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 .shot { margin: 0; }
 
 .shot__img {
+  cursor: zoom-in;
   aspect-ratio: 16 / 10;
   border-radius: var(--radius);
   border: 1px solid var(--border);
@@ -1023,6 +1031,16 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.shot__img:hover {
+  border-color: var(--ring);
+  box-shadow: var(--shadow-md);
+}
+
+.shot__img:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
 }
 
 /* Tall or small frames letterbox instead of cropping to fill */
@@ -1177,7 +1195,7 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   font-size: var(--text-4xl);
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: var(--accent-1);
+  color: var(--result);
   /* Word values like "In-App" would otherwise break at the hyphen */
   white-space: nowrap;
 }
@@ -1221,6 +1239,122 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   .tile, .marquee, .portrait { animation: none; }
   /* the drawer still opens and closes, it just stops sliding and fading */
   .sidebar, .nav__item, .sidebar__cta, .scrim { transition: none; }
+  /* the lightbox still opens, it just appears instead of zooming */
+  .lightbox, .lightbox__img { transition: none; }
+  .shot__img { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   13b. Lightbox
+   -------------------------------------------------------------------------- */
+
+/* Sits above the sidebar (50) and the mobile menu button (60). */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 72px;
+  background: rgba(0, 0, 0, 0.88);
+  opacity: 0;
+  transition: opacity 0.26s var(--ease);
+}
+
+.lightbox.is-open { opacity: 1; }
+
+/* .lightbox's display:flex would otherwise beat the reset's [hidden] rule */
+.lightbox[hidden] { display: none !important; }
+
+.lightbox__stage {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.lightbox__img {
+  display: block;
+  max-width: 100%;
+  /* leave room for the caption under it. dvh so a phone's retracting address
+     bar doesn't push the caption off the screen; vh is the fallback. */
+  max-height: calc(100vh - 170px);
+  max-height: calc(100dvh - 170px);
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  /* the open/close zoom is driven from JS, which sets this each time */
+  transform-origin: top left;
+}
+
+.lightbox__cap {
+  max-width: 68ch;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* A long caption would otherwise push the picture off a short screen */
+.lightbox__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.lightbox__count {
+  display: block;
+  margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.lightbox__btn {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.lightbox__btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.lightbox__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lightbox__btn .ic { width: 20px; height: 20px; }
+
+.lightbox__close { top: 20px; right: 20px; }
+.lightbox__prev  { left: 16px;  top: 50%; transform: translateY(-50%); }
+.lightbox__next  { right: 16px; top: 50%; transform: translateY(-50%); }
+
+/* A single-image section has nothing to page through */
+.lightbox.is-solo .lightbox__prev,
+.lightbox.is-solo .lightbox__next { display: none; }
+
+@media (max-width: 720px) {
+  .lightbox { padding: 64px 16px 24px; }
+  .lightbox__prev  { left: 8px; }
+  .lightbox__next  { right: 8px; }
+  .lightbox__img   { max-height: calc(100vh - 210px); max-height: calc(100dvh - 210px); }
 }
 
 /* --------------------------------------------------------------------------

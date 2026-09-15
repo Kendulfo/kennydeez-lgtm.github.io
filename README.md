@@ -19,7 +19,7 @@ but a server is closer to production.)
 ```
 index.html        Everything: sidebar, home sections, both case studies
 css/styles.css    Design tokens + all styling
-js/main.js        Theme toggle, view routing, scrollspy, scroll reveal
+js/main.js        Theme toggle, view routing, scrollspy, scroll reveal, lightbox
 assets/           Images pulled from the original site
 ```
 
