@@ -211,28 +211,6 @@
     requestAnimationFrame(function () { updateActiveNav(); ticking = false; });
   }, { passive: true });
 
-  /* ------------------------------- Component showcase marquee (AIA study) */
-  var demos = [
-    '<div class="demo"><span class="demo__btn demo__btn--primary">Get Started</span><span class="demo__label">Primary Button</span></div>',
-    '<div class="demo"><span class="demo__btn demo__btn--secondary">Learn More</span><span class="demo__label">Secondary Button</span></div>',
-    '<div class="demo"><input class="demo__input" placeholder="you@email.com" disabled><span class="demo__label">Input Field</span></div>',
-    '<div class="demo"><span class="chip">New Feature</span><span class="demo__label">Badge Component</span></div>',
-    '<div class="demo" style="align-items:flex-start"><strong style="font-size:13px">Card Title</strong><span style="font-size:12px;color:var(--muted-fg)">Card description text here</span><span class="demo__label">Card Component</span></div>',
-    '<div class="demo"><span class="demo__switch"></span><span class="demo__label">Toggle Switch</span></div>',
-    '<div class="demo"><span class="demo__bar"><i></i></span><span class="demo__label">Progress Bar — 75%</span></div>',
-    '<div class="demo"><span class="demo__avatar">KD</span><span class="demo__label">Avatar</span></div>',
-    '<div class="demo"><span class="demo__btn demo__btn--destruct">Delete</span><span class="demo__label">Destructive Button</span></div>',
-    '<div class="demo"><span class="demo__btn demo__btn--outline">Cancel</span><span class="demo__label">Outline Button</span></div>'
-  ].join('');
-
-  var marquee = document.getElementById('marquee');
-  if (marquee) {
-    // Duplicated once so the -50% translate loops seamlessly.
-    marquee.innerHTML =
-      '<div class="marquee__row">' + demos + '</div>' +
-      '<div class="marquee__row" aria-hidden="true">' + demos + '</div>';
-  }
-
   /* ---------------------------------------------------------- Figma embed */
   // Built only when asked. Figma's viewer is heavy, so loading it for everyone
   // who scrolls past would cost far more than the section is worth.
