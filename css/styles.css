@@ -172,6 +172,38 @@ button {
   flex: none;
 }
 
+/* Brand marks in their own colours. .brand fills with currentColor, so setting
+   `color` is what tints them. Values are the official brand hexes, except where
+   noted — a few are lifted in dark mode, where the real colour goes muddy
+   against a dark chip. */
+.brand--sketch { color: #F7B500; }
+.brand--adobe  { color: #FF0000; }
+.brand--jira   { color: #0052CC; }
+/* Miro is the one brand that has to flip: its registered hex is near-black
+   (#050038), which is right on a light chip, while the yellow it is better
+   known for only reads once the chip goes dark. Both are genuine Miro colours. */
+.brand--miro   { color: #050038; }
+
+.dark .brand--adobe { color: #FF6B6B; }
+.dark .brand--jira  { color: #4C9AFF; }
+.dark .brand--miro  { color: #FFD02F; }
+
+/* Raster marks — product and certification-body logos that have no clean vector
+   source. Capped by height so every chip keeps one baseline. The white plate is
+   the same trick the timeline logos use: NN/g is half black and Google's G has a
+   white ground, and neither survives a dark chip without it. */
+.chip__logo {
+  flex: none;
+  display: block;
+  height: 13px;
+  width: auto;
+  max-width: 46px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 3px;
+  padding: 1px;
+}
+
 /* --------------------------------------------------------------------------
    3. Layout shell
    -------------------------------------------------------------------------- */
