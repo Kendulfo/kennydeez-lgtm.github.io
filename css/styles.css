@@ -675,7 +675,37 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 .job:last-child { padding-bottom: 0; }
 
+/* Title on the left, employer logo pinned right, so the logos line up as a
+   second column down the timeline. Entries without a logo just leave it empty —
+   a gap on the right edge reads far better than a missing mark on the left. */
+.job__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .job__title { font-size: var(--text-lg); font-weight: 500; }
+
+/* The white plate is not decoration: these are the real brand wordmarks, and
+   several are black or deep purple, which would disappear on the dark theme. */
+.job__logo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 5px 9px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.job__logo img {
+  display: block;
+  height: 16px;
+  width: auto;
+  max-width: 116px;
+  object-fit: contain;
+}
 .job__org   { font-size: var(--text-sm); color: var(--muted-fg); margin-top: 2px; }
 .job__meta  {
   display: flex;
