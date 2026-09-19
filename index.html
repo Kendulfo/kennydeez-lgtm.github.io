@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kenneth Dulfo — Portfolio</title>
-<meta name="description" content="Senior Product Designer specializing in design systems, component libraries, and scalable design solutions that bridge design and development.">
-<link rel="stylesheet" href="css/styles.css?v=5">
+<title>Kenneth Dulfo — UX Architect</title>
+<meta name="description" content="Kenneth Dulfo — UX Architect. Information architecture, interaction models and the design systems that hold a product portfolio together. Eleven years across insurance, banking and logistics.">
+<link rel="stylesheet" href="css/styles.css?v=6">
 <script>
   // Set theme before paint to avoid a flash of the wrong theme.
   (function () {
@@ -69,7 +69,7 @@
     <div class="sidebar__top">
       <div>
         <h2 class="sidebar__name">Kenneth Dulfo</h2>
-        <p class="sidebar__role">Product Designer</p>
+        <p class="sidebar__role">UX Architect</p>
       </div>
       <button class="icon-btn sidebar__collapse" data-action="collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">
         <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-chevron-left"/></svg>
@@ -80,8 +80,8 @@
     <nav class="nav" id="nav">
       <a class="nav__item" href="#hero"    data-nav="hero"    data-tip="Home"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg><span class="nav__label">Home</span></a>
       <a class="nav__item" href="#about"   data-nav="about"   data-tip="About"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg><span class="nav__label">About</span></a>
-      <a class="nav__item" href="#resume"  data-nav="resume"  data-tip="Resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg><span class="nav__label">Resume</span></a>
       <a class="nav__item" href="#work"    data-nav="work"    data-tip="Work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg><span class="nav__label">Work</span></a>
+      <a class="nav__item" href="#resume"  data-nav="resume"  data-tip="Resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg><span class="nav__label">Resume</span></a>
     </nav>
 
     <a class="btn btn--outline btn--block sidebar__cta" href="#contact" data-tip="Get in Touch">
@@ -96,7 +96,7 @@
         <svg class="ic ic--sun" viewBox="0 0 24 24" width="15" height="15"><use href="#i-sun"/></svg>
         <svg class="ic ic--moon" viewBox="0 0 24 24" width="15" height="15" hidden><use href="#i-moon"/></svg>
       </button>
-      <p class="sidebar__copy">© 2025 Portfolio</p>
+      <p class="sidebar__copy">© <span data-year>2026</span> Portfolio</p>
     </div>
   </aside>
 
@@ -124,12 +124,13 @@
 
             <h1 class="hero__title">
               Hi! My name is Kenneth!
-              <span>I'm a Product Designer.</span>
+              <span>I'm a UX Architect.</span>
             </h1>
 
             <p class="hero__lede">
-              Senior Product Designer specializing in design systems, component libraries,
-              and scalable design solutions that bridge design and development.
+              I own UX architecture across product portfolios — information architecture,
+              interaction models, and the design systems that keep them coherent. Eleven years
+              across insurance, banking and logistics.
             </p>
 
             <div class="hero__actions">
@@ -152,16 +153,16 @@
           <div class="about__grid">
             <div class="about__body reveal">
               <span class="eyebrow">About</span>
-              <h2 class="h-section">Building bridges between design and development</h2>
+              <h2 class="h-section">Setting the structure products get built on</h2>
               <p class="lede">
-                With over 11 years of experience in product design, I specialize in creating
-                design systems that not only look beautiful but also scale efficiently across
-                teams and products.
+                Eleven years in, the work is mostly structural: information architecture,
+                interaction models, and the systems that keep a portfolio coherent while it grows.
+                I lead across concurrent product streams rather than owning a single screen set.
               </p>
               <p class="lede">
-                My approach combines user-centered design principles with technical
-                implementation knowledge, ensuring designs that are both delightful for users
-                and feasible for development teams.
+                That work has shipped in insurance, banking and logistics — a cross-market
+                system running in 18 Asian markets, a parcel app live in both stores at 4.8 stars,
+                and health cover sold inside the wallet app most of the Philippines already has.
               </p>
 
               <div class="grid-3 about__stats">
@@ -178,6 +179,120 @@
         </div>
       </section>
 
+      <!-- Work -->
+      <section class="section" id="work">
+        <div class="container">
+          <div class="reveal">
+            <span class="eyebrow">Featured Work</span>
+            <h2 class="h-section">Design Systems &amp; Products</h2>
+            <p class="lede">
+              A collection of design systems, component libraries, and products I've designed
+              and built over the years. Click on any project to view the detailed case study.
+            </p>
+          </div>
+
+          <div class="work__grid">
+
+            <button class="card project reveal" data-case="aia">
+              <div class="project__media">
+                <img src="assets/aia-cover.jpg" alt="AIA Digital Design System" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">AIA Digital Design System</h3>
+                <p class="project__desc">
+                  Qi — a cross-market system running in 18 Asian markets, adopted by the AIA Vitality
+                  app and the public site. Every component ships with a Figma, React, Vue, AEM and
+                  React Native build, each marked ready before a page is allowed to use it.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Figma</span><span class="chip">React</span>
+                  <span class="chip">Vue</span><span class="chip">AEM</span>
+                  <span class="chip">React Native</span><span class="chip">Design Tokens</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+            <button class="card project reveal" data-delay="1" data-case="segstream">
+              <div class="project__media">
+                <img src="assets/segstream-cover.png" alt="Segstream Design System" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Segstream Design System</h3>
+                <p class="project__desc">
+                  A full rebuild around a three-tier token architecture: 40 component sets at
+                  485 variants, seven variable collections, real dark mode, and an entire
+                  retheme that takes five edits.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Figma</span><span class="chip">Design Tokens</span>
+                  <span class="chip">Design Systems</span><span class="chip">Dark Mode</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+            <button class="card project reveal" data-delay="1" data-case="ewb">
+              <div class="project__media">
+                <img src="assets/ewb-cover.png" alt="EastWest Ageas policy linking" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Policy Linking &amp; Cross-Sell</h3>
+                <p class="project__desc">
+                  Bringing EastWest Ageas insurance policies into the EastWest Bank app —
+                  identity, consent, and every way the link can fail, plus a lead path for
+                  customers who hold no policy yet.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">User Flows</span>
+                  <span class="chip">UX Writing</span><span class="chip">Edge Cases</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+            <button class="card project reveal" data-case="entrego">
+              <div class="project__media">
+                <img src="assets/entrego-cover.png?v=2" alt="myEntrego delivery app" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">myEntrego Delivery App</h3>
+                <p class="project__desc">
+                  A customer-facing parcel app taken from user research and journey mapping
+                  through to 113 shipped screens — live on the App Store and Google Play at
+                  4.8 stars.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">UX Research</span>
+                  <span class="chip">Journey Mapping</span><span class="chip">iOS &amp; Android</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+            <button class="card project reveal" data-delay="1" data-case="kwik">
+              <div class="project__media">
+                <img src="assets/kwik-cover.png?v=4" alt="KwikCare health plans in GCash" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">KwikCare in GCash</h3>
+                <p class="project__desc">
+                  Health cover sold inside a wallet app — five plan tiers, a guided four-step
+                  purchase with health declaration and document upload, and a policy dashboard
+                  for every plan.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Mobile</span><span class="chip">Fintech</span>
+                  <span class="chip">Insurance</span><span class="chip">Purchase Flow</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
+          </div>
+        </div>
+      </section>
+
       <!-- Resume -->
       <section class="section" id="resume">
         <div class="container">
@@ -189,8 +304,8 @@
                 <span class="eyebrow">Resume</span>
                 <h2 class="h-section">Experience &amp; Background</h2>
                 <p class="lede">
-                  A comprehensive overview of my professional journey, education, and skills in
-                  product design and design systems.
+                  Eleven years, moving from graphic design into product, and from single products
+                  into the architecture behind portfolios of them.
                 </p>
                 <div class="resume__actions">
                   <a class="btn btn--primary" href="assets/kenneth-dulfo-resume.pdf" download>
@@ -405,130 +520,7 @@
                 </div>
               </div>
 
-              <div class="card aside-card reveal" data-delay="1">
-                <h3 class="block-title">Quick Stats</h3>
-                <div class="quick-stats">
-                  <div class="quick-stats__row"><span>Experience</span><span>11+ Years</span></div>
-                  <div class="quick-stats__row"><span>Components Shipped</span><span>300+</span></div>
-                  <div class="quick-stats__row"><span>Markets Reached</span><span>18</span></div>
-                  <div class="quick-stats__row"><span>Designers Served</span><span>200+</span></div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Work -->
-      <section class="section" id="work">
-        <div class="container">
-          <div class="reveal">
-            <span class="eyebrow">Featured Work</span>
-            <h2 class="h-section">Design Systems &amp; Products</h2>
-            <p class="lede">
-              A collection of design systems, component libraries, and products I've designed
-              and built over the years. Click on any project to view the detailed case study.
-            </p>
-          </div>
-
-          <div class="work__grid">
-
-            <button class="card project reveal" data-case="aia">
-              <div class="project__media">
-                <img src="assets/aia-cover.jpg" alt="AIA Digital Design System" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">AIA Digital Design System</h3>
-                <p class="project__desc">
-                  A comprehensive design system built from scratch for a large insurance company,
-                  featuring 50+ components, design tokens, and extensive documentation. Reduced
-                  design-to-development time by 60%.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Figma</span><span class="chip">React</span>
-                  <span class="chip">TypeScript</span><span class="chip">Storybook</span>
-                  <span class="chip">Design Tokens</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-delay="1" data-case="segstream">
-              <div class="project__media">
-                <img src="assets/segstream-cover.png" alt="Segstream Design System" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">Segstream Design System</h3>
-                <p class="project__desc">
-                  A full rebuild around a three-tier token architecture: 40 component sets at
-                  485 variants, seven variable collections, real dark mode, and an entire
-                  retheme that takes five edits.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Figma</span><span class="chip">Design Tokens</span>
-                  <span class="chip">Design Systems</span><span class="chip">Dark Mode</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-delay="1" data-case="ewb">
-              <div class="project__media">
-                <img src="assets/ewb-cover.png" alt="EastWest Ageas policy linking" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">Policy Linking &amp; Cross-Sell</h3>
-                <p class="project__desc">
-                  Bringing EastWest Ageas insurance policies into the EastWest Bank app —
-                  identity, consent, and every way the link can fail, plus a lead path for
-                  customers who hold no policy yet.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Mobile</span><span class="chip">User Flows</span>
-                  <span class="chip">UX Writing</span><span class="chip">Edge Cases</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="entrego">
-              <div class="project__media">
-                <img src="assets/entrego-cover.png?v=2" alt="myEntrego delivery app" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">myEntrego Delivery App</h3>
-                <p class="project__desc">
-                  A customer-facing parcel app taken from user research and journey mapping
-                  through to 113 shipped screens — live on the App Store and Google Play at
-                  4.8 stars.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Mobile</span><span class="chip">UX Research</span>
-                  <span class="chip">Journey Mapping</span><span class="chip">iOS &amp; Android</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-delay="1" data-case="kwik">
-              <div class="project__media">
-                <img src="assets/kwik-cover.png?v=4" alt="KwikCare health plans in GCash" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">KwikCare in GCash</h3>
-                <p class="project__desc">
-                  Health cover sold inside a wallet app — five plan tiers, a guided four-step
-                  purchase with health declaration and document upload, and a policy dashboard
-                  for every plan.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Mobile</span><span class="chip">Fintech</span>
-                  <span class="chip">Insurance</span><span class="chip">Purchase Flow</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
           </div>
         </div>
       </section>
@@ -539,24 +531,27 @@
           <div class="contact reveal">
             <h2 class="h-section" style="margin:0 auto">Let's work together</h2>
             <p class="lede">
-              I'm always interested in discussing new opportunities, design challenges, or just
-              talking shop about design systems and component libraries.
+              I'm open to conversations about UX architecture roles, portfolio-scale design
+              problems, or systems work that has outgrown the team maintaining it.
             </p>
             <div class="hero__actions">
               <button class="btn btn--primary" data-view="contact-form">
                 <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
-                Start a Conversation
+                Send me a message
               </button>
             </div>
-            <p class="contact__note">Based in Manila, available for remote work worldwide</p>
+            <p class="contact__note">
+              Opens a short form — name, email, message. Based in Manila, available for remote
+              work worldwide.
+            </p>
           </div>
         </div>
       </section>
 
       <footer class="footer">
         <div class="container">
-          <span>© 2025 Kenneth Dulfo. All rights reserved.</span>
-          <span>Built with HTML &amp; CSS</span>
+          <span>© <span data-year>2026</span> Kenneth Dulfo. All rights reserved.</span>
+          <span>Manila, Philippines</span>
         </div>
       </footer>
     </div>
@@ -1649,7 +1644,7 @@
             <div><dt>Role</dt><dd>UX Consultant</dd></div>
             <div><dt>Duration</dt><dd>2 Years</dd></div>
             <div><dt>Team</dt><dd>3 designers, 4 developers, 1 PM</dd></div>
-            <div><dt>Impact</dt><dd>60% faster dev time</dd></div>
+            <div><dt>Reach</dt><dd>18 markets · 5 platforms</dd></div>
           </dl>
         </header>
 
@@ -1685,7 +1680,7 @@
             <p>
               The main challenge was creating a system that could adapt to different regions while
               being flexible enough to accommodate rapid feature development. We needed to establish
-              design principles, create a token system, build 50+ components, and migrate existing
+              design principles, create a token system, build the component library, and migrate existing
               products without disrupting ongoing development.
             </p>
           </section>
@@ -1730,7 +1725,7 @@
                 <div>
                   <h3>Component Development</h3>
                   <ul class="bullets">
-                    <li>Built 50+ components starting with foundational elements like buttons and inputs, then progressing to complex patterns.</li>
+                    <li>Built the library out from foundational elements — buttons, inputs, cards — into the compound patterns that pages are actually assembled from.</li>
                     <li>Each component included multiple variants, states, and comprehensive documentation with usage guidelines.</li>
                     <li>Collaborated closely with engineers to ensure components were built with accessibility, performance, and developer experience in mind.</li>
                   </ul>
@@ -1807,19 +1802,19 @@
             <h2>Results &amp; Impact</h2>
             <div class="results">
               <div class="card result">
-                <div class="result__num">60%</div>
-                <div class="result__label">Development Speed</div>
-                <p class="result__desc">Faster feature development with reusable components</p>
+                <div class="result__num">18</div>
+                <div class="result__label">Markets Live</div>
+                <p class="result__desc">One system serving 18 Asian markets, multi-script typography included</p>
               </div>
               <div class="card result">
-                <div class="result__num">95%</div>
-                <div class="result__label">Design Consistency</div>
-                <p class="result__desc">UI consistency across all products</p>
+                <div class="result__num">5</div>
+                <div class="result__label">Platforms Ready</div>
+                <p class="result__desc">Figma, React, Vue, AEM and React Native, status stated per component</p>
               </div>
               <div class="card result">
-                <div class="result__num">100%</div>
-                <div class="result__label">Component Adoption</div>
-                <p class="result__desc">Teams using the design system</p>
+                <div class="result__num">2 Yrs</div>
+                <div class="result__label">Governed</div>
+                <p class="result__desc">Dated release notes running through 2023 and 2024</p>
               </div>
             </div>
           </section>

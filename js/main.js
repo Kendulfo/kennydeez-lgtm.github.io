@@ -454,6 +454,11 @@
   }
 
   /* ------------------------------------------------------------------ Boot */
+  // Stamped rather than hard-coded, so the footer can't quietly go stale again.
+  var year = String(new Date().getFullYear());
+  var stamps = document.querySelectorAll('[data-year]');
+  for (var y = 0; y < stamps.length; y++) stamps[y].textContent = year;
+
   setCollapsed(localStorage.getItem('sidebar') === 'collapsed');
   routeFromHash();
   if (confirmSent) confirmSent();
