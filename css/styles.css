@@ -1231,8 +1231,9 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   font-weight: 500;
   margin-bottom: 10px;
 }
+/* Runs the full container width, matching the bullet lists beside it — the
+   measure was the only thing making body copy and bullets disagree. */
 .prose p {
-  max-width: 68ch;
   line-height: 1.75;
   color: var(--muted-fg);
 }
