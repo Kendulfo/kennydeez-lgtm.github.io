@@ -213,6 +213,26 @@
               </div>
             </button>
 
+            <button class="card project reveal" data-delay="1" data-case="kwikweb">
+              <div class="project__media">
+                <img src="assets/kwikweb-cover.jpg" alt="KwikCare product listing page" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">KwikCare Product Listing</h3>
+                <p class="project__desc">
+                  A plan listing rebuilt into a comparison — price leading every card, the popular
+                  plan marked, filters applying live against a running count, and the empty and
+                  loading states designed rather than left to the build.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Web</span><span class="chip">E-commerce</span>
+                  <span class="chip">Filtering</span><span class="chip">Responsive</span>
+                  <span class="chip">Empty States</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
             <button class="card project reveal" data-delay="1" data-case="segstream">
               <div class="project__media">
                 <img src="assets/segstream-cover.png" alt="Segstream Design System" loading="lazy">
@@ -1616,6 +1636,240 @@
               <li>Selling inside someone else's app means inheriting their trust. The flow has to feel continuous with the wallet, or the credibility does not transfer to the product sitting in it.</li>
             </ul>
           </section>
+        </div>
+
+        <button class="card next-project" data-case="kwikweb">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">Rebuilding a Product Listing Page</div>
+            <p class="project__desc">The same plans on the web, rebuilt so they can be compared</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ===== CASE STUDY: KWIKCARE PRODUCT LISTING ====================== -->
+    <article class="view" id="view-kwikweb" hidden>
+      <div class="container">
+
+        <button class="btn btn--ghost cs__back" data-action="back">
+          <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-back"/></svg>
+          Back
+        </button>
+
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Web</span><span class="chip">E-commerce</span>
+            <span class="chip">Product Listing</span><span class="chip">Filtering</span>
+            <span class="chip">Responsive</span>
+          </div>
+          <h1 class="cs__title">Rebuilding a Product Listing Page</h1>
+          <p class="cs__sub">
+            The KwikCare plan listing, rebuilt so the plans can actually be compared — price
+            leading every card, one plan recommended, and the two states nobody designs
+            specified at both breakpoints.
+          </p>
+
+          <dl class="cs__meta">
+            <div><dt>Platform</dt><dd>Web · desktop &amp; mobile</dd></div>
+            <div><dt>Page</dt><dd>kwik.care plan listing</dd></div>
+            <div><dt>Scope</dt><dd>7 screens · 3 states each</dd></div>
+            <div><dt>Status</dt><dd>Design complete, not yet shipped</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/kwikweb-cover.jpg')"
+             role="img" aria-label="KwikCare product listing page cover"></div>
+
+        <div class="prose">
+
+          <section>
+            <h2>Overview</h2>
+            <p>
+              KwikCare sells subscription health plans online. The plan listing is the page where
+              the decision actually happens — it is where someone works out which plan they can
+              afford and what it covers, and it is the last page before the product detail and
+              the enrolment flow. This is a redesign of that page at both breakpoints, including
+              the states it enters when there is nothing to show and nothing yet loaded.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              The live page listed plans without letting anyone compare them. Every card carried
+              the same block of coverage copy — identical eligibility wording repeated five times
+              — so the differences between plans, which are the entire decision, were buried in
+              text that read the same on every row. Price sat small and right-aligned, competing
+              with a button rather than leading the card. The filters were a column of radio
+              buttons and checkboxes behind an Apply button, so narrowing the list cost a round
+              trip. Nothing marked which plan most people take.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              Price leads now, at the size of a headline, because affordability is the first
+              question and there is no reason to make anyone hunt for it. Each card carries three
+              benefits written for that plan rather than one block of shared boilerplate, so
+              scanning down the row surfaces difference instead of sameness. The popular plan is
+              labelled. Filters apply live against a running count, and the budget range — six
+              radio buttons on the old page — became a single slider. The empty and loading
+              states are designed rather than inherited.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Work out what the page is being asked</h3>
+                  <ul class="bullets">
+                    <li>Treated the listing as a comparison problem rather than a catalogue problem — the visitor is choosing between plans, not browsing them</li>
+                    <li>Identified the two numbers the decision turns on, price and maximum benefit limit, and gave them the top of every card</li>
+                    <li>Kept the plan's provider visible on the card, since who underwrites the cover is part of whether it is trusted</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Cut the copy that was identical on every card</h3>
+                  <ul class="bullets">
+                    <li>Replaced the repeated eligibility and coverage paragraph with three checked lines written per plan</li>
+                    <li>Let the differences do the work: the cheaper plan leads on teleconsultation, the popular one on benefit limit</li>
+                    <li>Moved everything else behind View Details rather than pre-loading the card with detail nobody reads at this stage</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Make filtering feel like filtering</h3>
+                  <ul class="bullets">
+                    <li>Dropped the Apply button on desktop so results narrow as the filter changes, against a count that updates with them</li>
+                    <li>Collapsed six budget brackets into one slider with the selected ceiling stated above it</li>
+                    <li>Kept Apply on mobile, where the filters live in a bottom sheet and batching the changes is the right behaviour for the pattern</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Design the states the page spends real time in</h3>
+                  <ul class="bullets">
+                    <li>Gave the empty state a reason and a route out — it names which filters are too narrow and offers both clearing them and browsing everything</li>
+                    <li>Built the loading state as skeleton cards shaped like the real ones, so the layout does not jump when the plans arrive</li>
+                    <li>Left the filter panel live while loading, so the page never takes control away from the person using it</li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <section>
+            <h2>Before &amp; After</h2>
+            <p>
+              The same page, same plans, same catalogue. What changed is what the page makes easy.
+            </p>
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img shot__img--top" style="background-image:url('assets/kwikweb-before.jpg')"></div>
+                <figcaption>Before — five near-identical rows, price right-aligned and small, filters behind an Apply button</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--top" style="background-image:url('assets/kwikweb-after.jpg')"></div>
+                <figcaption>After — price leads, benefits written per plan, the popular plan marked, filters live against a count</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the Work</h2>
+            <p>
+              Three states at each breakpoint, because a listing page is only in its default state
+              some of the time.
+            </p>
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img shot__img--top" style="background-image:url('assets/kwikweb-empty.jpg')"></div>
+                <figcaption>Empty state — says which filter is too narrow, and offers two ways back</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--top" style="background-image:url('assets/kwikweb-loading.jpg')"></div>
+                <figcaption>Loading — skeletons shaped like the real cards, filters still usable</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/kwikweb-mobile.jpg')"></div>
+                <figcaption>Mobile — the same cards stacked, with filter and sort promoted to the top</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--contain" style="background-image:url('assets/kwikweb-filters.jpg')"></div>
+                <figcaption>Filters as a bottom sheet on mobile — batched behind Apply, which is the right call for a sheet</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <p>What the page does differently, stated as what changed rather than what was made.</p>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">1st</div>
+                <div class="result__label">Price Position</div>
+                <p class="result__desc">Price leads every card instead of sitting small beside a button</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">0</div>
+                <div class="result__label">Apply Clicks</div>
+                <p class="result__desc">Desktop filters narrow the list live, against a count that moves with them</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">6→1</div>
+                <div class="result__label">Budget Control</div>
+                <p class="result__desc">Six price brackets collapsed into a single slider</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">3</div>
+                <div class="result__label">States Designed</div>
+                <p class="result__desc">Default, empty and loading — specified, not left to the build</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">Per-Plan</div>
+                <div class="result__label">Benefit Copy</div>
+                <p class="result__desc">Three lines written for each plan, replacing one repeated paragraph</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">2</div>
+                <div class="result__label">Breakpoints</div>
+                <p class="result__desc">Desktop and mobile, each with its own correct filter pattern</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>Copy repeated identically on every card is worse than no copy at all. It costs vertical space, slows the scan, and actively hides the differences a buyer is trying to find.</li>
+              <li>An Apply button turns filtering into a commitment. Live results against a running count let someone feel their way to an answer instead of guessing and submitting.</li>
+              <li>The right filter pattern is not the same on both breakpoints. Live on desktop where the list and the controls are visible together; batched on mobile, where the sheet covers the results it would be updating.</li>
+              <li>Marking the popular plan is not a nudge so much as a kindness — most people would rather be told what is reasonable than become an expert in benefit limits.</li>
+              <li>Empty states should name the cause. "No results" is a dead end; "your budget is too narrow, here is how to widen it" is a route back into the catalogue.</li>
+              <li>Skeletons shaped like the real card stop the layout jumping on arrival. A spinner tells you to wait; a skeleton tells you what is coming.</li>
+            </ul>
+          </section>
+
         </div>
 
         <button class="card next-project" data-case="entrego">
