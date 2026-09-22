@@ -560,6 +560,8 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 
 .hero__title span {
   display: block;
+  /* em-based so the gap scales with the heading at every breakpoint */
+  margin-top: 0.3em;
   font-size: 0.78em;
   font-weight: 300;
   letter-spacing: -0.02em;
