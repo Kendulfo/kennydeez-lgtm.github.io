@@ -411,7 +411,7 @@
     var frame = document.createElement('iframe');
     frame.src = 'https://embed.figma.com/design/' + key + '/' + name +
                 '?embed-host=portfolio&page-selector=1&viewer=1&theme=' + theme;
-    frame.title = 'Segstream Design System in Figma';
+    frame.title = name.replace(/-+/g, ' ').trim() + ' in Figma';
     frame.setAttribute('allow', 'fullscreen');
     frame.setAttribute('allowfullscreen', 'true');
     frame.setAttribute('loading', 'lazy');
