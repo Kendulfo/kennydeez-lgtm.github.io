@@ -1233,6 +1233,9 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 
 /* Caption for media that sits outside a <figure> */
+/* Lead-ins inside a bullet, so the point lands before the explanation */
+.bullets li strong { color: var(--fg); font-weight: 500; }
+
 .cap-note {
   margin-top: 12px;
   font-family: var(--font-ui);
