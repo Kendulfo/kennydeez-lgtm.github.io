@@ -1335,6 +1335,49 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 
 .prose .testimonial + p { margin-top: 32px; }
 
+/* .btn sets its own display, which out-ranks the UA [hidden] rule — so hiding
+   a button needs saying explicitly. Same trap as .view[hidden]. */
+.btn[hidden] { display: none !important; }
+
+/* The one place on a case study that asks for an action, so it gets a panel
+   rather than a sentence with a link in it. */
+.try-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-top: 26px;
+  padding: 30px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--secondary);
+}
+.try-cta__text { flex: 1 1 340px; min-width: 0; }
+.try-cta__text h3 {
+  font-size: var(--text-xl);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.try-cta__text p {
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--muted-fg);
+  max-width: 54ch;
+}
+.try-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+@media (max-width: 720px) {
+  .try-cta { padding: 24px; gap: 20px; }
+  .try-cta__actions { width: 100%; }
+  .try-cta__actions .btn { flex: 1 1 100%; justify-content: center; }
+}
+
 /* Who did what on an AI-built project — three parallel claims, so they read
    better side by side than stacked as bullets. */
 .credits {

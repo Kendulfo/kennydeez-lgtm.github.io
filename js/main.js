@@ -453,6 +453,49 @@
     };
   }
 
+  /* ------------------------------------------------- Brew: platform CTA */
+  // Web Bluetooth is what decides the route. Chrome on Android and desktop has
+  // it; iOS does not at all, so an iPhone needs Bluefy before a Dot can connect.
+  // Both links are already in the markup — this only picks which one leads.
+  function brewCta() {
+    var cta = document.querySelector('[data-brew-cta]');
+    if (!cta) return;
+    var note   = cta.querySelector('[data-brew-note]');
+    var open   = cta.querySelector('[data-brew-open]');
+    var bluefy = cta.querySelector('[data-brew-bluefy]');
+    if (!note || !open || !bluefy) return;
+
+    var ua = navigator.userAgent || '';
+    // iPadOS reports as Mac, so the touch check is what separates it from a desktop
+    var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var isAndroid = /Android/.test(ua);
+    var hasBle = typeof navigator.bluetooth !== 'undefined';
+
+    function lead(el) { el.className = 'btn btn--primary'; }
+    function follow(el) { el.className = 'btn btn--outline'; }
+
+    if (isIOS) {
+      cta.setAttribute('data-state', 'ios');
+      // the App Store link is the one that unblocks them, so it goes first
+      bluefy.parentNode.insertBefore(bluefy, open);
+      lead(bluefy); follow(open);
+      note.textContent = 'You are on iOS, where Safari cannot reach Bluetooth at all. ' +
+        'Install Bluefy, then open the app inside it to connect your Dot. ' +
+        'Tapping through here gives you the timer version.';
+    } else if (hasBle) {
+      cta.setAttribute('data-state', 'ready');
+      bluefy.hidden = true;
+      note.textContent = isAndroid
+        ? 'You are on Android, so this browser talks to the Dot directly — open it and hit Connect.'
+        : 'This browser supports Web Bluetooth, so you can connect a Dot directly — open it and hit Connect.';
+    } else {
+      cta.setAttribute('data-state', 'nobt');
+      note.textContent = 'This browser cannot reach Bluetooth, so you will get the timer version. ' +
+        'Chrome on Android or desktop connects to a Dot directly; on an iPhone, use Bluefy.';
+    }
+  }
+
   /* ------------------------------------------------------------------ Boot */
   // Stamped rather than hard-coded, so the footer can't quietly go stale again.
   var year = String(new Date().getFullYear());
@@ -464,5 +507,6 @@
   if (confirmSent) confirmSent();
   revealAll(document);
   armShots();
+  brewCta();
   updateActiveNav();
 })();

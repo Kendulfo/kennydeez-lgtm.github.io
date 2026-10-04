@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kenneth Dulfo — Product Designer</title>
 <meta name="description" content="Kenneth Dulfo — UX product designer. Research and information architecture through to shipped interfaces and the design systems behind them. Eleven years across insurance, banking and logistics.">
-<link rel="stylesheet" href="css/styles.css?v=16">
+<link rel="stylesheet" href="css/styles.css?v=18">
 <script>
   // Set theme before paint to avoid a flash of the wrong theme.
   (function () {
@@ -2294,14 +2294,32 @@
 
           <section>
             <h2>Try It</h2>
-            <p>
-              Open it in Bluefy on an iPhone if you want to connect a Dot — Safari cannot talk to
-              Bluetooth devices. Any browser will run the timer version.
-            </p>
-            <p class="figma-embed__aside">
-              <a class="link" href="https://kendulfo.github.io/Brew/"
-                 target="_blank" rel="noopener noreferrer">Open the app</a>.
-            </p>
+
+            <!-- Web Bluetooth is the gate. Both routes are in the markup so this
+                 works without JS; main.js only reorders them and writes the note. -->
+            <div class="try-cta" data-brew-cta>
+              <div class="try-cta__text">
+                <h3>Brew it yourself</h3>
+                <p data-brew-note>
+                  Chrome on Android or desktop can talk to the Dot directly. On an iPhone you
+                  need Bluefy first, because Safari cannot reach Bluetooth devices. Either way
+                  the timer version runs in any browser.
+                </p>
+              </div>
+              <div class="try-cta__actions">
+                <a class="btn btn--primary" data-brew-open
+                   href="https://kendulfo.github.io/Brew/"
+                   target="_blank" rel="noopener noreferrer">
+                  Open the app
+                  <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg>
+                </a>
+                <a class="btn btn--outline" data-brew-bluefy
+                   href="https://apps.apple.com/app/bluefy-web-ble-browser/id1492822055"
+                   target="_blank" rel="noopener noreferrer">
+                  Get Bluefy for iPhone
+                </a>
+              </div>
+            </div>
           </section>
 
         </div>
@@ -2567,6 +2585,6 @@
   </main>
 </div>
 
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 </body>
 </html>
