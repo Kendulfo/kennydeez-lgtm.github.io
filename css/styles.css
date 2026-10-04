@@ -1335,8 +1335,38 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 
 .prose .testimonial + p { margin-top: 32px; }
 
+/* Who did what on an AI-built project — three parallel claims, so they read
+   better side by side than stacked as bullets. */
+.credits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 26px;
+}
+.credit {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.credit__tag {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--result);
+}
+.credit p {
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--muted-fg);
+}
+@media (max-width: 860px) { .credits { grid-template-columns: 1fr; } }
+
 /* Blocks inside a section had nothing between them and the paragraph that
    follows, so copy ran straight into the thing above it. */
+.prose .credits + p,
 .prose .personas + p,
 .prose .results + p,
 .prose .showcase-grid + p,

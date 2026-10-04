@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kenneth Dulfo — Product Designer</title>
 <meta name="description" content="Kenneth Dulfo — UX product designer. Research and information architecture through to shipped interfaces and the design systems behind them. Eleven years across insurance, banking and logistics.">
-<link rel="stylesheet" href="css/styles.css?v=15">
+<link rel="stylesheet" href="css/styles.css?v=16">
 <script>
   // Set theme before paint to avoid a flash of the wrong theme.
   (function () {
@@ -2145,11 +2145,32 @@
               model wrote most of the code, and when I asked it to go looking for problems, it
               found a few I would otherwise have shipped.
             </p>
-            <ul class="bullets">
-              <li>Mine: spotting that the app should be telling you what to do rather than what is happening, the number that swaps jobs, letting people type amounts instead of totals, the sounds, what to throw away, and giving up on the floating window in favour of talking to the scale directly.</li>
-              <li>The model's: the Bluetooth code, reading the data off the scale, and a speed pass that cut the work the app does on every update by about 99%.</li>
-              <li>Caught by testing rather than looking: the "start pouring" sound never played. The code that was meant to trigger it sat inside a section that stopped running the moment a pour began. Nothing looked wrong on screen — it only showed up when I ran a fake brew end to end.</li>
-            </ul>
+            <div class="credits">
+              <div class="card credit">
+                <span class="credit__tag">Mine</span>
+                <p>
+                  Spotting that the app should be telling you what to do rather than what is
+                  happening. The number that swaps jobs. Letting people type amounts instead of
+                  totals. The sounds, what to throw away, and giving up on the floating window
+                  in favour of talking to the scale directly.
+                </p>
+              </div>
+              <div class="card credit">
+                <span class="credit__tag">The model's</span>
+                <p>
+                  The Bluetooth code, reading the data off the scale, and a speed pass that cut
+                  the work the app does on every update by about 99%.
+                </p>
+              </div>
+              <div class="card credit">
+                <span class="credit__tag">Caught by testing, not looking</span>
+                <p>
+                  The "start pouring" sound never played. The code meant to trigger it sat
+                  inside a section that stopped running the moment a pour began. Nothing looked
+                  wrong on screen — it only showed up when I ran a fake brew end to end.
+                </p>
+              </div>
+            </div>
             <p>
               The part that still takes judgement is the same as it has always been: working out
               which problem is worth solving, what to leave out, and when something is quietly
