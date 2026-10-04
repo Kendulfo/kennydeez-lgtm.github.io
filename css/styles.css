@@ -1254,29 +1254,32 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 .ph-shot--wide { aspect-ratio: 16 / 7; margin-top: 24px; }
 
-/* Profile rows rather than photo-led cards: the picture is supporting evidence,
-   so it sits beside the text instead of towering over it. */
+/* Alternating rows: the photo carries real weight at 46% of the column, and
+   swapping sides on the second one stops two rows reading as a table. */
 .personas {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 28px;
   margin-top: 28px;
 }
 .persona {
   display: grid;
-  grid-template-columns: 168px 1fr;
-  gap: 24px;
+  grid-template-columns: 46% 1fr;
+  gap: 32px;
   align-items: center;
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
+  margin: 0;
 }
-.persona__photo { aspect-ratio: 1; }
-.persona__photo span { font-size: var(--text-xs); max-width: 20ch; }
-.persona h3 { font-size: var(--text-lg); font-weight: 500; }
+/* Flipping with order alone would leave the photo in the 1fr column and make
+   the two rows different sizes, so the template swaps too. */
+.persona--flip { grid-template-columns: 1fr 46%; }
+.persona--flip .persona__photo { order: 2; }
+
+.persona__photo { aspect-ratio: 4 / 3; }
+.persona__photo span { max-width: 26ch; }
+
+.persona__body h3 { font-size: var(--text-xl); font-weight: 500; letter-spacing: -0.01em; }
 .persona__role {
-  margin-top: 3px;
+  margin-top: 4px;
   font-family: var(--font-ui);
   font-size: var(--text-xs);
   letter-spacing: 0.06em;
@@ -1284,15 +1287,53 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   color: var(--muted-fg);
 }
 .persona__body > p:last-child {
-  margin-top: 10px;
-  font-size: var(--text-sm);
-  line-height: 1.65;
+  margin-top: 12px;
+  font-size: var(--text-base);
+  line-height: 1.7;
 }
-@media (max-width: 720px) {
+
+@media (max-width: 760px) {
   .persona { grid-template-columns: 1fr; gap: 16px; }
+  .persona--flip .persona__photo { order: 0; }
   .persona__photo { aspect-ratio: 16 / 10; }
-  .persona__photo span { max-width: 34ch; font-size: var(--text-sm); }
+  .persona__photo span { max-width: 34ch; }
 }
+
+/* Testimonial. The rule, not a giant quote glyph — the words should carry it. */
+.testimonial {
+  margin: 32px 0 0;
+  padding: 26px 0 26px 30px;
+  border-left: 3px solid var(--result);
+}
+.testimonial blockquote {
+  margin: 0;
+  font-size: var(--text-2xl);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+  color: var(--fg);
+  max-width: 44ch;
+}
+.testimonial figcaption {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-ui);
+}
+.testimonial__who { font-size: var(--text-sm); font-weight: 600; }
+.testimonial__role {
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-fg);
+}
+/* Unfilled: dashed and muted, so it reads as pending rather than as a real quote */
+.testimonial.is-placeholder { border-left-style: dashed; border-left-color: var(--border); }
+.testimonial.is-placeholder blockquote { color: var(--muted-fg); font-size: var(--text-lg); }
+
+.prose .testimonial + p { margin-top: 32px; }
 
 /* Blocks inside a section had nothing between them and the paragraph that
    follows, so copy ran straight into the thing above it. */
