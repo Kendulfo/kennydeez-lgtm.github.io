@@ -309,6 +309,26 @@
               </div>
             </button>
 
+            <button class="card project reveal" data-case="brew">
+              <div class="project__media">
+                <img src="assets/brew-cover.jpg" alt="Brew — a V60 timer driven by a Bluetooth scale" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">Brew — Timemore Dot</h3>
+                <p class="project__desc">
+                  A Bluetooth coffee scale with no display and no guidance. Reading the vendor's
+                  BLE protocol to build the instruction layer their app never had — the biggest
+                  number counts down to zero, and pours end on weight rather than a timer.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Hardware &amp; BLE</span><span class="chip">Interaction Design</span>
+                  <span class="chip">Sound Design</span><span class="chip">AI-Assisted Build</span>
+                  <span class="chip">Zero to One</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
           </div>
         </div>
       </section>
@@ -878,11 +898,11 @@
           </section>
         </div>
 
-        <button class="card next-project" data-case="aia">
+        <button class="card next-project" data-case="brew">
           <div>
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
-            <div class="next-project__title">AIA Digital Design System</div>
-            <p class="project__desc">Building a design system from scratch for a fast-growing insurance business</p>
+            <div class="next-project__title">Brew — Timemore Dot</div>
+            <p class="project__desc">Reading a scale's Bluetooth protocol to build the guidance its app never had</p>
           </div>
           <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
         </button>
@@ -1889,6 +1909,268 @@
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">myEntrego Delivery App</div>
             <p class="project__desc">A parcel app taken from user research through to launch on both stores</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ===== CASE STUDY: BREW ========================================== -->
+    <article class="view" id="view-brew" hidden>
+      <div class="container">
+
+        <button class="btn btn--ghost cs__back" data-action="back">
+          <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-back"/></svg>
+          Back
+        </button>
+
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Self-initiated</span><span class="chip">Hardware &amp; BLE</span>
+            <span class="chip">Interaction Design</span><span class="chip">Sound Design</span>
+            <span class="chip">AI-Assisted Build</span>
+          </div>
+          <h1 class="cs__title">A Scale That Measures Everything Except What You Need</h1>
+          <p class="cs__sub">
+            The Timemore Dot is the most intuitive piece of coffee hardware I own, and it leaves
+            you alone at the exact moment brewing gets hard. I read the vendor's Bluetooth
+            protocol and built the guidance layer their app never had.
+          </p>
+
+          <dl class="cs__meta">
+            <div><dt>Role</dt><dd>Design and build, solo</dd></div>
+            <div><dt>Timeline</dt><dd>One week of evenings</dd></div>
+            <div><dt>Surface</dt><dd>Web app · iPhone</dd></div>
+            <div><dt>Status</dt><dd>Live, in daily use</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/brew-cover.jpg')"
+             role="img" aria-label="Brew — a V60 timer driven by a Bluetooth scale"></div>
+
+        <div class="prose">
+
+          <section>
+            <h2>Overview</h2>
+            <p>
+              The Timemore Dot has no screen. It is the size of a coaster, reads to 0.1 g, and
+              streams weight, flow rate and a timer to your phone ten times a second. That
+              restraint is the product's best idea. Its app, though, shows you measurements at
+              the one moment you need instructions instead. This is a replacement for that app,
+              built against the scale's own Bluetooth protocol.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              Pour-over is a timed sequence: pour to 90 g at 0:40, stop, wait, pour to 135 g at
+              1:20. The vendor app knows the weight and knows the time, and never connects them.
+              So the actual work of brewing — is it time yet, am I there yet, do I stop now —
+              stays in your head while both hands are busy.
+            </p>
+            <p>
+              It fails two people for the same reason. New brewers do not know the sequence, and
+              the app cannot help because it does not know what they are attempting. Experienced
+              brewers know the sequence and still do arithmetic mid-pour, because recipe targets
+              are cumulative while the display is a running total. The gap between "I'm at 62"
+              and "I stop at 90" is a subtraction you perform repeatedly, under time pressure,
+              with wet hands. A readout answers what is happening. Brewing asks what to do now.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              The hierarchy inverts with the state of the brew. While you pour, the biggest
+              number is grams remaining, counting to zero. While you wait, it is seconds until
+              the next pour. Weight is still there, one size down, for when you want to confirm
+              it. The subtraction moves from your head into the device, and that is the whole
+              product in one sentence.
+            </p>
+            <p>
+              Around that: pours end when the scale says they ended rather than when a timer
+              guesses, colour carries state so you can read the card from a metre away, four
+              distinguishable sounds cover the cues your eyes will miss, and the clock starts
+              itself on first water so you are not pressing anything with a full kettle.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Kill the first idea quickly</h3>
+                  <ul class="bullets">
+                    <li>Wanted a floating widget over the vendor app — their numbers, my cues — and one search killed it: iOS has no system overlay API for third-party apps</li>
+                    <li>A useful dead end, because it forced the real question: if I cannot sit on top of their app, do I need their app at all</li>
+                    <li>Timemore publishes the Dot's BLE protocol openly, so their app is one client rather than the only possible one</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Verify the protocol before designing anything</h3>
+                  <ul class="bullets">
+                    <li>Reconstructed the command frames from the spec and checked them byte for byte against known-good captures from a third-party driver</li>
+                    <li>All six matched — tare, timer start, stop, reset, unit — which meant checksum and byte order were right and I could generate any command rather than replay a fixed list</li>
+                    <li>Twenty minutes of checking removed the project's biggest risk before a single pixel existed</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Make the biggest number an instruction</h3>
+                  <ul class="bullets">
+                    <li>Grams remaining while pouring, seconds remaining while holding — the hero changes job with the state of the brew</li>
+                    <li>Ended pours on weight rather than elapsed time: the first version guessed duration from an assumed flow rate and was confidently wrong whenever I poured slowly, and every later cue inherited the error</li>
+                    <li>Overshoot turns the card red and names the overshoot in grams rather than failing silently</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Design for eyes that are somewhere else</h3>
+                  <ul class="bullets">
+                    <li>Colour floods the card the instant a pour opens, goes neutral on hold, red on overshoot — peripheral vision catches it before you can focus on a number</li>
+                    <li>Four sounds shaped differently rather than four pitches of one beep, because iOS browsers expose no vibration and sound is the only reliable channel with wet hands</li>
+                    <li>The timer arms and starts on two grams of water — past any knock or breeze, well under a bloom — so nothing needs pressing mid-pour</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">5</div>
+                <div>
+                  <h3>Let people type what they actually think</h3>
+                  <ul class="bullets">
+                    <li>Recipes are published cumulatively, but nobody thinks "this pour takes me to 177 g" — they think "45 grams here", so every field is incremental and the running total sits greyed out beside it</li>
+                    <li>Never starts from a blank form: set dose and ratio and it generates a working five-pour recipe, or copy an existing method so Hoffmann at 18 g is two taps</li>
+                    <li>Checks the arithmetic — pours that do not sum to the total, or one scheduled to run longer than the gap before the next, get flagged with a one-tap fix</li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the Work</h2>
+            <p>
+              The same screen doing two different jobs, and the recipe library behind it.
+            </p>
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/brew-ready.jpg')"></div>
+                <figcaption>Ready — the recipe laid out, dose scaling the whole thing, auto-start armed</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/brew-pour.jpg')"></div>
+                <figcaption>Pouring — the card floods, the hero is grams remaining, the active step lights up</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/brew-hold.jpg')"></div>
+                <figcaption>Holding — same screen, neutral, hero switches to seconds and names the next target</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/brew-recipes.jpg')"></div>
+                <figcaption>Starting points — published methods copied in one tap rather than typed from a video</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Built with AI, Decided by Me</h2>
+            <p>
+              I would rather describe how this actually worked than imply I hand-wrote three
+              thousand lines of Bluetooth code. I set the architecture, made every design call,
+              and did the critique. The model wrote the implementation and, asked to find
+              problems, found several I would have shipped.
+            </p>
+            <ul class="bullets">
+              <li>Mine: the reframe from readout to instruction, the inverting hierarchy, incremental recipe input, the sound vocabulary, what to delete, and abandoning the overlay for the protocol.</li>
+              <li>The model's: the BLE driver, frame parsing, the state machine, and a performance pass that cut redundant DOM writes from roughly 1,200 per 100 frames to 6.</li>
+              <li>Found by instrumenting rather than by eye: the start-pouring cue never fired, because the step-change event was read inside a state branch that stopped running the moment a pour opened. Silent, invisible in a visual review, obvious under a simulated brew.</li>
+            </ul>
+            <p>
+              The judgement that matters is still design judgement — which problem to solve, what
+              to cut, and when an implementation is quietly lying to you. Speed changed. The
+              decisions did not get easier.
+            </p>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <p>It is live, it replaced the vendor app on my phone, and I brew with it every morning.</p>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">0</div>
+                <div class="result__label">Mental Arithmetic</div>
+                <p class="result__desc">The subtraction mid-pour moved from your head into the device</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">10 Hz</div>
+                <div class="result__label">Live Weight</div>
+                <p class="result__desc">Straight off the scale's own protocol — the hardware ceiling</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">7</div>
+                <div class="result__label">Recipes Built In</div>
+                <p class="result__desc">Published methods copied in a tap, plus anything you write</p>
+              </div>
+            </div>
+            <p>
+              What I cannot claim is an outcome number. One user, me, and no baseline. So I
+              instrumented the thing that would prove it: every logged brew records how far each
+              pour missed its target, which is the number that should fall if the design works.
+              The next test is twenty brews — ten on the vendor app, ten on this — comparing
+              overshoot. If accuracy does not improve, the cues are decoration, and I will say so
+              here.
+            </p>
+          </section>
+
+          <section>
+            <h2>Key Learnings</h2>
+            <ul class="bullets">
+              <li>A readout and an instruction are different products. Polishing the first one never produces the second, however good the numbers look.</li>
+              <li>The constraint that kills your first idea is often the one that finds the real one. No iOS overlay API meant going to the protocol, which was the better build anyway.</li>
+              <li>Verifying the risky unknown first — twenty minutes against known-good captures — is worth more than twenty hours of interface work built on an assumption.</li>
+              <li>Ending a pour on a timer rather than on weight was confidently wrong in a way that compounded: every subsequent cue inherited the error. Deriving state from the real signal beats predicting it.</li>
+              <li>Design for the channel that is actually free. Eyes are on the cone and hands are wet, so colour at a glance and four distinguishable sounds carry more than any amount of on-screen text.</li>
+              <li>Building with a model changes speed, not judgement. It wrote the driver; it could not have told me the biggest number was the wrong number.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Try It</h2>
+            <p>
+              Open it in Bluefy on iPhone to connect a Dot — iOS Safari has no Web Bluetooth.
+              Any browser runs the timed version.
+            </p>
+            <p class="figma-embed__aside">
+              <a class="link" href="https://kendulfo.github.io/Brew/"
+                 target="_blank" rel="noopener noreferrer">Open the app</a>.
+            </p>
+          </section>
+
+        </div>
+
+        <button class="card next-project" data-case="aia">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">AIA Digital Design System</div>
+            <p class="project__desc">A cross-market design system running in 18 Asian markets</p>
           </div>
           <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
         </button>
