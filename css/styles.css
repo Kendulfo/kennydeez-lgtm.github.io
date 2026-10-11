@@ -1254,6 +1254,29 @@ body.is-case-study .sidebar__back { display: inline-flex; }
 }
 .ph-shot--wide { aspect-ratio: 16 / 7; margin-top: 24px; }
 
+/* Establishing shot. The photo is portrait, so it sits beside the copy rather
+   than being cropped into a band — a 16:7 crop lost the sign or the door, and
+   those are the two things that make it read as this cafe. */
+.cafe-open {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-top: 24px;
+}
+.cafe-open__photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.cafe-open__text p + p { margin-top: 16px; }
+@media (max-width: 760px) {
+  .cafe-open { grid-template-columns: 1fr; gap: 18px; }
+  .cafe-open__photo { max-width: 320px; }
+}
+
 /* Alternating rows: the photo carries real weight at 46% of the column, and
    swapping sides on the second one stops two rows reading as a table. */
 .personas {
@@ -1419,6 +1442,7 @@ img.persona__photo {
 
 /* Blocks inside a section had nothing between them and the paragraph that
    follows, so copy ran straight into the thing above it. */
+.prose .cafe-open + p,
 .prose .credits + p,
 .prose .personas + p,
 .prose .results + p,
