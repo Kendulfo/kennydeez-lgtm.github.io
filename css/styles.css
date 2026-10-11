@@ -1117,6 +1117,16 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   background-position: top center;
 }
 
+/* Service blueprints are five times wider than they are tall. Neither the 16/10
+   box nor --top can hold one: cover scales by height and throws most of the
+   width away. Matching the tile to the artwork keeps all three lanes in frame,
+   and the lightbox is where the labels get read. */
+.shot__img--wide {
+  aspect-ratio: 3738 / 750;
+  background-size: cover;
+  background-position: center;
+}
+
 /* Phone screens, sat on the panel at a readable size. Neither cover nor contain
    has a middle setting — cover always scales by width, so it shows the same
    sliver of design however the source is cropped. Sizing to a share of the tile
