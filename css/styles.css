@@ -43,6 +43,10 @@
      hero tiles stay orange and this stays red in both themes. */
   --result:             oklch(0.577 0.245 27.325);  /* red */
 
+  /* Storyboard beat numbers. --accent-2 straight is 3.3:1 on the page, which is
+     under AA for a 12px label, so the light value is taken down a step. */
+  --beat:               oklch(0.470 0.100 184.704);  /* darker teal */
+
   /* Typography */
   --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -105,6 +109,9 @@
 
   /* Same red, lifted so it still reads against the dark surface */
   --result:             oklch(0.704 0.191 22.216);
+
+  /* The emerald already carries on a near-black ground */
+  --beat:               oklch(0.696 0.170 162.480);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
@@ -1459,7 +1466,13 @@ img.persona__photo {
 .prose .showcase-grid + p,
 .prose .ph-shot + p,
 .prose .steps + p,
+.prose .sb + p,
 .prose .cs__hero-img + p { margin-top: 28px; }
+
+/* A storyboard runs heading, panels, heading, panels. Without these the next
+   story's title sits on top of whatever came before it. */
+.prose .sb + h3 { margin-top: 44px; }
+.prose figure + h3 { margin-top: 36px; }
 
 /* Lead-ins inside a bullet, so the point lands before the explanation */
 .bullets li strong { color: var(--fg); font-weight: 500; }
@@ -1515,6 +1528,66 @@ img.persona__photo {
   background: var(--secondary);
   color: var(--secondary-fg);
   font-weight: 600;
+}
+
+/* ---------------------------------------------------------- Storyboard */
+
+/* Every panel came out of Figma with its caption welded to the bottom of the
+   artwork. Those bars are cropped off in the export and the words live here as
+   real text — otherwise each beat said the same thing twice, the second time at
+   about nine pixels. The role tag stays in the artwork: it is the storyboard's
+   own way of saying whose turn this is. */
+.sb {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 34px 20px;
+  counter-reset: beat;
+}
+
+.sb__beat { counter-increment: beat; }
+
+/* The export is cropped to 2:1, so the tile is too and nothing is cut away. */
+.sb__beat .shot__img { aspect-ratio: 2 / 1; }
+
+.sb__kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 14px 0 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.sb__kicker::before {
+  content: counter(beat, decimal-leading-zero);
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--beat);
+}
+
+/* Numbering belongs to a sequence. The other two entry points are alternatives
+   to the first beat, not a fourth and fifth step, so they do not get one. */
+.sb--doors .sb__kicker::before { content: none; }
+
+.sb__beat p {
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--muted-fg);
+}
+
+/* Three portraits and their name plates — a taller frame than the beats. */
+.shot__img--cast { aspect-ratio: 880 / 572; }
+
+@media (max-width: 720px) {
+  .sb { grid-template-columns: 1fr; }
 }
 
 .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
