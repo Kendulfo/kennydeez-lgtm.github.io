@@ -193,6 +193,26 @@
 
           <div class="work__grid">
 
+            <button class="card project reveal" data-case="cws">
+              <div class="project__media">
+                <img src="assets/cws-cover.jpg" alt="Manulife CWS referral module" loading="lazy">
+              </div>
+              <div class="project__body">
+                <h3 class="project__title">CWS Referral Module</h3>
+                <p class="project__desc">
+                  A referral programme for Manulife's Customer Website — three different moments
+                  where it can be offered, one set of rules underneath, and a friend on the other
+                  end who has to feel invited rather than sold to.
+                </p>
+                <div class="chips project__tags">
+                  <span class="chip">Service Design</span><span class="chip">Insurance</span>
+                  <span class="chip">Referral</span><span class="chip">Consent</span>
+                  <span class="chip">Web &amp; Mobile</span>
+                </div>
+                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              </div>
+            </button>
+
             <button class="card project reveal" data-case="aia">
               <div class="project__media">
                 <img src="assets/aia-cover.jpg" alt="AIA Digital Design System" loading="lazy">
@@ -2365,6 +2385,256 @@
                 </a>
               </div>
             </div>
+          </section>
+
+        </div>
+
+        <button class="card next-project" data-case="cws">
+          <div>
+            <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
+            <div class="next-project__title">CWS Referral Module</div>
+            <p class="project__desc">A referral programme with three ways in and a friend on the other end</p>
+          </div>
+          <span class="btn btn--outline">View Case Study <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg></span>
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ===== CASE STUDY: CWS REFERRAL ================================== -->
+    <article class="view" id="view-cws" hidden>
+      <div class="container">
+
+        <button class="btn btn--ghost cs__back" data-action="back">
+          <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-back"/></svg>
+          Back
+        </button>
+
+        <header class="cs__head">
+          <div class="chips">
+            <span class="chip">Service Design</span><span class="chip">Insurance</span>
+            <span class="chip">Referral</span><span class="chip">Consent &amp; Compliance</span>
+            <span class="chip">Web &amp; Mobile</span>
+          </div>
+          <h1 class="cs__title">Asking Someone to Recommend You, Without Making It Weird</h1>
+          <p class="cs__sub">
+            A referral programme on Manulife's Customer Website. Three different moments where
+            it can be offered, one flow underneath, and a friend on the other end who has to
+            feel invited rather than sold to.
+          </p>
+
+          <dl class="cs__meta">
+            <div><dt>Role</dt><dd>User Experience Architect</dd></div>
+            <div><dt>Company</dt><dd>Manulife · Dec 2025 – Present</dd></div>
+            <div><dt>Scope</dt><dd>3 entry points · 2 sides of the flow</dd></div>
+            <div><dt>Status</dt><dd>Shipped</dd></div>
+          </dl>
+        </header>
+
+        <div class="cs__hero-img cs__hero-shot"
+             style="background-image:url('assets/cws-cover.jpg')"
+             role="img" aria-label="Manulife CWS referral module"></div>
+
+        <div class="prose">
+
+          <section>
+            <h2>Overview</h2>
+            <p>
+              Manulife's Customer Website is where policy owners in Singapore manage what they
+              already have. The referral module adds something different: a way for a happy
+              customer to introduce a friend, with a reward on both sides once that friend
+              actually becomes a customer. I designed the module end to end — where it gets
+              offered, what the referrer sees, what the friend lands on, and the rules that
+              hold the whole thing together.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Challenge</h2>
+            <p>
+              A referral is a favour you ask of someone. Ask at the wrong moment and it reads as
+              a sales pitch dressed up as a thank-you; ask badly and the person on the receiving
+              end feels sold to by their own friend. Both are easy to do and hard to undo.
+            </p>
+            <p>
+              There were three places the business wanted to offer it, and they are not the same
+              situation at all:
+            </p>
+            <ul class="bullets">
+              <li><strong>After a tNPS survey.</strong> Someone has just told us they would recommend us. That is the warmest moment there is — and also the one where a reward offer can cheapen what they just said.</li>
+              <li><strong>Inside the website.</strong> No trigger, no warm moment. Just an entry point that has to explain itself from cold to someone who came to pay a premium.</li>
+              <li><strong>Around a Financial Needs Analysis.</strong> A consultant is already involved, so the referral is half a conversation and half a product — and the two must not contradict each other.</li>
+            </ul>
+            <p>
+              Underneath all three sits the harder half. A referral only works if the friend
+              shows up, and in insurance that means handing a stranger's phone number to someone
+              who sells for a living. Get the consent wrong and it is not just rude, it is a
+              regulatory problem.
+            </p>
+          </section>
+
+          <section>
+            <h2>The Solution</h2>
+            <p>
+              One flow, three doors into it. The entry points differ in tone and timing; the
+              machinery behind them — eligibility, consent, link generation, consultant
+              assignment, reward — is the same in every case.
+            </p>
+            <p>
+              The referral is to a person, not a company. The referrer picks which financial
+              consultant they are vouching for, and that choice carries all the way through to
+              what their friend sees. And the friend's page leads with who sent them and what
+              will actually happen next, before it asks for anything.
+            </p>
+          </section>
+
+          <section>
+            <h2>Three Ways In</h2>
+            <p>
+              I mapped each entry point as a service blueprint before designing a screen —
+              referrer on one lane, the friend on another, and the system work underneath. It is
+              the only way to see that three different front doors can share one set of rules,
+              and the only way to spot where a reward is promised before anyone has checked it
+              can be paid.
+            </p>
+            <figure class="shot">
+              <div class="shot__img shot__img--top" style="background-image:url('assets/cws-journey.jpg')"></div>
+              <figcaption>One of the three blueprints — referrer above, the friend below, from the first prompt through to both rewards being issued</figcaption>
+            </figure>
+            <p>
+              The blueprints did something else useful: they gave the business a thing to argue
+              with. Stakeholders who will not read a spec will happily tell you a lane is wrong.
+            </p>
+          </section>
+
+          <section>
+            <h2>Design Process</h2>
+            <div class="steps">
+
+              <div class="step">
+                <div class="step__num">1</div>
+                <div>
+                  <h3>Treat consent as the structure, not the small print</h3>
+                  <ul class="bullets">
+                    <li>The page cannot produce a referral link until the referrer has actually agreed to the terms — the checkbox gates the action rather than sitting under it as decoration</li>
+                    <li>The eligibility rules sit above that: the friend must be new to Manulife, the referrer must hold a policy, and both are stated before anyone invests effort</li>
+                    <li>On the friend's side, a separate and specific consent — to be contacted by the named consultant, about this referral — rather than a blanket marketing opt-in</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">2</div>
+                <div>
+                  <h3>Make one page do two jobs</h3>
+                  <ul class="bullets">
+                    <li>Before you agree, the page is an explanation and the button reads "Generate referral link"</li>
+                    <li>After you agree, the same page becomes a sharing tool: the consultant card grows a referral code with a copy control, and the button becomes "Invite friends"</li>
+                    <li>No second screen, no navigation — the state change is the confirmation that something happened</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">3</div>
+                <div>
+                  <h3>Keep the consultant attached to the referral</h3>
+                  <ul class="bullets">
+                    <li>The referrer chooses the consultant they are willing to vouch for, from cards showing name and contact details rather than a dropdown of strings</li>
+                    <li>That choice travels: the friend's page opens with "You will be connected with" and the same person</li>
+                    <li>It turns an abstract lead into an introduction between two named people, which is what a referral actually is</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">4</div>
+                <div>
+                  <h3>Earn the friend's details before asking for them</h3>
+                  <ul class="bullets">
+                    <li>The page opens with who referred them, by name, with a celebratory mark — the warmth comes from their friend, not from us</li>
+                    <li>"What to expect" explains what a financial consultation involves in three lines, placed above the form rather than after it</li>
+                    <li>The form asks for name, mobile and email, then lets them choose how they would rather be contacted — WhatsApp, phone or email — so the first approach arrives the way they picked</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="step">
+                <div class="step__num">5</div>
+                <div>
+                  <h3>Tell the story before building the screens</h3>
+                  <ul class="bullets">
+                    <li>Built an illustrated storyboard of the whole journey, each beat labelled with whose turn it is — customer, consultant, system</li>
+                    <li>It gave stakeholders something they could follow without a walkthrough, and surfaced disagreements about the reward rules while they were still cheap to fix</li>
+                    <li>The blueprint answers "what happens"; the storyboard answers "what does this feel like", and different rooms need different ones</li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <section>
+            <h2>Inside the Work</h2>
+            <p>
+              The referrer's side, the moment it changes state, and what the friend actually
+              lands on.
+            </p>
+            <div class="showcase-grid">
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/cws-refer.jpg')"></div>
+                <figcaption>Before agreeing — how it works, the eligibility rules, and the consultant you are vouching for</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/cws-generated.jpg')"></div>
+                <figcaption>After agreeing — same page, now carrying a referral code to copy, and the button has become "Invite friends"</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/cws-share.jpg')"></div>
+                <figcaption>Sharing happens where the friendship already lives, rather than inside our product</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--screen" style="background-image:url('assets/cws-referee.jpg')"></div>
+                <figcaption>The friend's page — who sent them, who they will meet, what to expect, and only then the form</figcaption>
+              </figure>
+              <figure class="shot">
+                <div class="shot__img shot__img--top" style="background-image:url('assets/cws-story.jpg')"></div>
+                <figcaption>A beat from the storyboard — every step labelled with whose turn it is, so a room can follow it without a walkthrough</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section>
+            <h2>Results &amp; Impact</h2>
+            <p>Shipped on the Customer Website, with the same rules behind every entry point.</p>
+            <div class="results">
+              <div class="card result">
+                <div class="result__num">3</div>
+                <div class="result__label">Ways In, One Flow</div>
+                <p class="result__desc">tNPS, the website and an FNA conversation share a single set of rules</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">2</div>
+                <div class="result__label">Sides Designed</div>
+                <p class="result__desc">The referrer and the friend, rather than treating the friend as an outcome</p>
+              </div>
+              <div class="card result">
+                <div class="result__num">Named</div>
+                <div class="result__label">Consultant Throughout</div>
+                <p class="result__desc">The person the referrer vouches for is the person the friend is told about</p>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2>What I Took From It</h2>
+            <ul class="bullets">
+              <li><strong>Consent is a structural decision.</strong> Treated as small print it is a checkbox under a button. Treated as structure it decides what the page can do and when — and the version that gates the action is both the compliant one and the clearer one.</li>
+              <li><strong>A referral has two users and only one of them is your customer.</strong> The friend never agreed to anything, never heard of the programme, and owes you nothing. Designing their page first would have been the better order.</li>
+              <li><strong>The warmest moment is the most fragile one.</strong> Immediately after someone says they would recommend you is when they are most likely to refer and most likely to feel used. The offer has to read as a way to act on what they just said, not as a reward for saying it.</li>
+              <li><strong>Blueprints and storyboards are not the same tool.</strong> One answers what happens and where it can break; the other answers what this feels like and whose turn it is. Bringing the wrong one into a room costs you the meeting.</li>
+              <li><strong>Sharing belongs outside the product.</strong> People refer friends in the places they already talk to them. Our job stopped at producing a link worth sending.</li>
+            </ul>
           </section>
 
         </div>
