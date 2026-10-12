@@ -1473,6 +1473,7 @@ img.persona__photo {
    story's title sits on top of whatever came before it. */
 .prose .sb + h3 { margin-top: 44px; }
 .prose figure + h3 { margin-top: 36px; }
+.prose p + h3 { margin-top: 36px; }
 
 /* Lead-ins inside a bullet, so the point lands before the explanation */
 .bullets li strong { color: var(--fg); font-weight: 500; }
@@ -1541,13 +1542,22 @@ img.persona__photo {
   list-style: none;
   margin: 24px 0 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 34px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   counter-reset: beat;
 }
 
-.sb__beat { counter-increment: beat; }
+/* One beat per row. A grid of two would be tidier only when the count is even
+   — nine beats, then one, then two, left a stranded panel beside a hole in
+   every story. A row per beat cannot strand anything. */
+.sb__beat {
+  counter-increment: beat;
+  display: grid;
+  grid-template-columns: 58% 1fr;
+  gap: 28px;
+  align-items: center;
+}
 
 /* The export is cropped to 2:1, so the tile is too and nothing is cut away. */
 .sb__beat .shot__img { aspect-ratio: 2 / 1; }
@@ -1556,7 +1566,7 @@ img.persona__photo {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  margin: 14px 0 6px;
+  margin: 0 0 8px;
   font-family: var(--font-display);
   font-size: var(--text-base);
   font-weight: 500;
@@ -1573,10 +1583,6 @@ img.persona__photo {
   color: var(--beat);
 }
 
-/* Numbering belongs to a sequence. The other two entry points are alternatives
-   to the first beat, not a fourth and fifth step, so they do not get one. */
-.sb--doors .sb__kicker::before { content: none; }
-
 .sb__beat p {
   font-size: var(--text-sm);
   line-height: 1.7;
@@ -1586,8 +1592,8 @@ img.persona__photo {
 /* Three portraits and their name plates — a taller frame than the beats. */
 .shot__img--cast { aspect-ratio: 880 / 572; }
 
-@media (max-width: 720px) {
-  .sb { grid-template-columns: 1fr; }
+@media (max-width: 760px) {
+  .sb__beat { grid-template-columns: 1fr; gap: 14px; }
 }
 
 .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
