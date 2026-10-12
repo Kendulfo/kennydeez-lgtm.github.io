@@ -1466,14 +1466,14 @@ img.persona__photo {
 .prose .showcase-grid + p,
 .prose .ph-shot + p,
 .prose .steps + p,
-.prose .sb + p,
+.prose .rail + p,
 .prose .cs__hero-img + p { margin-top: 28px; }
 
-/* A storyboard runs heading, panels, heading, panels. Without these the next
-   story's title sits on top of whatever came before it. */
-.prose .sb + h3 { margin-top: 44px; }
-.prose figure + h3 { margin-top: 36px; }
-.prose p + h3 { margin-top: 36px; }
+/* A storyboard runs heading, strip, heading, strip. Without these the next
+   story sits on top of whatever came before it. */
+.prose .rail + .rail { margin-top: 48px; }
+.prose figure + .rail { margin-top: 40px; }
+.prose p + .rail { margin-top: 32px; }
 
 /* Lead-ins inside a bullet, so the point lands before the explanation */
 .bullets li strong { color: var(--fg); font-weight: 500; }
@@ -1538,25 +1538,73 @@ img.persona__photo {
    real text — otherwise each beat said the same thing twice, the second time at
    about nine pixels. The role tag stays in the artwork: it is the storyboard's
    own way of saying whose turn this is. */
-.sb {
-  list-style: none;
-  margin: 24px 0 0;
-  padding: 0;
+
+.rail__head {
   display: flex;
-  flex-direction: column;
-  gap: 28px;
-  counter-reset: beat;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-/* One beat per row. A grid of two would be tidier only when the count is even
-   — nine beats, then one, then two, left a stranded panel beside a hole in
-   every story. A row per beat cannot strand anything. */
+.rail__head h3 { margin-bottom: 0; }
+
+.rail__nav { display: flex; gap: 8px; flex: none; }
+
+.rail__btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease),
+              opacity 0.2s var(--ease);
+}
+
+.rail__btn:hover:not(:disabled) { background: var(--secondary); border-color: var(--ring); }
+.rail__btn:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.rail__btn:disabled { opacity: 0.35; cursor: default; }
+.rail__btn .ic { width: 18px; height: 18px; }
+
+/* Nothing to page through until the strip is wider than the column. */
+.rail:not(.is-scrollable) .rail__nav { display: none; }
+
+.rail__lead { margin-top: 14px; }
+
+/* A storyboard is read along, not down. Nine beats stacked made the section
+   four screens tall; sideways it is one, and the clipped third card is the
+   thing that says there is more. */
+.sb {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0 0 14px;          /* room for the scrollbar under the cards */
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  counter-reset: beat;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.sb:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+
+.sb::-webkit-scrollbar { height: 8px; }
+.sb::-webkit-scrollbar-track { background: transparent; }
+.sb::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+.sb::-webkit-scrollbar-thumb:hover { background: var(--ring); }
+
 .sb__beat {
   counter-increment: beat;
-  display: grid;
-  grid-template-columns: 58% 1fr;
-  gap: 28px;
-  align-items: center;
+  flex: 0 0 min(420px, 86%);
+  scroll-snap-align: start;
 }
 
 /* The export is cropped to 2:1, so the tile is too and nothing is cut away. */
@@ -1566,7 +1614,7 @@ img.persona__photo {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  margin: 0 0 8px;
+  margin: 14px 0 6px;
   font-family: var(--font-display);
   font-size: var(--text-base);
   font-weight: 500;
@@ -1592,8 +1640,8 @@ img.persona__photo {
 /* Three portraits and their name plates — a taller frame than the beats. */
 .shot__img--cast { aspect-ratio: 880 / 572; }
 
-@media (max-width: 760px) {
-  .sb__beat { grid-template-columns: 1fr; gap: 14px; }
+@media (prefers-reduced-motion: reduce) {
+  .sb { scroll-snap-type: none; }
 }
 
 .results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }

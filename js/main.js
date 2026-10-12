@@ -76,6 +76,7 @@
     revealAll(target);
     syncVideos(target);
     armShots();
+    syncRails(target);
     closeMenu();
   }
 
@@ -233,8 +234,13 @@
     return m ? m[2] : '';
   }
 
+  // Storyboard beats are list items with a heading rather than figures with a
+  // caption, so without the fallback they open captionless and announce
+  // themselves as "Enlarge: image".
   function shotCaption(el) {
-    var cap = el.parentNode && el.parentNode.querySelector('figcaption');
+    var parent = el.parentNode;
+    if (!parent) return '';
+    var cap = parent.querySelector('figcaption') || parent.querySelector('.sb__kicker');
     return cap ? cap.textContent.trim() : '';
   }
 
@@ -397,6 +403,76 @@
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(shot); }
   });
 
+  /* -------------------------------------------------------- Story rails */
+  // The storyboards read left to right. Dragging and the scrollbar come free;
+  // these are the arrows, and the part that knows when there is nothing left
+  // to page to.
+
+  function railStep(rail) {
+    var card = rail.querySelector('.sb__beat');
+    if (!card) return rail.clientWidth;
+    var gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  }
+
+  function syncRail(rail) {
+    var wrap = rail.parentNode;
+    var max = rail.scrollWidth - rail.clientWidth;
+    var prev = wrap.querySelector('.rail__btn--prev');
+    var next = wrap.querySelector('.rail__btn--next');
+    // A couple of pixels of slack: sub-pixel widths never land on the end exactly.
+    if (prev) prev.disabled = rail.scrollLeft <= 2;
+    if (next) next.disabled = rail.scrollLeft >= max - 2;
+    wrap.classList.toggle('is-scrollable', max > 2);
+  }
+
+  // A hidden view measures zero, so arrow state cannot be settled at boot —
+  // showView re-syncs whatever it has just revealed.
+  function syncRails(scope) {
+    var rails = (scope || document).querySelectorAll('.sb');
+    for (var i = 0; i < rails.length; i++) syncRail(rails[i]);
+  }
+
+  function armRails() {
+    var rails = document.querySelectorAll('.sb');
+
+    function wire(rail) {
+      // Where the arrows are steering to, or null when the reader is driving.
+      // Without it a second click lands while the first smooth scroll is still
+      // running, measures the position it happens to be passing through, and
+      // asks for roughly where it was already going — so holding the arrow down
+      // advances one card instead of nine.
+      var want = null;
+      var settle;
+
+      // Snap also settles after the last scroll event, so syncing on the event
+      // alone reads a mid-flight position and leaves Next enabled at the end of
+      // the story. The trailing call is the one that sees where it landed.
+      rail.addEventListener('scroll', function () {
+        syncRail(rail);
+        clearTimeout(settle);
+        settle = setTimeout(function () {
+          want = null;
+          syncRail(rail);
+        }, 140);
+      }, { passive: true });
+
+      var btns = rail.parentNode.querySelectorAll('.rail__btn');
+      for (var b = 0; b < btns.length; b++) {
+        btns[b].addEventListener('click', function (e) {
+          var dir = e.currentTarget.classList.contains('rail__btn--next') ? 1 : -1;
+          var max = rail.scrollWidth - rail.clientWidth;
+          var from = want === null ? rail.scrollLeft : want;
+          want = Math.max(0, Math.min(max, from + dir * railStep(rail)));
+          rail.scrollTo({ left: want, behavior: lbReduced.matches ? 'auto' : 'smooth' });
+        });
+      }
+    }
+
+    for (var i = 0; i < rails.length; i++) wire(rails[i]);
+    window.addEventListener('resize', function () { syncRails(document); });
+  }
+
   /* ---------------------------------------------------------- Figma embed */
   // Built only when asked. Figma's viewer is heavy, so loading it for everyone
   // who scrolls past would cost far more than the section is worth.
@@ -507,6 +583,8 @@
   if (confirmSent) confirmSent();
   revealAll(document);
   armShots();
+  armRails();
+  syncRails(document);
   brewCta();
   updateActiveNav();
 })();

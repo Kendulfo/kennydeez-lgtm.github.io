@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kenneth Dulfo — Product Designer</title>
 <meta name="description" content="Kenneth Dulfo — UX product designer. Research and information architecture through to shipped interfaces and the design systems behind them. Eleven years across insurance, banking and logistics.">
-<link rel="stylesheet" href="css/styles.css?v=23">
+<link rel="stylesheet" href="css/styles.css?v=25">
 <script>
   // Set theme before paint to avoid a flash of the wrong theme.
   (function () {
@@ -2514,111 +2514,123 @@
               be asked for a favour by your insurer, which is the part of this that could go
               wrong without a single lane being incorrect. So the same flow got told a second
               way — a cast of three, and the journey as scenes, each one tagged with whose
-              turn it is.
+              turn it is. Each story runs left to right; drag it, or use the arrows.
             </p>
             <figure class="shot">
               <div class="shot__img shot__img--cast" style="background-image:url('assets/cws-sb-cast.jpg')"></div>
               <figcaption>The cast — Randy, who is happy enough to recommend someone; Sarah, the friend on the other end; and Priya, the consultant whose name is on the referral</figcaption>
             </figure>
 
-            <h3>Story 1 &mdash; after a good experience</h3>
-            <ol class="sb">
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-01.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">A good experience, first</h4>
-                  <p>Randy finishes a transaction on the Customer Website and it goes well. Nothing about referral has happened yet — this is the thing a referral is made of, and the programme has no business existing before it.</p>
+            <div class="rail">
+              <div class="rail__head">
+                <h3>Story 1 &mdash; after a good experience</h3>
+                <div class="rail__nav">
+                  <button class="rail__btn rail__btn--prev" type="button" aria-label="Previous beat, Story 1, after a good experience">
+                    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-left"/></svg>
+                  </button>
+                  <button class="rail__btn rail__btn--next" type="button" aria-label="Next beat, Story 1, after a good experience">
+                    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                  </button>
                 </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-02.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">He scores it a ten</h4>
-                  <p>The tNPS survey arrives when he logs out and he rates the experience a ten. That score is the trigger: the only people asked are the ones who have just said, unprompted, that they were happy.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-03.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">Fourteen days later, an invitation</h4>
-                  <p>An email asks whether he would introduce family or friends to the consultant he dealt with. It arrives two weeks after the survey rather than in the same breath as it.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-04.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">He has someone in mind</h4>
-                  <p>Randy thinks of Sarah, a friend who would get something out of talking to his consultant. He chooses Refer now and signs in to the Customer Website.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-05.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">Agree, generate, share</h4>
-                  <p>He accepts the terms, generates a referral code tied to the consultant he picked, and sends it to Sarah on WhatsApp — the sharing happens where the friendship already is, not inside our product.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-06.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">Sarah sees who it came from</h4>
-                  <p>The message arrives from someone she knows rather than from an insurer she has never dealt with. She opens the link, reads what it is, and fills in the form.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-07.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">The referral becomes a lead</h4>
-                  <p>Her submission is validated and routed to the consultant Randy chose, who receives her details and arranges a conversation. The name Randy vouched for is the name Sarah was told about.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-08.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">A conversation, not a pitch</h4>
-                  <p>Priya meets Sarah, works through what she needs and what she is saving towards, and recommends from there — then stays with her through the next steps.</p>
-                </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-09.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">Both sides get paid</h4>
-                  <p>Once the qualifying criteria are met during the FNA, the reward is issued to Randy and to Sarah. The friend is not the mechanism by which the referrer gets something.</p>
-                </div>
-              </li>
-            </ol>
+              </div>
+              <ol class="sb" tabindex="0" role="group" aria-label="Story 1, after a good experience">
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-01.jpg')"></div>
+                    <h4 class="sb__kicker">A good experience, first</h4>
+                    <p>Randy finishes a transaction on the Customer Website and it goes well. Nothing about referral has happened yet — this is the thing a referral is made of, and the programme has no business existing before it.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-02.jpg')"></div>
+                    <h4 class="sb__kicker">He scores it a ten</h4>
+                    <p>The tNPS survey arrives when he logs out and he rates the experience a ten. That score is the trigger: the only people asked are the ones who have just said, unprompted, that they were happy.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-03.jpg')"></div>
+                    <h4 class="sb__kicker">Fourteen days later, an invitation</h4>
+                    <p>An email asks whether he would introduce family or friends to the consultant he dealt with. It arrives two weeks after the survey rather than in the same breath as it.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-04.jpg')"></div>
+                    <h4 class="sb__kicker">He has someone in mind</h4>
+                    <p>Randy thinks of Sarah, a friend who would get something out of talking to his consultant. He chooses Refer now and signs in to the Customer Website.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-05.jpg')"></div>
+                    <h4 class="sb__kicker">Agree, generate, share</h4>
+                    <p>He accepts the terms, generates a referral code tied to the consultant he picked, and sends it to Sarah on WhatsApp — the sharing happens where the friendship already is, not inside our product.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-06.jpg')"></div>
+                    <h4 class="sb__kicker">Sarah sees who it came from</h4>
+                    <p>The message arrives from someone she knows rather than from an insurer she has never dealt with. She opens the link, reads what it is, and fills in the form.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-07.jpg')"></div>
+                    <h4 class="sb__kicker">The referral becomes a lead</h4>
+                    <p>Her submission is validated and routed to the consultant Randy chose, who receives her details and arranges a conversation. The name Randy vouched for is the name Sarah was told about.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-08.jpg')"></div>
+                    <h4 class="sb__kicker">A conversation, not a pitch</h4>
+                    <p>Priya meets Sarah, works through what she needs and what she is saving towards, and recommends from there — then stays with her through the next steps.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-09.jpg')"></div>
+                    <h4 class="sb__kicker">Both sides get paid</h4>
+                    <p>Once the qualifying criteria are met during the FNA, the reward is issued to Randy and to Sarah. The friend is not the mechanism by which the referrer gets something.</p>
+                  </li>
+              </ol>
+            </div>
 
-            <h3>Story 2 &mdash; from inside the app</h3>
-            <p>
-              The second and third stories are short for a reason. They differ only at the front door — a notification on a phone, or a consultant raising it across a desk. From the referral page onwards each one becomes the first story, which is the whole argument for building the rules once instead of three times.
-            </p>
-            <ol class="sb">
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-app.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">A push notification</h4>
-                  <p>Randy sees the programme announced on his phone and opens MyManulife to find out what it is. The referral card sits on the home screen among his policies, so the offer arrives while he is already looking at what he holds with us.</p>
+            <div class="rail">
+              <div class="rail__head">
+                <h3>Story 2 &mdash; from inside the app</h3>
+                <div class="rail__nav">
+                  <button class="rail__btn rail__btn--prev" type="button" aria-label="Previous beat, Story 2, from inside the app">
+                    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-left"/></svg>
+                  </button>
+                  <button class="rail__btn rail__btn--next" type="button" aria-label="Next beat, Story 2, from inside the app">
+                    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                  </button>
                 </div>
-              </li>
-            </ol>
+              </div>
+              <p class="rail__lead">
+                The second and third stories are short for a reason. They differ only at the front door — a notification on a phone, or a consultant raising it across a desk. From the referral page onwards each one becomes the first story, which is the whole argument for building the rules once instead of three times.
+              </p>
+              <ol class="sb" tabindex="0" role="group" aria-label="Story 2, from inside the app">
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-app.jpg')"></div>
+                    <h4 class="sb__kicker">A push notification</h4>
+                    <p>Randy sees the programme announced on his phone and opens MyManulife to find out what it is. The referral card sits on the home screen among his policies, so the offer arrives while he is already looking at what he holds with us.</p>
+                  </li>
+              </ol>
+            </div>
 
-            <h3>Story 3 &mdash; raised in a policy conversation</h3>
-            <ol class="sb">
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-fna1.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">It comes up in conversation</h4>
-                  <p>Randy is sitting with his consultant about a policy, and she introduces the programme as part of that conversation rather than as a separate pitch at the end of it.</p>
+            <div class="rail">
+              <div class="rail__head">
+                <h3>Story 3 &mdash; raised in a policy conversation</h3>
+                <div class="rail__nav">
+                  <button class="rail__btn rail__btn--prev" type="button" aria-label="Previous beat, Story 3, raised in a policy conversation">
+                    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-left"/></svg>
+                  </button>
+                  <button class="rail__btn rail__btn--next" type="button" aria-label="Next beat, Story 3, raised in a policy conversation">
+                    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg>
+                  </button>
                 </div>
-              </li>
-              <li class="sb__beat">
-                <div class="shot__img" style="background-image:url('assets/cws-sb-fna2.jpg')"></div>
-                <div>
-                  <h4 class="sb__kicker">The terms, read out loud</h4>
-                  <p>The consultant goes through the terms, the conditions and PDPA with him in person. Consent carries the same weight whether it is a checkbox or someone explaining it across a desk.</p>
-                </div>
-              </li>
-            </ol>
+              </div>
+              <ol class="sb" tabindex="0" role="group" aria-label="Story 3, raised in a policy conversation">
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-fna1.jpg')"></div>
+                    <h4 class="sb__kicker">It comes up in conversation</h4>
+                    <p>Randy is sitting with his consultant about a policy, and she introduces the programme as part of that conversation rather than as a separate pitch at the end of it.</p>
+                  </li>
+                  <li class="sb__beat">
+                    <div class="shot__img" style="background-image:url('assets/cws-sb-fna2.jpg')"></div>
+                    <h4 class="sb__kicker">The terms, read out loud</h4>
+                    <p>The consultant goes through the terms, the conditions and PDPA with him in person. Consent carries the same weight whether it is a checkbox or someone explaining it across a desk.</p>
+                  </li>
+              </ol>
+            </div>
 
           </section>
 
@@ -3011,6 +3023,6 @@
   </main>
 </div>
 
-<script src="js/main.js?v=3"></script>
+<script src="js/main.js?v=7"></script>
 </body>
 </html>
