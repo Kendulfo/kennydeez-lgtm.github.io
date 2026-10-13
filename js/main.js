@@ -5,9 +5,6 @@
 (function () {
   'use strict';
 
-  var app     = document.getElementById('app');
-  var sidebar = document.getElementById('sidebar');
-  var scrim   = document.getElementById('scrim');
   var root    = document.documentElement;
 
   // Consulted by the lightbox, the story rails and the scroll effects, so it
@@ -15,21 +12,14 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* ---------------------------------------------------------------- Theme */
-  function syncThemeIcon() {
-    var dark = root.classList.contains('dark');
-    var sun  = document.querySelector('.ic--sun');
-    var moon = document.querySelector('.ic--moon');
-    if (sun)  sun.hidden  = dark;
-    if (moon) moon.hidden = !dark;
-  }
-
+  // Which glyph shows is CSS, keyed off .dark. It used to be the hidden
+  // attribute, which does nothing here: hidden is an HTML attribute and the UA
+  // rule that acts on it does not match an SVG element, so both icons rendered
+  // on top of each other.
   function toggleTheme() {
     root.classList.toggle('dark');
     localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
-    syncThemeIcon();
   }
-
-  syncThemeIcon();
 
   /* ----------------------------------------------------------- View router */
 
@@ -96,7 +86,6 @@
     armShots();
     syncRails(target);
     paintScroll();
-    closeMenu();
   }
 
   function routeFromHash() {
@@ -114,31 +103,6 @@
     }
   }
 
-  /* ------------------------------------------------------------- Sidebar */
-  function openMenu()  { sidebar.classList.add('is-open');  scrim.classList.add('is-open'); }
-  function closeMenu() { sidebar.classList.remove('is-open'); scrim.classList.remove('is-open'); }
-
-  // Collapsed = narrow icons-only rail (desktop). Persisted between visits.
-  function setCollapsed(collapsed) {
-    app.classList.toggle('is-collapsed', collapsed);
-    localStorage.setItem('sidebar', collapsed ? 'collapsed' : 'expanded');
-
-    var btn = document.querySelector('[data-action="collapse"]');
-    if (btn) {
-      btn.setAttribute('aria-expanded', String(!collapsed));
-      var label = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
-      btn.setAttribute('aria-label', label);
-      btn.setAttribute('title', label);
-    }
-
-    // Only show hover tooltips when the labels are hidden.
-    var tipped = document.querySelectorAll('[data-tip]');
-    for (var i = 0; i < tipped.length; i++) {
-      if (collapsed) tipped[i].setAttribute('title', tipped[i].getAttribute('data-tip'));
-      else tipped[i].removeAttribute('title');
-    }
-  }
-
   /* ------------------------------------------------------- Global actions */
   document.addEventListener('click', function (e) {
     var shot = e.target.closest('.shot__img');
@@ -148,13 +112,7 @@
     if (actionEl) {
       var action = actionEl.getAttribute('data-action');
       if (action === 'theme')      { toggleTheme(); return; }
-      if (action === 'collapse') {
-        setCollapsed(!app.classList.contains('is-collapsed'));
-        return;
-      }
-      if (action === 'menu')       { openMenu(); return; }
       if (action === 'load-figma') { mountFigma(actionEl.closest('.figma-embed')); return; }
-      if (action === 'close-menu') { closeMenu(); return; }
       if (action === 'back')       { showView('home'); return; }
     }
 
@@ -177,16 +135,11 @@
           history.replaceState({ view: 'home' }, '', '#' + id);
         }
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        closeMenu();
       }
     }
   });
 
   window.addEventListener('popstate', routeFromHash);
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeMenu();
-  });
 
   /* --------------------------------------------------------- Scroll reveal */
 
@@ -787,7 +740,6 @@
   var stamps = document.querySelectorAll('[data-year]');
   for (var y = 0; y < stamps.length; y++) stamps[y].textContent = year;
 
-  setCollapsed(localStorage.getItem('sidebar') === 'collapsed');
   routeFromHash();
   if (confirmSent) confirmSent();
   revealAll(document);

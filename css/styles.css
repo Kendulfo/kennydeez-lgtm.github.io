@@ -27,12 +27,6 @@
   --ring:               oklch(0.708 0 0);
   --destructive:        #d4183d;
 
-  --sidebar:            oklch(0.985 0 0);
-  --sidebar-fg:         oklch(0.145 0 0);
-  --sidebar-border:     oklch(0.922 0 0);
-  --sidebar-primary:    #030213;
-  --sidebar-primary-fg: oklch(0.985 0 0);
-  --sidebar-accent:     oklch(0.97 0 0);
 
   /* Accent tiles / chart ramp — these flip in dark mode */
   --accent-1:           oklch(0.646 0.222 41.116);   /* orange */
@@ -71,9 +65,12 @@
   --radius-lg:   14px;
   --radius-full: 9999px;
 
-  --sidebar-w:    280px;
-  --sidebar-rail: 76px;   /* collapsed, icons-only width */
   --content-max:  1000px;
+
+  /* Dock height plus the gap above and below it. Anything that has to clear
+     the dock measures from here. */
+  --dock-h:       52px;
+  --dock-clear:   108px;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
@@ -100,12 +97,6 @@
   --ring:               oklch(0.439 0 0);
   --destructive:        oklch(0.396 0.141 25.723);
 
-  --sidebar:            oklch(0.205 0 0);
-  --sidebar-fg:         oklch(0.985 0 0);
-  --sidebar-border:     oklch(0.269 0 0);
-  --sidebar-primary:    oklch(0.985 0 0);
-  --sidebar-primary-fg: oklch(0.205 0 0);
-  --sidebar-accent:     oklch(0.269 0 0);
 
   --accent-1:           oklch(0.488 0.243 264.376); /* blue    */
   --accent-2:           oklch(0.696 0.170 162.480); /* emerald */
@@ -221,16 +212,9 @@ button {
 /* --------------------------------------------------------------------------
    3. Layout shell
    -------------------------------------------------------------------------- */
-.app { display: flex; min-height: 100vh; }
+.app { min-height: 100vh; }
 
-.main {
-  flex: 1;
-  margin-left: var(--sidebar-w);
-  min-width: 0;
-  transition: margin-left 0.3s var(--ease);
-}
-
-/* Collapsed behaviour lives in the rail block below (desktop only). */
+.main { min-width: 0; }
 
 .container {
   width: 100%;
@@ -239,214 +223,178 @@ button {
   padding: 0 40px;
 }
 
-.section { padding: 96px 0; }
+/* The dock floats over the page, so an anchor jump would otherwise land a
+   section's heading underneath it. */
+.section { padding: 96px 0; scroll-margin-top: var(--dock-clear); }
+
 .section--hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 64px 0;
+  /* Extra at the top so the centred hero clears the dock rather than sitting
+     under it on a short screen. */
+  padding: var(--dock-clear) 0 64px;
 }
 
 /* --------------------------------------------------------------------------
-   4. Sidebar
+   4. Dock
    -------------------------------------------------------------------------- */
-.sidebar {
+
+/* One floating bar at every width. It replaced a fixed rail that also had a
+   collapsed state, a slide-out drawer, a scrim and a floating menu button —
+   four layouts of one component, three of which only existed to compensate for
+   the first. */
+.dock {
   position: fixed;
-  inset: 0 auto 0 0;
-  width: var(--sidebar-w);
+  z-index: 60;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
-  padding: 24px 16px;
-  background: var(--sidebar);
-  color: var(--sidebar-fg);
-  border-right: 1px solid var(--sidebar-border);
-  z-index: 50;
-  overflow-y: auto;
-  /* Transitions are declared once, in the rail block below — a second
-     `transition` shorthand here would silently replace them. */
-}
-
-/* ---- Collapsed rail: icons only, still on screen --------------------------
-   Desktop only. Below 820px the sidebar is an off-canvas drawer instead, so
-   the rail must not apply there.
-   -------------------------------------------------------------------------- */
-/* transform must be listed here: this shorthand is the last one to touch
-   .sidebar, so anything omitted stops transitioning entirely. It drives both
-   the desktop rail collapse and the mobile drawer slide. */
-.sidebar,
-.nav__item,
-.sidebar__cta { transition: transform 0.34s var(--ease), width 0.3s var(--ease),
-                            padding 0.3s var(--ease), margin 0.3s var(--ease),
-                            box-shadow 0.34s var(--ease), background-color 0.2s var(--ease); }
-
-.sidebar__collapse svg { transition: transform 0.3s var(--ease); }
-
-@media (min-width: 821px) {
-  /* Collapsing just redefines the width token — sidebar and main both follow it */
-  .app.is-collapsed { --sidebar-w: var(--sidebar-rail); }
-
-  .app.is-collapsed .sidebar { padding-left: 10px; padding-right: 10px; }
-
-  /* Hide every text label, keep the icons */
-  .app.is-collapsed .nav__label,
-  .app.is-collapsed .sidebar__name,
-  .app.is-collapsed .sidebar__role,
-  .app.is-collapsed .sidebar__label,
-  .app.is-collapsed .sidebar__copy { display: none; }
-
-  /* Hide the name/role wrapper outright — an empty flex item plus the row's
-     gap would push the chevron off the rail's centre line. */
-  .app.is-collapsed .sidebar__top { justify-content: center; gap: 0; }
-  .app.is-collapsed .sidebar__top > div { display: none; }
-
-  /* The hidden "Navigation" label was carrying the space above the nav,
-     so the rail has to restore it explicitly. */
-  .app.is-collapsed .nav { margin-top: 26px; }
-
-  /* Square, centred targets — the active pill reads as deliberate in a rail */
-  .app.is-collapsed .nav__item {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    margin: 0 auto;
-    justify-content: center;
-    gap: 0;
-  }
-
-  .app.is-collapsed .sidebar__cta {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    margin: 16px auto 0;
-  }
-
-  .app.is-collapsed .sidebar__back {
-    justify-content: center;
-    padding: 6px;
-    margin-bottom: 14px;
-  }
-
-  /* Chevron flips to point the way it will move */
-  .app.is-collapsed .sidebar__collapse svg { transform: rotate(180deg); }
-}
-
-.sidebar__top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0 8px;
-}
-
-.sidebar__name  { font-size: var(--text-lg); font-weight: 500; letter-spacing: -0.01em; }
-.sidebar__role  { font-size: var(--text-sm); color: var(--muted-fg); }
-
-.icon-btn {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  flex: none;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100vw - 32px);
+  height: var(--dock-h);
+  padding: 6px 6px 6px 18px;
+  border: 1px solid var(--border);
   border-radius: var(--radius-full);
-  border: 1px solid var(--sidebar-border);
-  background: var(--sidebar);
-  transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+  background: color-mix(in oklch, var(--card) 82%, transparent);
+  box-shadow: var(--shadow-lg);
+  /* The page reads as passing underneath rather than behind. Backdrop blur is
+     the whole reason the dock can be translucent and still legible. */
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
 }
-.icon-btn:hover { background: var(--sidebar-accent); }
-.icon-btn:active { transform: scale(0.94); }
 
-.sidebar__label {
-  margin: 32px 0 8px;
-  padding: 0 8px;
-  font-size: var(--text-xs);
+.dock__name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
   font-weight: 500;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--sidebar-fg) 50%, transparent);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  margin-right: 6px;
 }
 
-.nav { display: flex; flex-direction: column; gap: 4px; }
+.dock__name-short { display: none; }
+
+.dock__nav { display: flex; align-items: center; gap: 2px; }
 
 .nav__item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 48px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  text-align: left;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  color: var(--muted-fg);
   transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
 }
-.nav__item:hover { background: var(--sidebar-accent); }
+
+.nav__item:hover { background: var(--secondary); color: var(--fg); }
+
 .nav__item.is-active {
-  background: var(--sidebar-primary);
-  color: var(--sidebar-primary-fg);
-}
-.nav__item svg { flex: none; }
-
-/* Separates the CTA from the last nav item (the rail overrides this) */
-.sidebar__cta { margin-top: 16px; }
-
-.sidebar__spacer { flex: 1; min-height: 24px; }
-
-.sidebar__foot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding-top: 24px;
+  background: var(--primary);
+  color: var(--primary-fg);
 }
 
-.sidebar__copy { font-size: var(--text-xs); color: var(--muted-fg); }
+/* The icons carry title tooltips, so the words are for screen readers only. */
+.nav__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 
-/* Back button shown only on case-study views */
-.sidebar__back {
-  display: none;
+.dock__cta {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  gap: 7px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  color: var(--primary-fg);
+  font-family: var(--font-ui);
   font-size: var(--text-sm);
   font-weight: 500;
+  white-space: nowrap;
+  transition: opacity 0.2s var(--ease);
+}
+.dock__cta:hover { opacity: 0.88; }
+
+/* Only on a case study, where it is the way back out. */
+.dock__back {
+  display: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-left: -10px;
+  border-radius: var(--radius-full);
+  color: var(--muted-fg);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.dock__back:hover { background: var(--secondary); color: var(--fg); }
+body.is-case-study .dock__back { display: grid; }
+
+/* --------------------------------------------------------- Theme switch
+   Its own control in the corner rather than a sixth thing in the dock. */
+.theme-switch {
+  position: fixed;
+  z-index: 60;
+  top: 18px;
+  right: 18px;
+  display: grid;
+  place-items: center;
+  width: var(--dock-h);
+  height: var(--dock-h);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: color-mix(in oklch, var(--card) 82%, transparent);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  color: var(--fg);
+  cursor: pointer;
   transition: background-color 0.2s var(--ease);
 }
-.sidebar__back:hover { background: var(--sidebar-accent); }
-body.is-case-study .sidebar__back { display: inline-flex; }
+/* Only one glyph at a time, chosen by the theme rather than by script. */
+.theme-switch .ic--moon { display: none; }
+.dark .theme-switch .ic--sun  { display: none; }
+.dark .theme-switch .ic--moon { display: block; }
 
-/* Mobile menu trigger */
-.menu-fab {
-  display: none;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  border-radius: var(--radius-lg);
-  background: var(--card);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  z-index: 60;
+.theme-switch:hover { background: var(--secondary); }
+.theme-switch:active { transform: scale(0.94); }
+
+@media (max-width: 720px) {
+  /* The name abbreviates rather than the dock wrapping. */
+  .dock__name-long { display: none; }
+  .dock__name-short { display: inline; }
+
+  .dock {
+    top: 12px;
+    gap: 2px;
+    padding: 6px 6px 6px 14px;
+  }
+  .dock__cta-label { display: none; }
+  .dock__cta { width: 38px; padding: 0; justify-content: center; }
+  .theme-switch { top: 12px; right: 12px; }
 }
 
-.scrim {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 45;
-  /* display can't be transitioned, so the scrim used to pop in while the panel
-     slid. Fading instead keeps the two in step; visibility stops it swallowing
-     taps while closed, and flips only once the fade has finished. */
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.34s var(--ease), visibility 0.34s;
-}
-.scrim.is-open {
-  opacity: 1;
-  visibility: visible;
+/* Under about 380px the dock and the corner switch would meet. The dock gives
+   up its own centring and sits beside the switch instead of under it. */
+/* Under about 380px a centred dock would run into the corner switch. It gives
+   up its centring and sits beside it — hugging its content, not stretching to
+   meet it. */
+@media (max-width: 380px) {
+  .dock {
+    left: 12px;
+    transform: none;
+    max-width: calc(100vw - var(--dock-h) - 34px);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1074,7 +1022,8 @@ body.is-case-study .sidebar__back { display: inline-flex; }
    -------------------------------------------------------------------------- */
 .view[hidden] { display: none !important; }
 
-.cs__head { padding: 80px 0 0; }
+/* Clears the floating dock, like every other top-of-page block. */
+.cs__head { padding: var(--dock-clear) 0 0; }
 .cs__title {
   margin-top: 18px;
   font-size: var(--text-4xl);
@@ -1754,8 +1703,7 @@ img.persona__photo {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .tile, .marquee, .portrait { animation: none; }
-  /* the drawer still opens and closes, it just stops sliding and fading */
-  .sidebar, .nav__item, .sidebar__cta, .scrim { transition: none; }
+  .dock, .nav__item, .dock__cta, .theme-switch { transition: none; }
   /* the lightbox still opens, it just appears instead of zooming */
   .lightbox, .lightbox__img { transition: none; }
   .shot__img { transition: none; }
@@ -1765,7 +1713,7 @@ img.persona__photo {
    13b. Lightbox
    -------------------------------------------------------------------------- */
 
-/* Sits above the sidebar (50) and the mobile menu button (60). */
+/* Sits above the dock and the theme switch, both of which are 60. */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -1886,16 +1834,6 @@ img.persona__photo {
 
 @media (max-width: 820px) {
   :root { --text-6xl: 40px; --text-4xl: 28px; }
-
-  .sidebar { transform: translateX(-100%); box-shadow: none; }
-  .sidebar.is-open {
-    transform: none;
-    /* reads as a panel above the page rather than part of it */
-    box-shadow: 0 0 48px rgba(0, 0, 0, 0.42);
-  }
-  .main { margin-left: 0; }
-  .menu-fab { display: grid; }
-  .sidebar__collapse { display: none; }
 
   .container { padding: 0 24px; }
   .section { padding: 72px 0; }

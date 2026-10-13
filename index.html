@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kenneth Dulfo — Product Designer</title>
 <meta name="description" content="Kenneth Dulfo — UX product designer. Research and information architecture through to shipped interfaces and the design systems behind them. Eleven years across insurance, banking and logistics.">
-<link rel="stylesheet" href="css/styles.css?v=31">
+<link rel="stylesheet" href="css/styles.css?v=35">
 <script>
   // Set theme before paint to avoid a flash of the wrong theme.
   (function () {
@@ -59,50 +59,34 @@
 
 <div class="app" id="app">
 
-  <!-- Sidebar ============================================================ -->
-  <aside class="sidebar" id="sidebar">
-    <button class="sidebar__back" data-action="back" data-tip="Back">
+  <!-- Dock ================================================================ -->
+  <header class="dock" id="dock">
+    <button class="dock__back" data-action="back" title="Back to work" aria-label="Back to work">
       <svg class="ic" viewBox="0 0 24 24" width="16" height="16"><use href="#i-back"/></svg>
-      <span class="nav__label">Back</span>
     </button>
 
-    <div class="sidebar__top">
-      <div>
-        <h2 class="sidebar__name">Kenneth Dulfo</h2>
-        <p class="sidebar__role">Product Designer</p>
-      </div>
-      <button class="icon-btn sidebar__collapse" data-action="collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">
-        <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-chevron-left"/></svg>
-      </button>
-    </div>
-
-    <h3 class="sidebar__label">Navigation</h3>
-    <nav class="nav" id="nav">
-      <a class="nav__item" href="#hero"    data-nav="hero"    data-tip="Home"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg><span class="nav__label">Home</span></a>
-      <a class="nav__item" href="#about"   data-nav="about"   data-tip="About"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg><span class="nav__label">About</span></a>
-      <a class="nav__item" href="#work"    data-nav="work"    data-tip="Work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg><span class="nav__label">Work</span></a>
-      <a class="nav__item" href="#resume"  data-nav="resume"  data-tip="Resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg><span class="nav__label">Resume</span></a>
-    </nav>
-
-    <a class="btn btn--outline btn--block sidebar__cta" href="#contact" data-tip="Get in Touch">
-      <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
-      <span class="nav__label">Get in Touch</span>
+    <a class="dock__name" href="#hero" data-view="home">
+      <span class="dock__name-long">Kenneth Dulfo</span>
+      <span class="dock__name-short" aria-hidden="true">KD</span>
     </a>
 
-    <div class="sidebar__spacer"></div>
+    <nav class="dock__nav" id="nav" aria-label="Sections">
+      <a class="nav__item" href="#hero"   data-nav="hero"   title="Home"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg><span class="nav__label">Home</span></a>
+      <a class="nav__item" href="#about"  data-nav="about"  title="About"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg><span class="nav__label">About</span></a>
+      <a class="nav__item" href="#work"   data-nav="work"   title="Work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg><span class="nav__label">Work</span></a>
+      <a class="nav__item" href="#resume" data-nav="resume" title="Resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg><span class="nav__label">Resume</span></a>
+    </nav>
 
-    <div class="sidebar__foot">
-      <button class="icon-btn" data-action="theme" aria-label="Toggle theme" title="Toggle theme">
-        <svg class="ic ic--sun" viewBox="0 0 24 24" width="15" height="15"><use href="#i-sun"/></svg>
-        <svg class="ic ic--moon" viewBox="0 0 24 24" width="15" height="15" hidden><use href="#i-moon"/></svg>
-      </button>
-      <p class="sidebar__copy">© <span data-year>2026</span> Portfolio</p>
-    </div>
-  </aside>
+    <a class="dock__cta" href="#contact" title="Get in Touch">
+      <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
+      <span class="dock__cta-label">Get in Touch</span>
+    </a>
+  </header>
 
-  <div class="scrim" id="scrim" data-action="close-menu"></div>
-  <button class="menu-fab" data-action="menu" aria-label="Open menu">
-    <svg class="ic" viewBox="0 0 24 24" width="20" height="20"><use href="#i-menu"/></svg>
+  <!-- Its own control in the corner, rather than a sixth thing in the dock -->
+  <button class="theme-switch" data-action="theme" aria-label="Toggle theme" title="Toggle theme">
+    <svg class="ic ic--sun" viewBox="0 0 24 24" width="16" height="16"><use href="#i-sun"/></svg>
+    <svg class="ic ic--moon" viewBox="0 0 24 24" width="16" height="16"><use href="#i-moon"/></svg>
   </button>
 
   <!-- Main =============================================================== -->
@@ -1708,11 +1692,6 @@
     <article class="view" id="view-kwikweb" hidden>
       <div class="container">
 
-        <button class="btn btn--ghost cs__back" data-action="back">
-          <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-back"/></svg>
-          Back
-        </button>
-
         <header class="cs__head">
           <div class="chips">
             <span class="chip">Web</span><span class="chip">E-commerce</span>
@@ -1941,11 +1920,6 @@
     <!-- ===== CASE STUDY: BREW ========================================== -->
     <article class="view" id="view-brew" hidden>
       <div class="container">
-
-        <button class="btn btn--ghost cs__back" data-action="back">
-          <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-back"/></svg>
-          Back
-        </button>
 
         <header class="cs__head">
           <div class="chips">
@@ -2406,11 +2380,6 @@
     <!-- ===== CASE STUDY: CWS REFERRAL ================================== -->
     <article class="view" id="view-cws" hidden>
       <div class="container">
-
-        <button class="btn btn--ghost cs__back" data-action="back">
-          <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-back"/></svg>
-          Back
-        </button>
 
         <header class="cs__head">
           <div class="chips">
@@ -3025,6 +2994,6 @@
   </main>
 </div>
 
-<script src="js/main.js?v=16"></script>
+<script src="js/main.js?v=18"></script>
 </body>
 </html>
