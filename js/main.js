@@ -642,16 +642,25 @@
   // down while the buttons underneath it did not, so on the way out the
   // descenders of "Designer." sat across "View Work". It fades instead —
   // depth without two things occupying the same place.
+  // Fading from the moment the reader scrolls, over half a viewport. Keying it
+  // to the hero's own top crossing the screen edge meant nothing happened for
+  // the first couple of hundred pixels and the rest was spent off-screen — a
+  // fade nobody was around to see.
+  var FADE_OVER = 0.5;
+
   function paintFade() {
     var vh = window.innerHeight;
     for (var i = 0; i < fadeLayers.length; i++) {
       var el = fadeLayers[i];
       if (!el.offsetParent) continue;
-      // Measured from the element rather than from scrollY, so it does not
-      // assume the hero is the first thing in the document.
-      var gone = -el.getBoundingClientRect().top;
-      var p = Math.max(0, Math.min(1, gone / (vh * 0.55)));
-      el.style.opacity = 1 - p;
+
+      // The section's resting offset in the document, not its live position,
+      // so the hero need not be the first thing on the page.
+      var sec = el.closest('.section') || el;
+      var start = sec.getBoundingClientRect().top + window.scrollY;
+
+      var p = (window.scrollY - start) / (vh * FADE_OVER);
+      el.style.opacity = 1 - Math.max(0, Math.min(1, p));
     }
   }
 
