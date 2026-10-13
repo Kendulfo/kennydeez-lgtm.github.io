@@ -47,6 +47,10 @@
      under AA for a 12px label, so the light value is taken down a step. */
   --beat:               oklch(0.470 0.100 184.704);  /* darker teal */
 
+  /* Unlit words in the pinned statement. Deliberately low contrast — it is
+     text that has not been read yet, not text anyone has to read. */
+  --say-dim:            color-mix(in oklch, var(--fg) 16%, transparent);
+
   /* Typography */
   --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -112,6 +116,9 @@
 
   /* The emerald already carries on a near-black ground */
   --beat:               oklch(0.696 0.170 162.480);
+
+  /* A touch stronger: 16%% of white on near-black disappears entirely. */
+  --say-dim:            color-mix(in oklch, var(--fg) 22%, transparent);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
@@ -558,28 +565,25 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   }
 }
 
-.hero__title {
-  font-size: var(--text-6xl);
-  line-height: 1.05;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.hero__title span {
-  display: block;
-  /* em-based so the gap scales with the heading at every breakpoint */
-  margin-top: 0.3em;
-  font-size: 0.78em;
+/* The greeting is the small half now and the job title is the display line.
+   It used to be the other way round, which spent 60px of type on "Hi!". */
+.hero__eyebrow {
+  margin: 0 0 0.2em;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.2vw, 40px);
   font-weight: 300;
   letter-spacing: -0.02em;
+  color: var(--muted-fg);
 }
 
-.hero__lede {
-  margin: 28px auto 0;
-  max-width: 60ch;
-  font-size: var(--text-lg);
-  line-height: 1.65;
-  color: var(--muted-fg);
+/* Fluid rather than a fixed 60px with breakpoint overrides: the headline is
+   long enough that a step scale leaves it either timid on a desktop or
+   overflowing on a phone, and vw interpolates through both. */
+.hero__title {
+  font-size: clamp(46px, 9vw, 132px);
+  line-height: 0.95;
+  font-weight: 700;
+  letter-spacing: -0.045em;
 }
 
 .hero__actions {
@@ -588,6 +592,56 @@ body.is-case-study .sidebar__back { display: inline-flex; }
   gap: 12px;
   margin-top: 36px;
   flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------- Pinned statement
+   The sentence holds still in the middle of the screen while the scroll
+   lights it word by word, and the page only moves on once it is finished.
+
+   The outer section's height IS the scroll budget — whatever it has beyond
+   one viewport is exactly how far you scroll while pinned. main.js reads the
+   same number, so changing it here changes the pacing with it. */
+.say-pin { height: 220vh; }
+
+.say-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0 40px;
+}
+
+.say {
+  max-width: 1100px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(26px, 4.4vw, 62px);
+  line-height: 1.22;
+  letter-spacing: -0.03em;
+  text-align: center;
+  /* Until the painter runs, the sentence reads at full strength rather than
+     as a page of grey ghosts — with JS off this is the whole effect. */
+  color: var(--fg);
+}
+
+/* Each word is lit on its own, so the dim state is a colour per word rather
+   than opacity on the block. */
+.say w { transition: color 0.1s linear; }
+
+@media (max-width: 760px) {
+  /* 220vh of pinned scroll is a thumb marathon on a phone. */
+  .say-pin { height: 170vh; }
+  .say-sticky { padding: 0 24px; }
+}
+
+/* Pinning takes the scroll away from the reader, which is precisely what
+   someone who asked for less motion does not want. No pin, no dimming — the
+   sentence is just a sentence. */
+@media (prefers-reduced-motion: reduce) {
+  .say-pin { height: auto; }
+  .say-sticky { position: static; height: auto; padding: 18vh 40px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1838,7 +1892,6 @@ img.persona__photo {
   .container { padding: 0 24px; }
   .section { padding: 72px 0; }
 
-  .hero__lede { font-size: var(--text-base); }
   .grid-3, .results { grid-template-columns: 1fr; }
   .showcase-grid { grid-template-columns: 1fr; }
   .cs__meta { gap: 20px 32px; }

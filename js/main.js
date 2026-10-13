@@ -10,6 +10,10 @@
   var scrim   = document.getElementById('scrim');
   var root    = document.documentElement;
 
+  // Consulted by the lightbox, the story rails and the scroll effects, so it
+  // lives here rather than inside whichever one happened to need it first.
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   /* ---------------------------------------------------------------- Theme */
   function syncThemeIcon() {
     var dark = root.classList.contains('dark');
@@ -77,6 +81,7 @@
     syncVideos(target);
     armShots();
     syncRails(target);
+    paintScroll();
     closeMenu();
   }
 
@@ -227,7 +232,7 @@
   var lbShots = [];       // the tiles in the case study being browsed
   var lbIndex = 0;
   var lbOpener = null;    // focus goes back here on close
-  var lbReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 
   function shotSrc(el) {
     var m = /url\((['"]?)(.*?)\1\)/.exec(getComputedStyle(el).backgroundImage);
@@ -285,7 +290,7 @@
   // Grow the picture out of the tile it came from. Called once the image has
   // laid out, so both the start and end rects are real.
   function zoomFrom(rect) {
-    if (!rect || lbReduced.matches) return;
+    if (!rect || reduced.matches) return;
     var to = lbImg.getBoundingClientRect();
     if (!to.width || !to.height) return;
 
@@ -345,7 +350,7 @@
     lb.classList.remove('is-open');
 
     // Shrink back into the tile, as long as it still has a box to shrink into.
-    if (back && back.width && !lbReduced.matches) {
+    if (back && back.width && !reduced.matches) {
       var from = lbImg.getBoundingClientRect();
       lbImg.style.transition = 'transform 0.26s var(--ease)';
       lbImg.style.transform =
@@ -361,7 +366,7 @@
       lockScroll(false);
       // after the overlay is gone, so focus does not land behind a live dialog
       if (lbOpener && document.contains(lbOpener)) lbOpener.focus();
-    }, lbReduced.matches ? 0 : 260);
+    }, reduced.matches ? 0 : 260);
   }
 
   // Holds the page still under the overlay. The padding stops the layout
@@ -464,7 +469,7 @@
           var max = rail.scrollWidth - rail.clientWidth;
           var from = want === null ? rail.scrollLeft : want;
           want = Math.max(0, Math.min(max, from + dir * railStep(rail)));
-          rail.scrollTo({ left: want, behavior: lbReduced.matches ? 'auto' : 'smooth' });
+          rail.scrollTo({ left: want, behavior: reduced.matches ? 'auto' : 'smooth' });
         });
       }
     }
@@ -572,6 +577,98 @@
     }
   }
 
+  /* ------------------------------------------------- Scroll-driven effects */
+  // Two effects share one scroll loop: the hero's layers drifting against each
+  // other, and the statement under it lighting word by word while pinned.
+
+  // How much of the pinned scroll is spent lighting words. The remainder is a
+  // beat where the finished sentence sits still before the page releases —
+  // without it the last word lights at the exact moment the text starts
+  // leaving, and the completed sentence is never actually seen.
+  var LIGHT_THROUGH = 0.97;
+
+  // Rebuilding the sentence one element per word is done here rather than in
+  // the markup: nobody should hand-wrap forty words, and with JS off the
+  // sentence stays a sentence.
+  function splitWords(el) {
+    var words = el.textContent.trim().split(/\s+/);
+    var out = [];
+    el.textContent = '';
+    for (var i = 0; i < words.length; i++) {
+      var w = document.createElement('w');
+      w.textContent = words[i];
+      el.appendChild(w);
+      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+      out.push(w);
+    }
+    return out;
+  }
+
+  var says = [].slice.call(document.querySelectorAll('[data-say]')).map(function (el) {
+    return { el: el, pin: el.closest('.say-pin'), words: splitWords(el) };
+  });
+
+  var paraLayers = [].slice.call(document.querySelectorAll('[data-para]'));
+
+  function paintSay(s) {
+    // A hidden view measures zero and every word would read as lit. Same trap
+    // as the story rails.
+    if (!s.pin || !s.pin.offsetParent) return;
+
+    var travel = s.pin.offsetHeight - window.innerHeight;
+    if (travel <= 0 || reduced.matches) {           // unpinned: show it whole
+      for (var k = 0; k < s.words.length; k++) {
+        s.words[k].style.color = '';
+        s.words[k].style.opacity = '';
+      }
+      return;
+    }
+
+    // The section's travel past the top of the viewport IS the progress:
+    // offsetHeight - innerHeight is exactly how far it stays stuck.
+    var p = (-s.pin.getBoundingClientRect().top / travel) / LIGHT_THROUGH;
+    p = Math.max(0, Math.min(1, p));
+
+    // The +6/-3 gives a soft leading edge instead of a hard wipe.
+    var lead = p * (s.words.length + 6) - 3;
+    for (var i = 0; i < s.words.length; i++) {
+      var t = Math.max(0, Math.min(1, lead - i));
+      s.words[i].style.color = t > 0.5 ? 'var(--fg)' : 'var(--say-dim)';
+      s.words[i].style.opacity = 0.35 + t * 0.65;
+    }
+  }
+
+  function paintParallax() {
+    var y = window.scrollY;
+    for (var i = 0; i < paraLayers.length; i++) {
+      var speed = parseFloat(paraLayers[i].getAttribute('data-para')) || 0;
+      paraLayers[i].style.transform =
+        'translate3d(0,' + (y * speed).toFixed(2) + 'px,0)';
+    }
+  }
+
+  function paintScroll() {
+    if (!reduced.matches) paintParallax();
+    for (var i = 0; i < says.length; i++) paintSay(says[i]);
+  }
+
+  var scrollTicking = false;
+  function onScrollEffects() {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(function () {
+      paintScroll();
+      scrollTicking = false;
+    });
+  }
+
+  function armScrollEffects() {
+    if (!says.length && !paraLayers.length) return;
+    window.addEventListener('scroll', onScrollEffects, { passive: true });
+    window.addEventListener('resize', onScrollEffects);
+    paintScroll();
+  }
+
   /* ------------------------------------------------------------------ Boot */
   // Stamped rather than hard-coded, so the footer can't quietly go stale again.
   var year = String(new Date().getFullYear());
@@ -585,6 +682,7 @@
   armShots();
   armRails();
   syncRails(document);
+  armScrollEffects();
   brewCta();
   updateActiveNav();
 })();
