@@ -795,8 +795,11 @@
   var DRIFT_SCALE = 1.06;
   var DRIFT_BG    = 15;     // background-position percent, each way
 
-  var driftImgs = [];
-  var driftBgs  = [];
+  var DRIFT_ZOOM  = 5;      // percent of overscan gained across the crossing
+
+  var driftImgs  = [];
+  var driftBgs   = [];
+  var driftZooms = [];
 
   function armDrift() {
     var imgs = document.querySelectorAll('.project__media img, .portrait img');
@@ -804,6 +807,12 @@
       driftImgs.push({ el: imgs[i], frame: imgs[i].parentElement });
     }
     driftBgs = [].slice.call(document.querySelectorAll('.cs__hero-img'));
+
+    // Storyboard panels cannot slide: their role tag is flush against the top
+    // edge with nothing above it, so any pan cuts it. They overscan from a
+    // corner anchor instead, which moves the art against its frame without
+    // ever moving the tag.
+    driftZooms = [].slice.call(document.querySelectorAll('.sb__beat .shot__img'));
   }
 
   // 0 as the frame enters the bottom of the screen, 1 as it leaves the top.
@@ -834,6 +843,14 @@
       if (q === null) continue;
       driftBgs[j].style.backgroundPosition =
         'center ' + (50 + (q - 0.5) * DRIFT_BG * 2).toFixed(2) + '%';
+    }
+
+    for (var k = 0; k < driftZooms.length; k++) {
+      var z = frameProgress(driftZooms[k], vh);
+      if (z === null) continue;
+      // Never exactly 100: a hairline of overscan keeps sub-pixel rounding
+      // from showing the tile behind the art.
+      driftZooms[k].style.backgroundSize = (101 + z * DRIFT_ZOOM).toFixed(2) + '% auto';
     }
   }
 

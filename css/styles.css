@@ -1656,7 +1656,15 @@ img.persona__photo {
 }
 
 /* The export is cropped to 2:1, so the tile is too and nothing is cut away. */
-.sb__beat .shot__img { aspect-ratio: 2 / 1; }
+.sb__beat .shot__img {
+  aspect-ratio: 2 / 1;
+  /* Anchored at the corner the role tag lives in. The art overscans as the
+     strip crosses the screen, and anchoring here means it grows down and to
+     the left — away from the tag, which sits flush against the top edge with
+     no headroom at all. Sliding the art instead, the way the photographs do,
+     would cut the tag on every panel. */
+  background-position: right top;
+}
 
 .sb__kicker {
   display: flex;
