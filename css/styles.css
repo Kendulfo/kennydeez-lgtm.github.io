@@ -1738,9 +1738,21 @@ img.persona__photo {
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
+/* A cascade needs more rungs than three. Kept at 0.08s a step: the whole
+   About section runs 0.48s from first element to last, which reads as one
+   movement rather than six separate ones queueing up. */
 .reveal[data-delay="1"] { transition-delay: 0.08s; }
 .reveal[data-delay="2"] { transition-delay: 0.16s; }
 .reveal[data-delay="3"] { transition-delay: 0.24s; }
+.reveal[data-delay="4"] { transition-delay: 0.32s; }
+.reveal[data-delay="5"] { transition-delay: 0.40s; }
+.reveal[data-delay="6"] { transition-delay: 0.48s; }
+
+/* The stat cards are small and sit in a row, so they can afford to arrive
+   with a little more than a rise — at that size a 6px lift plus the scale
+   reads as a card settling into place. */
+.reveal--card { transform: translateY(6px) scale(0.96); }
+.reveal--card.is-visible { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
