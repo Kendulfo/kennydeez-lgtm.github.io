@@ -534,6 +534,20 @@ body.is-case-study .dock__back { display: grid; }
   letter-spacing: -0.045em;
 }
 
+/* On a phone the same vw-driven clamps bottomed out at their minimums: the
+   headline landed at 38px against 66px tiles, so the furniture above it was
+   larger than the statement it introduces. Desktop runs the title about a
+   quarter larger than a tile; these restore that relationship rather than
+   just adding points. */
+@media (max-width: 760px) {
+  .hero__title   { font-size: clamp(40px, 17vw, 64px); }
+  .hero__eyebrow { font-size: clamp(17px, 4.6vw, 22px); }
+
+  .tile { width: 48px; height: 48px; }
+  .tile svg { width: 22px; height: 22px; }
+  .hero__tiles { gap: 12px; margin-bottom: 32px; }
+}
+
 .hero__actions {
   display: flex;
   justify-content: center;
@@ -626,7 +640,12 @@ body.is-case-study .dock__back { display: grid; }
 @media (max-width: 760px) {
   /* A shorter hold on a phone, where it is all thumb work. */
   .say-pin { height: 150vh; }
-  .say-sticky { top: 26vh; padding: 0 24px; }
+  .say-sticky { top: 24vh; padding: 0 24px; }
+
+  /* The global clamp keys off vw, and 3vw of a phone is nothing — the
+     statement came out at 21px and left most of the screen empty beneath it
+     while it was parked. Its own curve here fills the space it was given. */
+  .say { font-size: clamp(26px, 8.4vw, 34px); }
 }
 
 /* Pinning takes the scroll away from the reader, which is precisely what
