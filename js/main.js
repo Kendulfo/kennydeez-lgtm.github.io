@@ -175,23 +175,98 @@
   });
 
   /* --------------------------------------------------------- Scroll reveal */
+
+  // Nothing waits longer than six steps, so no element is more than 330ms
+  // behind the first. A group arriving at once would otherwise leave the last
+  // one hanging most of a second after the first, which stops reading as one
+  // movement and starts reading as a queue. Six rather than five because at
+  // five the last three items of the About column shared a beat.
+  var MAX_STAGGER = 6;
+
+  // Which things move like blocks rather than like text. Matched here rather
+  // than tagged in the markup, so the rule lives in one place.
+  var BLOCKISH = '.card, figure, .shot, .cs__hero-img, .portrait, .showcase-grid,' +
+                 ' .results, .steps, .rail, .credits, .personas, .testimonial,' +
+                 ' .cafe-open, .figma-embed, dl, img, video';
+
   var io = null;
   if ('IntersectionObserver' in window) {
     io = new IntersectionObserver(function (entries) {
+      // Entries that cross together arrive in one callback, which is exactly
+      // the set that should cascade. Counting per callback means an element
+      // reaching the screen alone is index 0 and starts immediately.
+      var seen = new Map();
+
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+
+        var el = entry.target;
+        // The section is the group, not the parent. Grouping by parent split
+        // About's copy from its stat cards — two columns of one thought, each
+        // restarting its own count and arriving on top of each other.
+        var group = el.closest('section, .view') || document.body;
+        var n = seen.get(group) || 0;
+        seen.set(group, n + 1);
+
+        el.style.setProperty('--i', Math.min(n, MAX_STAGGER));
+        el.classList.add('is-visible');
+        io.unobserve(el);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
   }
 
+  // Case studies carried no reveal at all — open one and every section was
+  // simply already there. Marking them here rather than by hand keeps sixty-odd
+  // sections out of the markup and the rule in one place.
+  //
+  // Body paragraphs are deliberately left out. Fading in every paragraph of a
+  // long read is what makes a portfolio feel slow to actually read; the
+  // structure around them is what benefits from arriving.
+  function markCaseStudies(scope) {
+    var sections = (scope || document).querySelectorAll('.prose > section');
+    for (var i = 0; i < sections.length; i++) {
+      var kids = sections[i].children;
+      for (var k = 0; k < kids.length; k++) {
+        var el = kids[k];
+        if (el.tagName === 'P' || el.classList.contains('reveal')) continue;
+        el.classList.add('reveal');
+      }
+    }
+    var heroes = (scope || document).querySelectorAll('.cs__hero-img, .cs__meta');
+    for (var h = 0; h < heroes.length; h++) heroes[h].classList.add('reveal');
+  }
+
+  function markBlocks(scope) {
+    var els = (scope || document).querySelectorAll('.reveal');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].matches(BLOCKISH)) els[i].classList.add('reveal--block');
+    }
+  }
+
   function revealAll(scope) {
+    markCaseStudies(scope);
+    markBlocks(scope);
     var els = (scope || document).querySelectorAll('.reveal:not(.is-visible)');
     for (var i = 0; i < els.length; i++) {
       if (io) io.observe(els[i]);
       else els[i].classList.add('is-visible');
+    }
+  }
+
+  // IntersectionObserver samples; it does not track. Jump far enough in one go
+  // — an anchor link, a scrollbar drag, End — and an element can pass through
+  // the viewport between two samples and never be reported, leaving it
+  // invisible for good. This sweeps up anything the scroll has already gone
+  // past. It runs when scrolling stops rather than per frame, because the only
+  // elements it can help are ones nobody is looking at.
+  function catchUpReveals() {
+    if (!io) return;
+    var els = document.querySelectorAll('.reveal:not(.is-visible)');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].getBoundingClientRect().bottom < 0) {
+        els[i].classList.add('is-visible');
+        io.unobserve(els[i]);
+      }
     }
   }
 
@@ -670,7 +745,11 @@
   }
 
   var scrollTicking = false;
+  var revealSettle;
   function onScrollEffects() {
+    clearTimeout(revealSettle);
+    revealSettle = setTimeout(catchUpReveals, 160);
+
     if (scrollTicking) return;
     scrollTicking = true;
     requestAnimationFrame(function () {
@@ -679,8 +758,10 @@
     });
   }
 
+  // Armed unconditionally: even with no statement and no fade on a page, the
+  // reveal catch-up rides on this listener and is needed everywhere. The
+  // painters loop over empty lists and cost nothing.
   function armScrollEffects() {
-    if (!says.length && !fadeLayers.length) return;
     window.addEventListener('scroll', onScrollEffects, { passive: true });
     window.addEventListener('resize', onScrollEffects);
     paintScroll();
