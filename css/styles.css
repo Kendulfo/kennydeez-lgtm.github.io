@@ -589,12 +589,17 @@ body.is-case-study .dock__back { display: grid; }
    The outer section's height IS the scroll budget — whatever it has beyond
    one viewport is exactly how far you scroll while pinned. main.js reads the
    same number, so changing it here changes the pacing with it. */
-.say-pin { height: 220vh; }
+.say-pin { height: 190vh; }
 
+/* The sticky box hugs the statement instead of being a full viewport tall.
+   Centred in 100vh it carried half a viewport of empty box underneath it, and
+   that emptiness was what you scrolled through between the last word and the
+   About heading — half a screen of nothing that read as the page having
+   stalled. Parking it with top instead of centring it in a tall box puts the
+   statement in the same place and leaves nothing trailing it. */
 .say-sticky {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 30vh;
   display: grid;
   place-items: center;
   padding: 0 40px;
@@ -619,9 +624,9 @@ body.is-case-study .dock__back { display: grid; }
 .say w { transition: color 0.1s linear; }
 
 @media (max-width: 760px) {
-  /* 220vh of pinned scroll is a thumb marathon on a phone. */
-  .say-pin { height: 170vh; }
-  .say-sticky { padding: 0 24px; }
+  /* A shorter hold on a phone, where it is all thumb work. */
+  .say-pin { height: 150vh; }
+  .say-sticky { top: 26vh; padding: 0 24px; }
 }
 
 /* Pinning takes the scroll away from the reader, which is precisely what
@@ -629,7 +634,7 @@ body.is-case-study .dock__back { display: grid; }
    sentence is just a sentence. */
 @media (prefers-reduced-motion: reduce) {
   .say-pin { height: auto; }
-  .say-sticky { position: static; height: auto; padding: 18vh 40px; }
+  .say-sticky { position: static; padding: 18vh 40px; }
 }
 
 /* --------------------------------------------------------------------------

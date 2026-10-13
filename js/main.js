@@ -659,7 +659,12 @@
     // as the story rails.
     if (!s.pin || !s.pin.offsetParent) return;
 
-    var travel = s.pin.offsetHeight - window.innerHeight;
+    // How far the sticky box can slide inside the section is how long it stays
+    // stuck. Read from the box itself rather than assumed to be a viewport: it
+    // hugs the statement now, so a viewport is the wrong number.
+    var box = s.pin.firstElementChild;
+    var travel = s.pin.offsetHeight - (box ? box.offsetHeight : window.innerHeight);
+
     if (travel <= 0 || reduced.matches) {           // unpinned: show it whole
       for (var k = 0; k < s.words.length; k++) {
         s.words[k].style.color = '';
@@ -668,9 +673,9 @@
       return;
     }
 
-    // The section's travel past the top of the viewport IS the progress:
-    // offsetHeight - innerHeight is exactly how far it stays stuck.
-    var p = (-s.pin.getBoundingClientRect().top / travel) / LIGHT_THROUGH;
+    // Progress runs from the moment the box reaches its parking height.
+    var park = box ? (parseFloat(getComputedStyle(box).top) || 0) : 0;
+    var p = ((park - s.pin.getBoundingClientRect().top) / travel) / LIGHT_THROUGH;
     p = Math.max(0, Math.min(1, p));
 
     // The +6/-3 gives a soft leading edge instead of a hard wipe.
@@ -777,10 +782,66 @@
     }
   }
 
+  /* --------------------------------------------------------- Media parallax */
+  // Photographs drift inside their frames as those frames cross the screen.
+  // The media overscans by 6% so there is room to move without a gap opening
+  // at either edge.
+  //
+  // Only on photographs that fill their frame. The UI screenshots, the
+  // storyboard panels and the letterboxed tiles are left alone: they are
+  // aspect-matched or contain-fitted to their source, so drifting them either
+  // crops the design you are meant to be looking at or shows the frame behind.
+  var DRIFT       = 2.5;    // percent of its own height, each way
+  var DRIFT_SCALE = 1.06;
+  var DRIFT_BG    = 15;     // background-position percent, each way
+
+  var driftImgs = [];
+  var driftBgs  = [];
+
+  function armDrift() {
+    var imgs = document.querySelectorAll('.project__media img, .portrait img');
+    for (var i = 0; i < imgs.length; i++) {
+      driftImgs.push({ el: imgs[i], frame: imgs[i].parentElement });
+    }
+    driftBgs = [].slice.call(document.querySelectorAll('.cs__hero-img'));
+  }
+
+  // 0 as the frame enters the bottom of the screen, 1 as it leaves the top.
+  // null when it is nowhere near, or in a hidden view, which measures zero.
+  function frameProgress(frame, vh) {
+    var r = frame.getBoundingClientRect();
+    if (!r.height || r.bottom < 0 || r.top > vh) return null;
+    return (vh - r.top) / (vh + r.height);
+  }
+
+  function paintDrift() {
+    if (reduced.matches) return;
+    var vh = window.innerHeight;
+
+    for (var i = 0; i < driftImgs.length; i++) {
+      var p = frameProgress(driftImgs[i].frame, vh);
+      if (p === null) continue;
+      driftImgs[i].el.style.transform =
+        'translateY(' + ((p - 0.5) * DRIFT * 2).toFixed(3) + '%) scale(' + DRIFT_SCALE + ')';
+    }
+
+    // The case-study covers are background images rather than elements, so
+    // they pan their background instead of transforming. Where a cover happens
+    // to match its frame's proportions there is nothing to pan and this does
+    // nothing, which is the right answer rather than a gap.
+    for (var j = 0; j < driftBgs.length; j++) {
+      var q = frameProgress(driftBgs[j], vh);
+      if (q === null) continue;
+      driftBgs[j].style.backgroundPosition =
+        'center ' + (50 + (q - 0.5) * DRIFT_BG * 2).toFixed(2) + '%';
+    }
+  }
+
   function paintScroll() {
     if (!reduced.matches) paintFade();
     for (var i = 0; i < says.length; i++) paintSay(says[i]);
     paintThread();
+    paintDrift();
   }
 
   var scrollTicking = false;
@@ -818,6 +879,7 @@
   armShots();
   armRails();
   syncRails(document);
+  armDrift();
   armScrollEffects();
   brewCta();
   updateActiveNav();
