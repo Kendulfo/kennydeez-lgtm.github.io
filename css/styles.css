@@ -640,12 +640,32 @@ body.is-case-study .dock__back { display: grid; }
 @media (max-width: 760px) {
   /* A shorter hold on a phone, where it is all thumb work. */
   .say-pin { height: 150vh; }
-  .say-sticky { top: 24vh; padding: 0 24px; }
 
-  /* The global clamp keys off vw, and 3vw of a phone is nothing — the
-     statement came out at 21px and left most of the screen empty beneath it
-     while it was parked. Its own curve here fills the space it was given. */
-  .say { font-size: clamp(26px, 8.4vw, 34px); }
+  /* Parked higher than on a desktop, because the statement is set to fill the
+     screen here and needs the room. Still low enough to leave the thread a
+     visible run beneath the dock. */
+  /* A floor, not just a share of the height: 10vh of a 568px phone is 57px and
+     the dock's underside is at 64, so the first line parked behind it. */
+  .say-sticky { top: max(10vh, 84px); padding: 0 20px; }
+
+  /* Set as a block of display type rather than a paragraph that happens to be
+     large: the leading closes right up and the tracking comes in, which is
+     what stops big type reading as merely zoomed. Going this large is only
+     possible because the leading bought the lines back. */
+  .say {
+    /* Sized against the screen's height as well as its width. Width alone
+       overflowed the bottom by 172px on a tall phone and would have been far
+       worse on a short one — the block grows with the square of the type size,
+       because bigger type means both taller lines and more of them. */
+    font-size: clamp(26px, min(11.2vw, 5.3vh), 46px);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+
+  /* The thread is a desktop device. On a phone it is a hairline in a narrow
+     column, and the room it needs above the statement is room the statement
+     now wants. */
+  .thread { display: none; }
 }
 
 /* Pinning takes the scroll away from the reader, which is precisely what
