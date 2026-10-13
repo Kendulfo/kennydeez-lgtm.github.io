@@ -76,7 +76,21 @@
       if (location.hash !== hash) history.pushState({ view: name }, '', hash);
     }
 
-    window.scrollTo(0, 0);
+    // Instant, not smooth. html carries scroll-behavior: smooth so anchor links
+    // glide, but that turned opening a case study into a long animated scroll up
+    // through a page the reader has not read yet — and every reveal passed
+    // through the viewport on the way, so arriving at the top there was nothing
+    // left to fade in.
+    //
+    // It has to be the behavior option. Setting scroll-behavior: auto inline
+    // around the call does nothing: the scroll resolves its behaviour after the
+    // property has been put back, so it still glides. Measured both.
+    try {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    } catch (err) {
+      window.scrollTo(0, 0);   // old engines reject the unknown enum value
+    }
+
     revealAll(target);
     syncVideos(target);
     armShots();
