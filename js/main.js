@@ -85,6 +85,8 @@
     syncVideos(target);
     armShots();
     syncRails(target);
+    // No easing across a view change — the tip starts where it belongs.
+    threadTip = null;
     paintScroll();
   }
 
@@ -706,9 +708,79 @@
     }
   }
 
+  /* ---------------------------------------------------------- Scroll thread */
+  // Grows out of the hero, parks just above the statement, resumes once that
+  // has scrolled by, and finishes at About.
+  //
+  // The pause is not scripted. The tip rides at a fixed point in the viewport
+  // and is told never to come within 30px of the statement, so as the statement
+  // arrives the tip is pushed up at exactly the rate the page is scrolling
+  // down — and the line stops growing on its own. Through the pin it stays put
+  // because the statement does.
+  var thread    = document.querySelector('.thread');
+  var threadTip = null;    // rendered tip, in viewport px
+  var threadRaf = false;
+
+  var TIP_AT    = 0.62;    // where the tip rides, as a share of the viewport
+  var TIP_GAP   = 30;      // how close it may come to the statement
+  var TIP_EASE  = 0.18;
+
+  function paintThread() {
+    if (!thread || reduced.matches) return;
+
+    var home = document.getElementById('view-home');
+    var acts = document.querySelector('.hero__actions');
+    var say  = document.querySelector('.say');
+    var about = document.getElementById('about');
+    if (!home || home.hidden || !acts || !say || !about) return;
+
+    var vh = window.innerHeight;
+    var y  = window.scrollY;
+    var natural = vh * TIP_AT;
+
+    var sayR = say.getBoundingClientRect();
+    var target = natural;
+    // Keep clear of the statement for as long as any of it is on screen. The
+    // min does the rest: while the statement is still below the fold it is far
+    // past the natural tip and changes nothing, and the clamp only begins to
+    // bite as it comes up. Testing against the tip's own position instead was
+    // wrong — the statement is centred, so it sits above the tip and the line
+    // ran straight over the words.
+    if (sayR.bottom > 0) target = Math.min(natural, sayR.top - TIP_GAP);
+
+    if (threadTip === null) threadTip = target;
+    threadTip += (target - threadTip) * TIP_EASE;
+
+    var startDoc = acts.getBoundingClientRect().bottom + y + 36;
+    var endDoc   = about.getBoundingClientRect().top + y - 40;
+    var tipDoc   = Math.min(y + threadTip, endDoc);
+    var height   = tipDoc - startDoc;
+
+    // Zeroed rather than just faded, so a hidden thread cannot keep a stale box.
+    if (height <= 2) {
+      thread.style.opacity = '0';
+      thread.style.height = '0px';
+      return;
+    }
+    thread.style.opacity = '1';
+    thread.style.top    = (startDoc - y) + 'px';
+    thread.style.height = height + 'px';
+
+    // Easing needs frames of its own; scrolling alone would leave the tip
+    // frozen part-way back whenever the reader stops.
+    if (Math.abs(target - threadTip) > 0.5 && !threadRaf) {
+      threadRaf = true;
+      requestAnimationFrame(function settle() {
+        threadRaf = false;
+        paintThread();
+      });
+    }
+  }
+
   function paintScroll() {
     if (!reduced.matches) paintFade();
     for (var i = 0; i < says.length; i++) paintSay(says[i]);
+    paintThread();
   }
 
   var scrollTicking = false;

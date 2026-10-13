@@ -542,6 +542,46 @@ body.is-case-study .dock__back { display: grid; }
   flex-wrap: wrap;
 }
 
+/* ------------------------------------------------------------- Scroll thread
+   A line that grows out of the hero as you scroll, parks just above the
+   statement, and resumes once that has gone by. Fixed rather than absolute:
+   the statement it has to avoid is sticky, so everything is reasoned about in
+   viewport coordinates and main.js writes top and height per frame. */
+.thread {
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 2px;
+  /* Fades out at the top so the line reads as drawn rather than as a rule
+     that happens to be clipped by the edge of the screen. */
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklch, var(--fg) 14%, transparent) 20%,
+    color-mix(in oklch, var(--fg) 38%, transparent)
+  );
+}
+
+.thread__dot {
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: var(--radius-full);
+  background: var(--fg);
+}
+
+/* Decoration that is motion by definition. */
+@media (prefers-reduced-motion: reduce) {
+  .thread { display: none; }
+}
+
 /* --------------------------------------------------------- Pinned statement
    The sentence holds still in the middle of the screen while the scroll
    lights it word by word, and the page only moves on once it is finished.
