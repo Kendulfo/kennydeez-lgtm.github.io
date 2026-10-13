@@ -608,7 +608,7 @@
     return { el: el, pin: el.closest('.say-pin'), words: splitWords(el) };
   });
 
-  var paraLayers = [].slice.call(document.querySelectorAll('[data-para]'));
+  var fadeLayers = [].slice.call(document.querySelectorAll('[data-fade]'));
 
   function paintSay(s) {
     // A hidden view measures zero and every word would read as lit. Same trap
@@ -638,17 +638,25 @@
     }
   }
 
-  function paintParallax() {
-    var y = window.scrollY;
-    for (var i = 0; i < paraLayers.length; i++) {
-      var speed = parseFloat(paraLayers[i].getAttribute('data-para')) || 0;
-      paraLayers[i].style.transform =
-        'translate3d(0,' + (y * speed).toFixed(2) + 'px,0)';
+  // The hero used to drift its layers at different speeds. The headline moved
+  // down while the buttons underneath it did not, so on the way out the
+  // descenders of "Designer." sat across "View Work". It fades instead —
+  // depth without two things occupying the same place.
+  function paintFade() {
+    var vh = window.innerHeight;
+    for (var i = 0; i < fadeLayers.length; i++) {
+      var el = fadeLayers[i];
+      if (!el.offsetParent) continue;
+      // Measured from the element rather than from scrollY, so it does not
+      // assume the hero is the first thing in the document.
+      var gone = -el.getBoundingClientRect().top;
+      var p = Math.max(0, Math.min(1, gone / (vh * 0.55)));
+      el.style.opacity = 1 - p;
     }
   }
 
   function paintScroll() {
-    if (!reduced.matches) paintParallax();
+    if (!reduced.matches) paintFade();
     for (var i = 0; i < says.length; i++) paintSay(says[i]);
   }
 
@@ -663,7 +671,7 @@
   }
 
   function armScrollEffects() {
-    if (!says.length && !paraLayers.length) return;
+    if (!says.length && !fadeLayers.length) return;
     window.addEventListener('scroll', onScrollEffects, { passive: true });
     window.addEventListener('resize', onScrollEffects);
     paintScroll();
