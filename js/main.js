@@ -801,6 +801,61 @@
   var driftBgs   = [];
   var driftZooms = [];
 
+  /* ------------------------------------------------------------- Counters */
+  // The figures count up to themselves when their card arrives. Each one keeps
+  // whatever sits around the number — the "+" on "200+" — so the markup stays
+  // the source of truth and nothing has to be restated in script.
+  var COUNT_MS = 1100;
+
+  function armCounters() {
+    var nums = document.querySelectorAll('.stat__num');
+    if (!nums.length || !('IntersectionObserver' in window)) return;
+
+    var seen = new WeakSet();
+
+    var co = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting || seen.has(entry.target)) return;
+        seen.add(entry.target);
+        co.unobserve(entry.target);
+        runCounter(entry.target);
+      });
+    }, { threshold: 0.4 });
+
+    for (var i = 0; i < nums.length; i++) {
+      var m = /^(\D*)(\d[\d,]*)(.*)$/.exec(nums[i].textContent.trim());
+      if (!m) continue;                       // "Named", "Shipped" and friends
+      nums[i].dataset.pre = m[1];
+      nums[i].dataset.to = m[2].replace(/,/g, '');
+      nums[i].dataset.post = m[3];
+      co.observe(nums[i]);
+    }
+  }
+
+  function runCounter(el) {
+    var to = parseInt(el.dataset.to, 10);
+    var pre = el.dataset.pre || '';
+    var post = el.dataset.post || '';
+
+    if (reduced.matches) { el.textContent = pre + to + post; return; }
+
+    // Falls in behind its own card, which is already staggered by --i.
+    var delay = (parseFloat(getComputedStyle(el.closest('.reveal') || el).getPropertyValue('--i')) || 0) * 55;
+    var t0 = null;
+
+    function step(now) {
+      if (t0 === null) t0 = now;
+      var t = Math.min(1, (now - t0) / COUNT_MS);
+      // Decelerating, so it lands on the number rather than stopping dead.
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = pre + Math.round(to * eased) + post;
+      if (t < 1) requestAnimationFrame(step);
+    }
+
+    el.textContent = pre + '0' + post;
+    setTimeout(function () { requestAnimationFrame(step); }, delay);
+  }
+
   function armDrift() {
     var imgs = document.querySelectorAll('.project__media img, .portrait img');
     for (var i = 0; i < imgs.length; i++) {
@@ -897,6 +952,7 @@
   armRails();
   syncRails(document);
   armDrift();
+  armCounters();
   armScrollEffects();
   brewCta();
   updateActiveNav();
