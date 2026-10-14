@@ -198,6 +198,12 @@
       for (var k = 0; k < kids.length; k++) {
         var el = kids[k];
         if (el.tagName === 'P' || el.classList.contains('reveal')) continue;
+        // Result figures arrive card by card, the way the About stats do,
+        // rather than the whole grid fading in as one block.
+        if (el.classList.contains('results')) {
+          for (var r = 0; r < el.children.length; r++) el.children[r].classList.add('reveal');
+          continue;
+        }
         el.classList.add('reveal');
       }
     }
@@ -808,7 +814,7 @@
   var COUNT_MS = 1100;
 
   function armCounters() {
-    var nums = document.querySelectorAll('.stat__num');
+    var nums = document.querySelectorAll('.stat__num, .result__num');
     if (!nums.length || !('IntersectionObserver' in window)) return;
 
     var seen = new WeakSet();
@@ -823,21 +829,25 @@
     }, { threshold: 0.4 });
 
     for (var i = 0; i < nums.length; i++) {
-      var m = /^(\D*)(\d[\d,]*)(.*)$/.exec(nums[i].textContent.trim());
+      var m = /^(\D*)(\d[\d,]*(?:\.\d+)?)(.*)$/.exec(nums[i].textContent.trim());
       if (!m) continue;                       // "Named", "Shipped" and friends
+      // "24/7", "6→1" and "1st" read as nonsense halfway up, so they stay put.
+      if (/\d/.test(m[3]) || /^(st|nd|rd|th)\b/i.test(m[3])) continue;
       nums[i].dataset.pre = m[1];
       nums[i].dataset.to = m[2].replace(/,/g, '');
+      nums[i].dataset.dec = (m[2].split('.')[1] || '').length;
       nums[i].dataset.post = m[3];
       co.observe(nums[i]);
     }
   }
 
   function runCounter(el) {
-    var to = parseInt(el.dataset.to, 10);
+    var to = parseFloat(el.dataset.to);
+    var dec = parseInt(el.dataset.dec, 10) || 0;   // "4.8" counts in tenths
     var pre = el.dataset.pre || '';
     var post = el.dataset.post || '';
 
-    if (reduced.matches) { el.textContent = pre + to + post; return; }
+    if (reduced.matches) { el.textContent = pre + to.toFixed(dec) + post; return; }
 
     // Falls in behind its own card, which is already staggered by --i.
     var delay = (parseFloat(getComputedStyle(el.closest('.reveal') || el).getPropertyValue('--i')) || 0) * 55;
@@ -848,11 +858,11 @@
       var t = Math.min(1, (now - t0) / COUNT_MS);
       // Decelerating, so it lands on the number rather than stopping dead.
       var eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = pre + Math.round(to * eased) + post;
+      el.textContent = pre + (to * eased).toFixed(dec) + post;
       if (t < 1) requestAnimationFrame(step);
     }
 
-    el.textContent = pre + '0' + post;
+    el.textContent = pre + (0).toFixed(dec) + post;
     setTimeout(function () { requestAnimationFrame(step); }, delay);
   }
 

@@ -1765,6 +1765,8 @@ img.persona__photo {
   color: var(--result);
   /* Word values like "In-App" would otherwise break at the hyphen */
   white-space: nowrap;
+  /* Counts up like the About stats; fixed-width digits keep it from twitching */
+  font-variant-numeric: tabular-nums;
 }
 .result__label { margin-top: 6px; font-weight: 500; }
 .result__desc  { margin-top: 4px; font-size: var(--text-sm); color: var(--muted-fg); }
