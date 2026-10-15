@@ -11,6 +11,9 @@ desktop.ini
 # Claude Code local settings (machine-specific)
 .claude/settings.local.json
 
+# npm
+node_modules/
+
 # Logs
 *.log
 .taste-skill/
