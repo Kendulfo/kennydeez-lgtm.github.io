@@ -35,6 +35,10 @@
   --wrap-wide: 1440px;
   --gutter:    clamp(20px, 5vw, 72px);
   --nav-h:     88px;
+  /* The home page's one grid: a narrow rail for labels, numbers and years on
+     the outer edge, then the content on a single inner edge. */
+  --rail:     14rem;
+  --rail-gap: clamp(32px, 7vw, 120px);
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -447,9 +451,9 @@ a:focus-visible > .link-text,
    facts drop under the story (document order). */
 .about__grid {
   display: grid;
-  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, var(--rail)) minmax(0, 1fr);
   grid-template-rows: auto 1fr;
-  column-gap: clamp(32px, 7vw, 120px);
+  column-gap: var(--rail-gap);
 }
 .about__label { grid-column: 1; grid-row: 1; }
 .about__facts { grid-column: 1; grid-row: 2; }
@@ -533,8 +537,8 @@ a:focus-visible > .link-text,
 }
 .index__link {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 26rem);
-  column-gap: clamp(20px, 3vw, 48px);
+  grid-template-columns: minmax(0, var(--rail)) minmax(0, 1fr) minmax(0, 26rem);
+  column-gap: var(--rail-gap);
   align-items: baseline;
   padding: clamp(28px, 3vw, 44px) 0;
   border-top: 1px solid var(--line-light);
@@ -663,8 +667,8 @@ a:focus-visible > .link-text,
 .jobs { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-dark); }
 .job {
   display: grid;
-  grid-template-columns: 9.5rem minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 32px;
+  grid-template-columns: minmax(0, var(--rail)) minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 32px var(--rail-gap);
   align-items: baseline;
   padding: 28px 0;
   border-bottom: 1px solid var(--line-dark);
