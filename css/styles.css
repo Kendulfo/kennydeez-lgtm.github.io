@@ -592,6 +592,9 @@ button {
   margin-top: 24px;
   aspect-ratio: 16 / 10;
   min-height: 340px;
+  /* With no width set, the ratio turned min-height into a 544px width and
+     pushed every phone page sideways. A set width wins: taller, never wider. */
+  width: 100%;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   overflow: hidden;
@@ -609,8 +612,13 @@ button {
   gap: 10px;
   padding: 32px;
   text-align: center;
-  background: url('../assets/segstream-cover.png') center / cover no-repeat;
+  background: var(--input-bg) center / cover no-repeat;
 }
+/* Each file sits behind its own project's cover (EastWest sets its own inline) */
+#view-segstream .figma-embed__poster { background-image: url('../assets/segstream-cover.jpg?v=6'); }
+#view-entrego .figma-embed__poster   { background-image: url('../assets/entrego-cover.jpg?v=6'); }
+#view-kwik .figma-embed__poster      { background-image: url('../assets/kwik-cover.jpg?v=6'); }
+#view-aia .figma-embed__poster       { background-image: url('../assets/aia-cover.jpg?v=6'); }
 
 /* Scrim so the label stays readable over the cover art */
 .figma-embed__poster::before {
@@ -1107,7 +1115,7 @@ img.persona__photo {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin: 72px 0 96px;
+  margin: 72px 0 clamp(96px, 10vw, 144px);
   padding: 32px;
   flex-wrap: wrap;
   text-align: left;

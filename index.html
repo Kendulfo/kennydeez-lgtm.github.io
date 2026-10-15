@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=47">
-<link rel="stylesheet" href="css/site.css?v=2">
+<link rel="stylesheet" href="css/styles.css?v=52">
+<link rel="stylesheet" href="css/site.css?v=23">
 <script>
   // Lets the stylesheet hold back entrance animations until script is known
   // to be running; without it everything simply shows.
@@ -29,7 +29,6 @@
     <g id="i-mail"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g>
     <g id="i-arrow"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></g>
     <g id="i-arrow-ur"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></g>
-    <g id="i-back"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></g>
     <g id="i-cal"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></g>
     <g id="i-pin"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></g>
     <g id="i-download"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 20h16"/></g>
@@ -60,26 +59,16 @@
 
 <div class="app" id="app">
 
-  <!-- Header =========================================================== -->
+  <!-- Navigation: one pill floating at the bottom of the screen, on every
+       view. From a case study the section links go home first (main.js). -->
   <header class="nav" id="site-nav">
-    <div class="nav__inner">
-      <button class="nav__back" data-action="back">
-        <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-back"/></svg>
-        <span>All work</span>
-      </button>
-      <a class="brand" href="#hero" data-view="home">Kenneth Dulfo<span class="dot">.</span></a>
-
-      <nav class="nav__links" id="nav" aria-label="Sections">
-        <a href="#work"    data-nav="work"><span class="roll" data-text="Work">Work</span></a>
-        <a href="#about"   data-nav="about"><span class="roll" data-text="About">About</span></a>
-        <a href="#resume"  data-nav="resume"><span class="roll" data-text="Experience">Experience</span></a>
-        <a href="#contact" data-nav="contact"><span class="roll" data-text="Contact">Contact</span></a>
-      </nav>
-
-      <a class="nav__status" href="#contact"><i aria-hidden="true"></i>Available for work</a>
-
-      <button class="nav__menu" data-action="menu" aria-expanded="false" aria-controls="nav">Menu</button>
-    </div>
+    <nav class="nav__pill" aria-label="Main">
+      <a class="brand" href="#hero" data-view="home"><i class="nav__live" aria-hidden="true" title="Available for work"></i>Kenneth Dulfo<span class="dot">.</span><span class="sr-only">, available for work</span></a>
+      <a href="#work" data-nav="work">Work</a>
+      <a class="nav__extra" href="#about" data-nav="about">About</a>
+      <a class="nav__extra" href="#resume" data-nav="resume">Experience</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+    </nav>
   </header>
 
   <!-- Main =============================================================== -->
@@ -87,6 +76,20 @@
 
     <!-- ===== HOME VIEW ================================================= -->
     <div class="view" id="view-home">
+
+      <!-- Showreel. Full screen on arrival; the first screen of scrolling
+           shrinks it into the page (main.js). The phone gets a vertical cut. -->
+      <section class="reel" aria-label="Showreel" data-reel>
+        <div class="reel__pin">
+          <div class="reel__frame">
+            <video class="reel__video" muted loop playsinline preload="auto" poster="assets/reel/reel-landscape.jpg" aria-hidden="true">
+              <source src="assets/reel/reel-vertical.mp4?v=2" type="video/mp4" media="(max-aspect-ratio: 3/4)">
+              <source src="assets/reel/reel-landscape.mp4" type="video/mp4">
+            </video>
+            <button class="reel__toggle" type="button" data-action="reel">Pause</button>
+          </div>
+        </div>
+      </section>
 
       <!-- Hero, with the first look at the work sliding up over it -->
       <div class="stack">
@@ -121,56 +124,58 @@
 
         <section class="showcase" aria-label="A first look at the work">
           <div class="fan" data-fan>
-            <a class="fan__card fan__card--left" href="#case/cws" data-case="cws">
-              <img src="assets/cws-cover.jpg?v=5" alt="CWS referral module for Manulife, three phone screens" width="1600" height="900">
+            <!-- Each card plays a short muted loop while the fan is on screen (main.js) -->
+            <a class="fan__card fan__card--left" href="#case/cws" data-case="cws" aria-label="Manulife: a referral programme, three phone screens">
+              <video src="assets/fan/cws.mp4" poster="assets/fan/cws.jpg" muted loop playsinline preload="none" aria-hidden="true" data-loop></video>
             </a>
-            <a class="fan__card fan__card--right" href="#case/kwik" data-case="kwik">
-              <img src="assets/kwik-cover.jpg?v=5" alt="KwikCare health plans inside GCash" width="1600" height="960">
+            <a class="fan__card fan__card--right" href="#case/ewb" data-case="ewb" aria-label="EastWest: linking an insurance policy inside a banking app">
+              <video src="assets/fan/ewb.mp4" poster="assets/fan/ewb.jpg" muted loop playsinline preload="none" aria-hidden="true" data-loop></video>
             </a>
-            <a class="fan__card fan__card--center" href="#case/aia" data-case="aia">
-              <img src="assets/aia-cover.jpg?v=5" alt="AIA digital design system, component library" width="1600" height="960">
+            <a class="fan__card fan__card--center" href="#case/aia" data-case="aia" aria-label="AIA: one design system for eighteen markets">
+              <video src="assets/fan/aia.mp4" poster="assets/fan/aia.jpg" muted loop playsinline preload="none" aria-hidden="true" data-loop></video>
             </a>
           </div>
         </section>
       </div>
 
       <!-- About -->
+      <!-- One story, read in a breath. The portrait is its drop cap; the
+           facts beside it answer the quick questions. -->
       <section class="about" id="about" aria-labelledby="about-title">
-        <div class="wrap about__grid">
-          <div class="about__intro">
-            <p class="label reveal">About me</p>
-            <h2 class="h-md reveal" id="about-title">Somebody has to care about the plumbing<span class="dot">.</span></h2>
-            <ul class="pills reveal" aria-label="Skills and tools">
-              <li>Figma</li>
-              <li>Design tokens</li>
-              <li>Information architecture</li>
-              <li>UX research</li>
-              <li>Prototyping</li>
-              <li>Workshops</li>
-            </ul>
-          </div>
+        <div class="about__pin">
+          <div class="wrap wrap--wide about__grid">
+            <h2 class="label about__label reveal" id="about-title">About me</h2>
 
-          <figure class="about__portrait reveal">
-            <img src="assets/portrait.png" alt="Kenneth Dulfo on a lit street at night" width="2048" height="2048" loading="lazy">
-          </figure>
+            <div class="about__story">
+              <div class="about__open">
+                <div class="about__cap">
+                  <img src="assets/portrait-640.jpg" srcset="assets/portrait-640.jpg 640w, assets/portrait-1200.jpg 1200w" sizes="(max-width: 600px) min(calc(100vw - 40px), 26rem), 22rem" alt="Kenneth Dulfo on a lit street at night" width="1200" height="1500" loading="lazy">
+                </div>
+                <p class="about__lead" data-light>
+                  <strong>I'm Kenneth, and somebody has to care about the plumbing.</strong>
+                  I started as a graphic designer, got handed one web project, and never really
+                  went back. Eleven years on, most of my work is the part nobody screenshots: how
+                  things are organised, what happens when you tap, and the design systems that stop
+                  twenty designers building the same button twenty different ways.
+                </p>
+                <blockquote class="about__quote reveal">
+                  <p>The part I love is seeing it at work, when people get through a flow without
+                  thinking and the usability results come back better. I work in the open and keep
+                  the whole team aligned, so nobody is guessing what changed or why.</p>
+                </blockquote>
+                <a class="arrow-link reveal" href="#resume">
+                  <span class="link-text">See my experience</span>
+                  <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-arrow-ur"/></svg>
+                </a>
+              </div>
+            </div>
 
-          <div class="about__side">
-            <figure class="about__process reveal">
-              <img src="assets/kwik-wireframes.png" alt="Wireframes for the KwikCare purchase flow" loading="lazy">
-            </figure>
-            <p class="body reveal">
-              Eleven years in, most of my work is the part nobody screenshots: how things are
-              organised, what happens when you tap, and the design systems that stop twenty
-              designers building the same button twenty different ways.
-            </p>
-            <p class="body reveal">
-              I usually have a few products running at once rather than one screen I'm
-              precious about.
-            </p>
-            <a class="arrow-link reveal" href="#resume">
-              <span class="roll" data-text="See my experience">See my experience</span>
-              <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-arrow-ur"/></svg>
-            </a>
+            <dl class="about__facts reveal">
+              <div><dt>Based in</dt><dd>Manila, Philippines</dd></div>
+              <div><dt>Doing this for</dt><dd>Eleven years</dd></div>
+              <div><dt>Works in</dt><dd>Figma, design tokens, information architecture, UX research, prototyping, workshops</dd></div>
+              <div><dt>Off the clock</dt><dd>Pour-over coffee and games</dd></div>
+            </dl>
           </div>
         </div>
       </section>
@@ -180,30 +185,101 @@
         <div class="wrap">
           <header class="work__head">
             <p class="label reveal">Selected work</p>
-            <h2 class="h-lg reveal" id="work-title">Design Systems &amp; Products<span class="dot">.</span></h2>
+            <h2 class="h-lg" id="work-title" data-split>Design Systems &amp; <span class="nowrap">Products<span class="dot">.</span></span></h2>
           </header>
 
-          <div class="work__grid">
-            <a class="proj reveal" href="#case/aia" data-case="aia">
-              <span class="proj__media"><img src="assets/aia-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">One Design System for Eighteen Asian Markets<span class="dot">.</span></span>
-              <span class="proj__desc">Qi, built for AIA and adopted by the Vitality app and the public site. In a timed test, twenty designers built the same page about 60% faster with it.</span>
-            </a>
-            <a class="proj reveal" href="#case/cws" data-case="cws">
-              <span class="proj__media"><img src="assets/cws-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="900"></span>
-              <span class="proj__title">Asking Someone to Recommend You, Without Making It Weird<span class="dot">.</span></span>
-              <span class="proj__desc">A referral programme for Manulife's customer website: three moments it can be offered, one set of rules underneath, and a friend who has to feel invited rather than sold to.</span>
-            </a>
-            <a class="proj reveal" href="#case/ewb" data-case="ewb">
-              <span class="proj__media"><img src="assets/ewb-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">Linking an Insurance Policy Inside a Banking App<span class="dot">.</span></span>
-              <span class="proj__desc">EastWest Ageas policies inside the EastWest Bank app: identity, consent, every way the link can fail, and a lead path for customers who hold no policy yet.</span>
-            </a>
-            <a class="proj reveal" href="#case/segstream" data-case="segstream">
-              <span class="proj__media"><img src="assets/segstream-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">A Design System That Rethemes in Five Edits<span class="dot">.</span></span>
-              <span class="proj__desc">Segstream rebuilt on three tiers of tokens: forty component sets, 485 variants, real dark mode, and a full retheme that takes five edits.</span>
-            </a>
+          <!-- Numbered index. On a mouse the picture follows the pointer
+               (main.js); on touch it sits at the top of each row. -->
+          <ol class="index" data-index>
+            <li class="reveal">
+              <a class="index__link" href="#case/aia" data-case="aia" data-preview="assets/previews/aia.mp4">
+                <span class="index__media"><img src="assets/aia-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">01</span>
+                <span class="index__name">AIA</span>
+                <span class="index__text">
+                  <span class="index__title">One Design System for Eighteen Asian Markets<span class="dot">.</span></span>
+                  <span class="index__desc">Qi, built for AIA and adopted by the Vitality app and the public site. In a timed test, twenty designers built the same page about 60% faster with it.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/cws" data-case="cws">
+                <span class="index__media"><img src="assets/cws-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">02</span>
+                <span class="index__name">Manulife</span>
+                <span class="index__text">
+                  <span class="index__title">Asking Someone to Recommend You, Without Making It Weird<span class="dot">.</span></span>
+                  <span class="index__desc">A referral programme for Manulife's customer website: three moments it can be offered, one set of rules underneath, and a friend who has to feel invited rather than sold to.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/ewb" data-case="ewb">
+                <span class="index__media"><img src="assets/ewb-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">03</span>
+                <span class="index__name">EastWest</span>
+                <span class="index__text">
+                  <span class="index__title">Linking an Insurance Policy Inside a Banking App<span class="dot">.</span></span>
+                  <span class="index__desc">EastWest Ageas policies inside the EastWest Bank app: identity, consent, every way the link can fail, and a lead path for customers who hold no policy yet.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/segstream" data-case="segstream" data-preview="assets/previews/segstream.mp4">
+                <span class="index__media"><img src="assets/segstream-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">04</span>
+                <span class="index__name">Segstream</span>
+                <span class="index__text">
+                  <span class="index__title">A Design System That Rethemes in Five Edits<span class="dot">.</span></span>
+                  <span class="index__desc">Segstream rebuilt on three tiers of tokens: forty component sets, 485 variants, real dark mode, and a full retheme that takes five edits.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/entrego" data-case="entrego">
+                <span class="index__media"><img src="assets/entrego-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">05</span>
+                <span class="index__name">Entrego</span>
+                <span class="index__text">
+                  <span class="index__title">Designing a Delivery App from Research to Launch<span class="dot">.</span></span>
+                  <span class="index__desc">A customer-facing parcel app taken from user research and journey mapping through to 113 shipped screens, live on the App Store and Google Play at 4.8 stars.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/kwik" data-case="kwik">
+                <span class="index__media"><img src="assets/kwik-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">06</span>
+                <span class="index__name">KwikCare</span>
+                <span class="index__text">
+                  <span class="index__title">Selling Health Cover Inside a Wallet App<span class="dot">.</span></span>
+                  <span class="index__desc">KwikCare in GCash: five plan tiers, a guided four-step purchase with health declaration and document upload, and a policy dashboard for every plan.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/kwikweb" data-case="kwikweb">
+                <span class="index__media"><img src="assets/kwikweb-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">07</span>
+                <span class="index__name">KwikCare Web</span>
+                <span class="index__text">
+                  <span class="index__title">Rebuilding a Product Listing Page<span class="dot">.</span></span>
+                  <span class="index__desc">A plan listing rebuilt into a comparison: price leading every card, the popular plan marked, filters applying live, and the empty and loading states designed.</span>
+                </span>
+              </a>
+            </li>
+            <li class="reveal">
+              <a class="index__link" href="#case/brew" data-case="brew" data-preview="assets/previews/brew.mp4">
+                <span class="index__media"><img src="assets/brew-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
+                <span class="index__num" aria-hidden="true">08</span>
+                <span class="index__name">Brew</span>
+                <span class="index__text">
+                  <span class="index__title">A Coffee Scale That Tells You Everything Except What To Do<span class="dot">.</span></span>
+                  <span class="index__desc">A side project. I connected to my scale over Bluetooth and built the missing half: the number counts down to zero, and a pour ends when you actually get there.</span>
+                </span>
+              </a>
+            </li>
+          </ol>
 
             <div class="proof reveal">
               <div class="proof__side">
@@ -219,28 +295,6 @@
                 </dl>
               </div>
             </div>
-
-            <a class="proj reveal" href="#case/entrego" data-case="entrego">
-              <span class="proj__media"><img src="assets/entrego-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">Designing a Delivery App from Research to Launch<span class="dot">.</span></span>
-              <span class="proj__desc">A customer-facing parcel app taken from user research and journey mapping through to 113 shipped screens, live on the App Store and Google Play at 4.8 stars.</span>
-            </a>
-            <a class="proj reveal" href="#case/kwik" data-case="kwik">
-              <span class="proj__media"><img src="assets/kwik-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">Selling Health Cover Inside a Wallet App<span class="dot">.</span></span>
-              <span class="proj__desc">KwikCare in GCash: five plan tiers, a guided four-step purchase with health declaration and document upload, and a policy dashboard for every plan.</span>
-            </a>
-            <a class="proj reveal" href="#case/kwikweb" data-case="kwikweb">
-              <span class="proj__media"><img src="assets/kwikweb-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">Rebuilding a Product Listing Page<span class="dot">.</span></span>
-              <span class="proj__desc">A plan listing rebuilt into a comparison: price leading every card, the popular plan marked, filters applying live, and the empty and loading states designed.</span>
-            </a>
-            <a class="proj reveal" href="#case/brew" data-case="brew">
-              <span class="proj__media"><img src="assets/brew-cover.jpg?v=5" alt="" loading="lazy" width="1600" height="960"></span>
-              <span class="proj__title">A Coffee Scale That Tells You Everything Except What To Do<span class="dot">.</span></span>
-              <span class="proj__desc">A side project. I connected to my scale over Bluetooth and built the missing half: the number counts down to zero, and a pour ends when you actually get there.</span>
-            </a>
-          </div>
         </div>
       </section>
 
@@ -250,10 +304,10 @@
           <header class="resume__head">
             <div>
               <p class="label reveal">Experience</p>
-              <h2 class="h-lg reveal" id="resume-title">Eleven years, from graphic design to UX architecture<span class="dot">.</span></h2>
+              <h2 class="h-lg" id="resume-title" data-split>Eleven years, from graphic design to UX <span class="nowrap">architecture<span class="dot">.</span></span></h2>
             </div>
             <a class="btn btn--pill reveal" href="assets/kenneth-dulfo-resume.pdf" download>
-              <span class="roll" data-text="Download résumé">Download résumé</span>
+              Download résumé
             </a>
           </header>
 
@@ -336,13 +390,13 @@
       <!-- Closing call to action -->
       <section class="cta" id="contact" aria-labelledby="cta-title">
         <div class="wrap cta__inner">
-          <h2 class="cta__title reveal" id="cta-title">Open to product design roles and systems work that has outgrown its team<span class="dot">.</span></h2>
+          <h2 class="cta__title" id="cta-title" data-split>Open to product design roles and systems work that has outgrown its <span class="nowrap">team<span class="dot">.</span></span></h2>
           <div class="cta__actions reveal">
             <button class="btn btn--pill" data-view="contact-form">
-              <span class="roll" data-text="Send me a message">Send me a message</span>
+              Send me a message
             </button>
             <a class="arrow-link" href="mailto:kendulfo@gmail.com">
-              <span class="roll" data-text="kendulfo@gmail.com">kendulfo@gmail.com</span>
+              <span class="link-text">kendulfo@gmail.com</span>
               <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-arrow-ur"/></svg>
             </a>
           </div>
@@ -358,24 +412,6 @@
           </span>
         </div>
       </div>
-
-      <footer class="footer">
-        <div class="wrap wrap--wide">
-          <div class="footer__top">
-            <a class="brand" href="#hero">Kenneth Dulfo<span class="dot">.</span></a>
-            <nav class="footer__links" aria-label="Footer">
-              <a href="#work"><span class="roll" data-text="Work">Work</span></a>
-              <a href="#about"><span class="roll" data-text="About">About</span></a>
-              <a href="#resume"><span class="roll" data-text="Experience">Experience</span></a>
-              <a href="#contact"><span class="roll" data-text="Contact">Contact</span></a>
-            </nav>
-          </div>
-          <div class="footer__bottom">
-            <span>© <span data-year>2026</span> Kenneth Dulfo · Manila, Philippines</span>
-            <a href="mailto:kendulfo@gmail.com">kendulfo@gmail.com</a>
-          </div>
-        </div>
-      </footer>
     </div>
 
     <!-- ===== CONTACT FORM ============================================== -->
@@ -987,7 +1023,7 @@
         </header>
 
         <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/entrego-cover.jpg?v=5')"
+             style="background-image:url('assets/entrego-cover.jpg?v=6')"
              role="img" aria-label="myEntrego delivery app cover"></div>
 
         <div class="prose">
@@ -1137,7 +1173,7 @@
                  data-figma-file="VwBj0qoGf6c2ieKSTSNM6f"
                  data-figma-name="Entrego-Mobile-App">
               <button class="figma-embed__poster" type="button" data-action="load-figma"
-                      style="background-image:url('assets/entrego-cover.jpg?v=5')">
+                      style="background-image:url('assets/entrego-cover.jpg?v=6')">
                 <span class="figma-embed__badge">
                   <svg class="figma-mark" viewBox="0 0 38 57" width="26" height="39" aria-hidden="true"><use href="#b-figma-color"/></svg>
                 </span>
@@ -1241,7 +1277,7 @@
         </header>
 
         <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/kwik-cover.jpg?v=5')"
+             style="background-image:url('assets/kwik-cover.jpg?v=6')"
              role="img" aria-label="KwikCare in GCash cover"></div>
 
         <div class="prose">
@@ -1393,7 +1429,7 @@
                  data-figma-file="k6X0P1LiDvI00VzbJ06nbu"
                  data-figma-name="Kwik-x-Gcash">
               <button class="figma-embed__poster" type="button" data-action="load-figma"
-                      style="background-image:url('assets/kwik-cover.jpg?v=5')">
+                      style="background-image:url('assets/kwik-cover.jpg?v=6')">
                 <span class="figma-embed__badge">
                   <svg class="figma-mark" viewBox="0 0 38 57" width="26" height="39" aria-hidden="true"><use href="#b-figma-color"/></svg>
                 </span>
@@ -1499,7 +1535,7 @@
         </header>
 
         <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/kwikweb-cover.jpg?v=5')"
+             style="background-image:url('assets/kwikweb-cover.jpg?v=6')"
              role="img" aria-label="KwikCare product listing page cover"></div>
 
         <div class="prose">
@@ -1727,7 +1763,7 @@
         </header>
 
         <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/brew-cover.jpg?v=5')"
+             style="background-image:url('assets/brew-cover.jpg?v=6')"
              role="img" aria-label="Brew — a pour-over coffee timer connected to a Bluetooth scale"></div>
 
         <div class="prose">
@@ -2188,7 +2224,7 @@
         </header>
 
         <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/cws-cover.jpg?v=5')"
+             style="background-image:url('assets/cws-cover.jpg?v=6')"
              role="img" aria-label="Manulife CWS referral module"></div>
 
         <div class="prose">
@@ -2713,7 +2749,7 @@
                  data-figma-file="MTCITWwWzRvlbFqfn9dqpg"
                  data-figma-name="AIA---Digital-Design-System">
               <button class="figma-embed__poster" type="button" data-action="load-figma"
-                      style="background-image:url('assets/aia-cover.jpg?v=5')">
+                      style="background-image:url('assets/aia-cover.jpg?v=6')">
                 <span class="figma-embed__badge">
                   <svg class="figma-mark" viewBox="0 0 38 57" width="26" height="39" aria-hidden="true"><use href="#b-figma-color"/></svg>
                 </span>
@@ -2775,11 +2811,30 @@
       </div>
     </article>
 
-
+    <!-- Footer: closes every view, the home page and each case study -->
+    <footer class="footer">
+      <div class="wrap wrap--wide">
+        <div class="footer__top">
+          <a class="brand" href="#hero" data-view="home">Kenneth Dulfo<span class="dot">.</span></a>
+          <nav class="footer__links" aria-label="Footer">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#resume">Experience</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
+        <div class="footer__bottom">
+          <span>© <span data-year>2026</span> Kenneth Dulfo · Manila, Philippines</span>
+          <a href="mailto:kendulfo@gmail.com">kendulfo@gmail.com</a>
+        </div>
+      </div>
+    </footer>
   </main>
 </div>
 
 <script src="js/vendor/gsap.min.js?v=3.15.0"></script>
-<script src="js/main.js?v=27"></script>
+<script src="js/vendor/SplitText.min.js?v=3.15.0"></script>
+<script src="js/vendor/lenis.min.js?v=1.3.26"></script>
+<script src="js/main.js?v=35"></script>
 </body>
 </html>

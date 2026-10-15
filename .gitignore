@@ -20,4 +20,4 @@ node_modules/
 
 # /brag intermediate render output (45MB of frames and comps; the finished
 # video and poster live in assets/ and are committed)
-brag-output/
+brag-output*/

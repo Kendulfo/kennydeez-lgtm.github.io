@@ -1,6 +1,6 @@
 /* ==========================================================================
    Kenneth Dulfo — Portfolio
-   Vanilla JS: view routing, header state, scroll reveal and effects.
+   Vanilla JS: view routing, scroll reveal and effects.
    ========================================================================== */
 (function () {
   'use strict';
@@ -11,31 +11,16 @@
   // lives here rather than inside whichever one happened to need it first.
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  /* --------------------------------------------------------------- Header */
-  // Transparent over the hero, solid once the page moves. Reading down tucks
-  // it away; any move back up brings it back.
-  var nav = document.getElementById('site-nav');
-  var lastY = window.scrollY;
-
-  function paintNav() {
-    if (!nav) return;
-    var y = window.scrollY;
-    nav.classList.toggle('is-solid', y > 24);
-    var goingDown = y > lastY + 4;
-    var goingUp = y < lastY - 4;
-    if (y < 120 || goingUp) nav.classList.remove('is-tucked');
-    else if (goingDown) nav.classList.add('is-tucked');
-    if (goingDown || goingUp) lastY = y;
-  }
-
-  function setMenu(open) {
-    if (!nav) return;
-    nav.classList.toggle('is-open', open);
-    var btn = nav.querySelector('[data-action="menu"]');
-    if (btn) {
-      btn.setAttribute('aria-expanded', String(open));
-      btn.textContent = open ? 'Close' : 'Menu';
-    }
+  /* -------------------------------------------------------- Smooth scroll */
+  // Lenis eases the wheel; touch stays native. It moves the real window
+  // scroll, so every scroll listener below works unchanged, and nested
+  // scrollers (the story rails, the message box) keep their own scrolling.
+  var lenis = null;
+  if (window.gsap && window.SplitText) gsap.registerPlugin(SplitText);
+  if (window.Lenis && window.gsap && !reduced.matches) {
+    lenis = new Lenis({ allowNestedScroll: true });
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
   }
 
   /* ------------------------------------------------------------ Card fan */
@@ -55,6 +40,85 @@
     fan.style.setProperty('--spread', (0.35 + eased * 0.65).toFixed(3));
   }
 
+  /* --------------------------------------------------------------- Reel */
+  // The showreel opens the page full screen. Over the first screen of
+  // scrolling it holds, then eases down to 40% while CSS keeps it pinned;
+  // --reel carries the progress, as --spread does for the fan.
+  var reel = document.querySelector('[data-reel]');
+  var reelVideo = reel && reel.querySelector('video');
+  var reelHeld = false;   // the reader paused it; scrolling back must not restart it
+
+  function paintReel() {
+    if (!reel || reduced.matches || !reel.offsetParent) return;
+    var r = reel.getBoundingClientRect();
+    var p = Math.max(0, Math.min(1, -r.top / (r.height - window.innerHeight)));
+    p = Math.max(0, (p - 0.25) / 0.75);   // the first quarter holds full size
+    reel.style.setProperty('--reel', (p * p * (3 - 2 * p)).toFixed(4));
+  }
+
+  function playReel(on) {
+    if (on) {
+      var playing = reelVideo.play();
+      if (playing && playing.catch) playing.catch(function () {});
+    } else {
+      reelVideo.pause();
+    }
+  }
+
+  function toggleReel(btn) {
+    reelHeld = !reelVideo.paused;
+    playReel(!reelHeld);
+    btn.textContent = reelHeld ? 'Play' : 'Pause';
+  }
+
+  function armReel() {
+    if (!reel || !reelVideo || !('IntersectionObserver' in window)) return;
+    var btn = reel.querySelector('[data-action="reel"]');
+
+    // The browser picks a <source> once, at load, so a window that turns
+    // portrait (or back) afterwards would keep the wrong cut, cropped. Swap
+    // it on the change instead; the poster follows from the start.
+    var portrait = window.matchMedia('(max-aspect-ratio: 3/4)');
+    var cuts = reelVideo.querySelectorAll('source');   // vertical, then landscape
+    function pickCut(swap) {
+      reelVideo.poster = portrait.matches ? 'assets/reel/reel-vertical.jpg' : 'assets/reel/reel-landscape.jpg';
+      if (!swap) return;
+      var wasPlaying = !reelVideo.paused;
+      reelVideo.src = cuts[portrait.matches ? 0 : 1].getAttribute('src');
+      if (wasPlaying) playReel(true);
+    }
+    pickCut(false);
+    portrait.addEventListener('change', function () { pickCut(true); });
+
+    // Plays only while on screen; a hidden view never intersects. Under
+    // reduced motion it waits for the Play button.
+    reelHeld = reduced.matches;
+    if (reelHeld) btn.textContent = 'Play';
+    new IntersectionObserver(function (entries) {
+      playReel(entries[0].isIntersecting && !reelHeld);
+    }).observe(reel);
+
+    // The hero now sits a screen down, so its arrival waits until it is reached.
+    var hero = document.querySelector('.hero');
+    if (hero) {
+      root.classList.add('has-reel');
+      var heroIO = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        hero.classList.add('is-in');
+        heroIO.disconnect();
+      }, { threshold: 0.3 });
+      heroIO.observe(hero);
+    }
+
+    // Opening: the frame widens from a centred window to full screen.
+    if (window.gsap && !reduced.matches && window.scrollY < 10 && reel.offsetParent) {
+      gsap.from(reel.querySelector('.reel__frame'), {
+        clipPath: 'inset(22% 26% 22% 26%)', duration: 1.6, ease: 'expo.inOut', delay: 0.1,
+        clearProps: 'clipPath'
+      });
+    }
+  }
+
   /* ----------------------------------------------------------- View router */
 
   // Case-study videos start when their view opens and stop when it closes, so
@@ -64,6 +128,7 @@
     var vids = document.querySelectorAll('.view video');
     for (var i = 0; i < vids.length; i++) {
       var vid = vids[i];
+      if (vid === reelVideo || vid.hasAttribute('data-loop')) continue;   // played by visibility
       if (target && target.contains(vid)) {
         vid.muted = true;
         var playing = vid.play();
@@ -143,18 +208,27 @@
     // It has to be the behavior option. Setting scroll-behavior: auto inline
     // around the call does nothing: the scroll resolves its behaviour after the
     // property has been put back, so it still glides. Measured both.
-    try {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    } catch (err) {
-      window.scrollTo(0, 0);   // old engines reject the unknown enum value
+    if (lenis) {
+      lenis.resize();   // the page just changed length; Lenis would clamp to the old one
+      lenis.scrollTo(0, { immediate: true, force: true });
+    } else {
+      try {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      } catch (err) {
+        window.scrollTo(0, 0);   // old engines reject the unknown enum value
+      }
     }
 
-    setMenu(false);
     revealAll(target);
     syncVideos(target);
     armShots();
     syncRails(target);
     paintScroll();
+    // Split lines can only be measured in a view that is showing.
+    if (target.id === 'view-home') {
+      armSplits();
+      fitLight();
+    }
   }
 
   function routeFromHash() {
@@ -180,9 +254,8 @@
     var actionEl = e.target.closest('[data-action]');
     if (actionEl) {
       var action = actionEl.getAttribute('data-action');
-      if (action === 'menu')       { setMenu(!nav.classList.contains('is-open')); return; }
       if (action === 'load-figma') { mountFigma(actionEl.closest('.figma-embed')); return; }
-      if (action === 'back')       { showView('home'); return; }
+      if (action === 'reel')       { toggleReel(actionEl); return; }
     }
 
     // Project cards, next-project cards, and anything else that opens a view
@@ -202,12 +275,16 @@
       var section = document.getElementById(id);
       if (section) {
         e.preventDefault();
-        setMenu(false);
         if (document.getElementById('view-home').hidden) {
           showView('home', false);
           history.replaceState({ view: 'home' }, '', '#' + id);
         }
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (lenis) {
+          lenis.resize();
+          lenis.scrollTo(section);
+        } else {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
   });
@@ -403,6 +480,23 @@
     lb.querySelector('.lightbox__prev').addEventListener('click', function () { stepLightbox(-1); });
     lb.querySelector('.lightbox__next').addEventListener('click', function () { stepLightbox(1); });
 
+    // On a phone the picture pages with a sideways swipe and closes with a
+    // downward one. One finger only, so a pinch to zoom is left alone.
+    var touchX = null, touchY = 0;
+    lb.addEventListener('touchstart', function (e) {
+      var one = e.touches.length === 1;
+      touchX = one ? e.touches[0].clientX : null;
+      touchY = one ? e.touches[0].clientY : 0;
+    }, { passive: true });
+    lb.addEventListener('touchend', function (e) {
+      if (touchX === null) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      var dy = e.changedTouches[0].clientY - touchY;
+      touchX = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) stepLightbox(dx < 0 ? 1 : -1);
+      else if (dy > 80 && dy > Math.abs(dx) * 1.5) closeLightbox();
+    });
+
     // Clicking the backdrop dismisses; clicking the picture itself does not.
     lb.addEventListener('click', function (e) {
       if (e.target === lb || e.target.classList.contains('lightbox__stage')) closeLightbox();
@@ -494,6 +588,11 @@
   // Holds the page still under the overlay. The padding stops the layout
   // jumping sideways when the scrollbar is taken away.
   function lockScroll(on) {
+    // Lenis scrolls the window from script, which overflow: hidden does not stop.
+    if (lenis) {
+      if (on) lenis.stop();
+      else lenis.start();
+    }
     if (on) {
       var gap = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.paddingRight = gap > 0 ? gap + 'px' : '';
@@ -831,8 +930,9 @@
   }
 
   function paintScroll() {
-    paintNav();
+    paintReel();
     paintFan();
+    paintLight();
     paintDrift();
   }
 
@@ -863,6 +963,23 @@
   // The name crosses the page once more before the footer. The track holds its
   // group twice, so sliding by exactly half lands on a frame identical to the
   // first and the loop has no seam. It only runs while it is on screen.
+  /* ----------------------------------------------------------- Card loops */
+  // The fan's cards play their muted loops only while the fan is near the
+  // screen; preload="none" means nothing downloads before then. A hidden view
+  // never intersects, and under reduced motion the cards keep their posters.
+  function armLoops() {
+    var vids = document.querySelectorAll('video[data-loop]');
+    if (!vids.length || reduced.matches || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { entry.target.pause(); return; }
+        var playing = entry.target.play();
+        if (playing && playing.catch) playing.catch(function () {});
+      });
+    }, { rootMargin: '200px 0px' });
+    vids.forEach(function (v) { io.observe(v); });
+  }
+
   function armMarquee() {
     var band = document.querySelector('[data-marquee]');
     if (!band || !window.gsap || reduced.matches || !('IntersectionObserver' in window)) return;
@@ -884,6 +1001,193 @@
     });
   }
 
+  /* ------------------------------------------------------ Statement lines */
+  // Headings marked data-split rise a line at a time from behind their own
+  // baseline, the move the hero title makes on load, carried down the page.
+  // An IntersectionObserver starts each one, as with the other reveals: it
+  // never fires inside a hidden view, so nothing plays where nobody can see
+  // it. autoSplit re-splits on font load and resize, and the rise returned
+  // from onSplit is rebuilt at the point it had reached.
+  var splits = [];
+  var rises = new Map();
+  var risen = new WeakSet();
+
+  function armSplits() {
+    if (!window.SplitText || reduced.matches || !('IntersectionObserver' in window)) return;
+    // Back from a case study: anything re-split while hidden measured nothing.
+    if (splits.length) {
+      splits.forEach(function (s) { s.split(); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        risen.add(entry.target);
+        io.unobserve(entry.target);
+        rises.get(entry.target).play();
+      });
+    }, { rootMargin: '0px 0px -15% 0px' });
+
+    document.querySelectorAll('[data-split]').forEach(function (el) {
+      splits.push(SplitText.create(el, {
+        type: 'lines',
+        mask: 'lines',
+        linesClass: 'split-line',
+        autoSplit: true,
+        onSplit: function (self) {
+          var rise = gsap.from(self.lines, {
+            yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.08, paused: !risen.has(el)
+          });
+          rises.set(el, rise);
+          return rise;
+        }
+      }));
+      io.observe(el);
+    });
+  }
+
+  /* ------------------------------------------------------------ Lit story */
+  // The About story starts dim and lights a word at a time as it crosses the
+  // screen, so the eye always has a place to be. Split once into words:
+  // nothing here depends on where the lines break.
+  var lightText = document.querySelector('[data-light]');
+  var lightSection = lightText && lightText.closest('section');
+  var lightWords = [];
+  var lightCount = -1;
+  var lightPinned = false;
+
+  // Held in place only where the whole section fits on screen. On a phone it
+  // is taller than the screen, so pinning would hide part of it; there the
+  // words light as it scrolls past instead.
+  function fitLight() {
+    if (!lightWords.length || !lightSection.offsetParent) return;
+    var grid = lightSection.querySelector('.about__grid');
+    lightPinned = window.innerWidth > 860 && grid.offsetHeight + 120 <= window.innerHeight;
+    lightSection.classList.toggle('about--pin', lightPinned);
+  }
+
+  function paintLight() {
+    if (!lightWords.length || !lightText.offsetParent) return;
+    var vh = window.innerHeight;
+    var p;
+    if (lightPinned) {
+      // Through the pin's travel; the words finish early so the lit story
+      // holds for a beat before the page moves on.
+      var s = lightSection.getBoundingClientRect();
+      p = -s.top / (s.height - vh) / 0.85;
+    } else {
+      // Begins as its top passes 80% of the screen; every word is lit by the
+      // time its last line reaches the middle.
+      var r = lightText.getBoundingClientRect();
+      p = (vh * 0.8 - r.top) / (r.height + vh * 0.3);
+    }
+    var n = Math.round(Math.max(0, Math.min(1, p)) * lightWords.length);
+    if (n === lightCount) return;
+    lightCount = n;
+    for (var i = 0; i < lightWords.length; i++) lightWords[i].classList.toggle('is-lit', i < n);
+  }
+
+  function armLight() {
+    if (!lightText || !window.SplitText || reduced.matches) return;
+    lightWords = SplitText.create(lightText, { type: 'words', wordsClass: 'word' }).words;
+    fitLight();
+    paintLight();
+    window.addEventListener('resize', fitLight);
+  }
+
+  /* ----------------------------------------------------------- Work index */
+  // On a mouse, one frame follows the pointer over the index and shows the
+  // project under it: its cover, or a few seconds of its film where there is
+  // one. Touch screens get each cover inline in its row instead (CSS).
+  var FINE_POINTER = '(hover: hover) and (pointer: fine) and (min-width: 861px)';
+
+  function armIndex() {
+    var list = document.querySelector('[data-index]');
+    if (!list || !window.gsap || !window.matchMedia(FINE_POINTER).matches) return;
+
+    var links = list.querySelectorAll('.index__link');
+    var layers = [];
+    var frame = document.createElement('div');
+    frame.className = 'index-preview';
+    frame.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(frame);
+    gsap.set(frame, { yPercent: -50, scale: 0.85 });
+
+    // Built on first hover, so nobody pays for a film they never point at.
+    function layer(i) {
+      if (layers[i]) return layers[i];
+      var el = document.createElement('div');
+      el.className = 'index-preview__layer';
+      var img = document.createElement('img');
+      img.src = links[i].querySelector('img').getAttribute('src');
+      img.alt = '';
+      el.appendChild(img);
+      var film = links[i].getAttribute('data-preview');
+      if (film && !reduced.matches) {
+        var vid = document.createElement('video');
+        vid.src = film;
+        vid.muted = true;
+        vid.loop = true;
+        vid.playsInline = true;
+        el.appendChild(vid);
+      }
+      frame.appendChild(el);
+      return (layers[i] = el);
+    }
+
+    function show(i) {
+      for (var k = 0; k < layers.length; k++) {
+        if (!layers[k] || k === i) continue;
+        layers[k].classList.remove('is-on');
+        var other = layers[k].querySelector('video');
+        if (other) other.pause();
+      }
+      var on = layer(i);
+      on.classList.add('is-on');
+      var vid = on.querySelector('video');
+      if (vid) {
+        var playing = vid.play();
+        if (playing && playing.catch) playing.catch(function () {});
+      }
+    }
+
+    function hide() {
+      gsap.to(frame, { autoAlpha: 0, scale: 0.85, duration: 0.25, ease: 'power2.in', overwrite: 'auto' });
+      for (var k = 0; k < layers.length; k++) {
+        var vid = layers[k] && layers[k].querySelector('video');
+        if (vid) vid.pause();
+      }
+    }
+
+    // To the right of the pointer, so the name being read stays uncovered,
+    // and pulled back in before it can run off the right edge.
+    var follow = reduced.matches ? 0 : 0.55;
+    var xTo = gsap.quickTo(frame, 'x', { duration: follow, ease: 'power3' });
+    var yTo = gsap.quickTo(frame, 'y', { duration: follow, ease: 'power3' });
+    function place(e, snap) {
+      var x = Math.min(e.clientX + 32, window.innerWidth - frame.offsetWidth - 16);
+      if (snap) gsap.set(frame, { x: x, y: e.clientY });
+      xTo(x);
+      yTo(e.clientY);
+    }
+
+    list.addEventListener('mouseenter', function (e) {
+      place(e, true);
+      gsap.to(frame, {
+        autoAlpha: 1, scale: 1, duration: reduced.matches ? 0 : 0.45, ease: 'expo.out', overwrite: 'auto'
+      });
+    });
+    list.addEventListener('mousemove', function (e) { place(e, false); });
+    list.addEventListener('mouseleave', hide);
+    // A click opens the case study; the frame must not ride along into it.
+    list.addEventListener('click', hide);
+
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('mouseenter', show.bind(null, i));
+    }
+  }
+
   /* ------------------------------------------------------------------ Boot */
   // Stamped rather than hard-coded, so the footer can't quietly go stale again.
   var year = String(new Date().getFullYear());
@@ -900,6 +1204,10 @@
   armCounters();
   armScrollEffects();
   armMarquee();
+  armLoops();
+  armIndex();
+  armReel();
+  armLight();
   brewCta();
   updateActiveNav();
 })();
