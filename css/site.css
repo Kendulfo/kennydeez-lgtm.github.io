@@ -527,8 +527,10 @@ a:focus-visible > .link-text,
 .work .label { color: var(--on-light-faint); }
 .work__head { margin-bottom: clamp(56px, 7vw, 96px); }
 
-/* Numbered index: one row per project, the name set large. Rows share one
-   baseline across number, name and text. Pictures: see .index-preview. */
+/* Numbered index: one row per project, the name set large. The number sits
+   just before the name on its baseline; the title and description run
+   beneath the name, from its left edge, so nothing floats in a column of
+   its own. Pictures: see .index-preview. */
 .index {
   margin: 0;
   padding: 0;
@@ -537,10 +539,10 @@ a:focus-visible > .link-text,
 }
 .index__link {
   display: grid;
-  grid-template-columns: minmax(0, var(--rail)) minmax(0, 1fr) minmax(0, 26rem);
-  column-gap: var(--rail-gap);
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  row-gap: clamp(16px, 1.6vw, 24px);
   align-items: baseline;
-  padding: clamp(28px, 3vw, 44px) 0;
+  padding: clamp(32px, 3.5vw, 52px) 0;
   border-top: 1px solid var(--line-light);
   color: var(--on-light);
   transition: opacity 0.3s var(--ease);
@@ -559,10 +561,18 @@ a:focus-visible > .link-text,
   letter-spacing: -0.02em;
   transition: transform 0.5s var(--ease);
 }
+/* Title and description side by side under the name, on one baseline */
+.index__text {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 34rem);
+  column-gap: clamp(32px, 5vw, 72px);
+  align-items: baseline;
+}
 .index__title { display: block; font: 400 clamp(18px, 1.5vw, 21px)/1.3 var(--serif); }
 .index__desc {
   display: block;
-  margin-top: 10px;
+  margin-top: 0;
   font-size: 15px;
   font-weight: 300;
   line-height: 1.7;
@@ -891,7 +901,8 @@ body.is-case-study { background: var(--light); }
     background: var(--light-2);
   }
   .index__media img { width: 100%; height: 100%; object-fit: cover; }
-  .index__text { grid-column: 2; }
+  .index__text { grid-column: 2; display: block; }
+  .index__desc { margin-top: 10px; }
   .index:hover .index__link { opacity: 1; }
 }
 
