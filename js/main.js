@@ -1097,94 +1097,36 @@
   }
 
   /* ----------------------------------------------------------- Work index */
-  // On a mouse, one frame follows the pointer over the index and shows the
-  // project under it: its cover, or a few seconds of its film where there is
-  // one. Touch screens get each cover inline in its row instead (CSS).
-  var FINE_POINTER = '(hover: hover) and (pointer: fine) and (min-width: 861px)';
-
+  // Every row carries its cover. On a mouse, pointing at a row plays a few
+  // seconds of the project inside that cover, where a clip exists; the clip
+  // is built on first hover, so nobody downloads a film they never point at.
+  // Touch screens and reduced motion keep the still cover.
   function armIndex() {
-    var list = document.querySelector('[data-index]');
-    if (!list || !window.gsap || !window.matchMedia(FINE_POINTER).matches) return;
-
-    var links = list.querySelectorAll('.index__link');
-    var layers = [];
-    var frame = document.createElement('div');
-    frame.className = 'index-preview';
-    frame.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(frame);
-    gsap.set(frame, { yPercent: -50, scale: 0.85 });
-
-    // Built on first hover, so nobody pays for a film they never point at.
-    function layer(i) {
-      if (layers[i]) return layers[i];
-      var el = document.createElement('div');
-      el.className = 'index-preview__layer';
-      var img = document.createElement('img');
-      img.src = links[i].querySelector('img').getAttribute('src');
-      img.alt = '';
-      el.appendChild(img);
-      var film = links[i].getAttribute('data-preview');
-      if (film && !reduced.matches) {
-        var vid = document.createElement('video');
-        vid.src = film;
-        vid.muted = true;
-        vid.loop = true;
-        vid.playsInline = true;
-        el.appendChild(vid);
-      }
-      frame.appendChild(el);
-      return (layers[i] = el);
-    }
-
-    function show(i) {
-      for (var k = 0; k < layers.length; k++) {
-        if (!layers[k] || k === i) continue;
-        layers[k].classList.remove('is-on');
-        var other = layers[k].querySelector('video');
-        if (other) other.pause();
-      }
-      var on = layer(i);
-      on.classList.add('is-on');
-      var vid = on.querySelector('video');
-      if (vid) {
-        var playing = vid.play();
-        if (playing && playing.catch) playing.catch(function () {});
-      }
-    }
-
-    function hide() {
-      gsap.to(frame, { autoAlpha: 0, scale: 0.85, duration: 0.25, ease: 'power2.in', overwrite: 'auto' });
-      for (var k = 0; k < layers.length; k++) {
-        var vid = layers[k] && layers[k].querySelector('video');
-        if (vid) vid.pause();
-      }
-    }
-
-    // To the right of the pointer, so the name being read stays uncovered,
-    // and pulled back in before it can run off the right edge.
-    var follow = reduced.matches ? 0 : 0.55;
-    var xTo = gsap.quickTo(frame, 'x', { duration: follow, ease: 'power3' });
-    var yTo = gsap.quickTo(frame, 'y', { duration: follow, ease: 'power3' });
-    function place(e, snap) {
-      var x = Math.min(e.clientX + 32, window.innerWidth - frame.offsetWidth - 16);
-      if (snap) gsap.set(frame, { x: x, y: e.clientY });
-      xTo(x);
-      yTo(e.clientY);
-    }
-
-    list.addEventListener('mouseenter', function (e) {
-      place(e, true);
-      gsap.to(frame, {
-        autoAlpha: 1, scale: 1, duration: reduced.matches ? 0 : 0.45, ease: 'expo.out', overwrite: 'auto'
-      });
-    });
-    list.addEventListener('mousemove', function (e) { place(e, false); });
-    list.addEventListener('mouseleave', hide);
-    // A click opens the case study; the frame must not ride along into it.
-    list.addEventListener('click', hide);
-
+    if (reduced.matches || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var links = document.querySelectorAll('.index__link[data-preview]');
     for (var i = 0; i < links.length; i++) {
-      links[i].addEventListener('mouseenter', show.bind(null, i));
+      (function (link) {
+        var media = link.querySelector('.index__media');
+        var vid = null;
+        link.addEventListener('mouseenter', function () {
+          if (!vid) {
+            vid = document.createElement('video');
+            vid.src = link.getAttribute('data-preview');
+            vid.muted = true;
+            vid.loop = true;
+            vid.playsInline = true;
+            vid.setAttribute('aria-hidden', 'true');
+            media.appendChild(vid);
+          }
+          link.classList.add('is-playing');
+          var playing = vid.play();
+          if (playing && playing.catch) playing.catch(function () {});
+        });
+        link.addEventListener('mouseleave', function () {
+          link.classList.remove('is-playing');
+          if (vid) vid.pause();
+        });
+      })(links[i]);
     }
   }
 

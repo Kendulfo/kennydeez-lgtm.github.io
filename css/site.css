@@ -527,10 +527,12 @@ a:focus-visible > .link-text,
 .work .label { color: var(--on-light-faint); }
 .work__head { margin-bottom: clamp(56px, 7vw, 96px); }
 
-/* Numbered index: one row per project, the name set large. The number sits
-   just before the name on its baseline; the title and description run
-   beneath the name, from its left edge, so nothing floats in a column of
-   its own. Pictures: see .index-preview. */
+/* The work index: one row per project, and every row shows the work. The
+   number and the name share a baseline at the top; the cover fills the
+   right-hand column; the title and description settle at the foot of the
+   row, so the name's top and the cover's top line up, and the last line of
+   text sits level with the cover's bottom edge. Pointing at a row plays its
+   clip inside the cover (main.js). */
 .index {
   margin: 0;
   padding: 0;
@@ -539,7 +541,8 @@ a:focus-visible > .link-text,
 }
 .index__link {
   display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
+  grid-template-columns: 2.5rem minmax(0, 1fr) minmax(0, 46%);
+  grid-template-rows: auto 1fr;
   row-gap: clamp(16px, 1.6vw, 24px);
   align-items: baseline;
   padding: clamp(32px, 3.5vw, 52px) 0;
@@ -547,8 +550,9 @@ a:focus-visible > .link-text,
   color: var(--on-light);
   transition: opacity 0.3s var(--ease);
 }
-.index__media { display: none; }
 .index__num {
+  grid-column: 1;
+  grid-row: 1;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -556,28 +560,51 @@ a:focus-visible > .link-text,
   color: var(--on-light-faint);
 }
 .index__name {
+  grid-column: 2;
+  grid-row: 1;
   font: 350 clamp(40px, 6vw, 88px)/1 var(--serif);
   font-optical-sizing: auto;
   letter-spacing: -0.02em;
   transition: transform 0.5s var(--ease);
 }
-/* Title and description side by side under the name, on one baseline */
 .index__text {
   grid-column: 2;
-  display: grid;
-  grid-template-columns: minmax(0, 22rem) minmax(0, 34rem);
-  column-gap: clamp(32px, 5vw, 72px);
-  align-items: baseline;
+  grid-row: 2;
+  align-self: end;
+  max-width: 32rem;
+  padding-right: clamp(16px, 3vw, 48px);
 }
 .index__title { display: block; font: 400 clamp(18px, 1.5vw, 21px)/1.3 var(--serif); }
 .index__desc {
   display: block;
-  margin-top: 0;
+  margin-top: 12px;
   font-size: 15px;
   font-weight: 300;
   line-height: 1.7;
   color: var(--on-light-soft);
 }
+.index__media {
+  position: relative;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: start;
+  display: block;
+  aspect-ratio: 5 / 3;
+  overflow: hidden;
+  background: var(--light-2);
+}
+.index__media img,
+.index__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.index__media img { transition: transform 0.8s var(--ease); }
+.index__media video { opacity: 0; transition: opacity 0.35s var(--ease); }
+.index__link.is-playing .index__media video { opacity: 1; }
+.index__link:hover .index__media img { transform: scale(1.03); }
 /* Pointing at one row, or tabbing to it, quiets the rest */
 .index:hover .index__link,
 .index:has(.index__link:focus-visible) .index__link { opacity: 0.35; }
@@ -585,31 +612,6 @@ a:focus-visible > .link-text,
 .index .index__link:focus-visible { opacity: 1; }
 .index__link:hover .index__name,
 .index__link:focus-visible .index__name { transform: translateX(0.12em); }
-
-/* The frame that follows the pointer. main.js builds and moves it. */
-.index-preview {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 40;
-  width: clamp(280px, 26vw, 420px);
-  aspect-ratio: 5 / 3;
-  overflow: hidden;
-  background: var(--dark);
-  pointer-events: none;
-  visibility: hidden;
-  opacity: 0;
-}
-.index-preview__layer { position: absolute; inset: 0; opacity: 0; transition: opacity 0.25s; }
-.index-preview__layer.is-on { opacity: 1; }
-.index-preview__layer img,
-.index-preview__layer video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 /* The dark card under the index */
 .proof {
@@ -888,20 +890,13 @@ body.is-case-study { background: var(--light); }
   .nav__pill > .brand { padding: 0 12px 0 11px; font-size: 16px; }
 }
 
-/* No pointer to follow, or no room beside it: each row carries its own cover
-   above the name, and nothing is dimmed. */
+/* No room beside it, or no pointer: each row stacks, the cover first, then
+   the number and name, then the words. Nothing is dimmed. */
 @media (max-width: 860px), (hover: none) {
-  .index__link { grid-template-columns: 2.5rem minmax(0, 1fr); row-gap: 12px; }
-  .index__media {
-    display: block;
-    grid-column: 1 / -1;
-    aspect-ratio: 5 / 3;
-    margin-bottom: 12px;
-    overflow: hidden;
-    background: var(--light-2);
-  }
-  .index__media img { width: 100%; height: 100%; object-fit: cover; }
-  .index__text { grid-column: 2; display: block; }
+  .index__link { grid-template-columns: 2.5rem minmax(0, 1fr); grid-template-rows: none; row-gap: 12px; }
+  .index__media { grid-column: 1 / -1; grid-row: 1; margin-bottom: 12px; }
+  .index__num, .index__name { grid-row: 2; }
+  .index__text { grid-row: 3; align-self: auto; padding-right: 0; }
   .index__desc { margin-top: 10px; }
   .index:hover .index__link { opacity: 1; }
 }
@@ -944,5 +939,5 @@ html.lenis, html.lenis body { height: auto; }
   .fan__card video { transition: none; }
   .reel { height: auto; }
   .reel__pin { position: relative; }
-  .index__link, .index__name { transition: none; }
+  .index__link, .index__name, .index__media img { transition: none; }
 }

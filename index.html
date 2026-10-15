@@ -12,8 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=52">
-<link rel="stylesheet" href="css/site.css?v=25">
+<link rel="stylesheet" href="css/styles.css?v=53">
+<link rel="stylesheet" href="css/site.css?v=26">
 <script>
   // Lets the stylesheet hold back entrance animations until script is known
   // to be running; without it everything simply shows.
@@ -207,7 +207,7 @@
               </a>
             </li>
             <li class="reveal">
-              <a class="index__link" href="#case/cws" data-case="cws">
+              <a class="index__link" href="#case/cws" data-case="cws" data-preview="assets/brag/cws.mp4">
                 <span class="index__media"><img src="assets/cws-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
                 <span class="index__num" aria-hidden="true">02</span>
                 <span class="index__name">Manulife</span>
@@ -218,7 +218,7 @@
               </a>
             </li>
             <li class="reveal">
-              <a class="index__link" href="#case/ewb" data-case="ewb">
+              <a class="index__link" href="#case/ewb" data-case="ewb" data-preview="assets/brag/ewb.mp4">
                 <span class="index__media"><img src="assets/ewb-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
                 <span class="index__num" aria-hidden="true">03</span>
                 <span class="index__name">EastWest</span>
@@ -240,7 +240,7 @@
               </a>
             </li>
             <li class="reveal">
-              <a class="index__link" href="#case/entrego" data-case="entrego">
+              <a class="index__link" href="#case/entrego" data-case="entrego" data-preview="assets/brag/entrego.mp4">
                 <span class="index__media"><img src="assets/entrego-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
                 <span class="index__num" aria-hidden="true">05</span>
                 <span class="index__name">Entrego</span>
@@ -251,7 +251,7 @@
               </a>
             </li>
             <li class="reveal">
-              <a class="index__link" href="#case/kwik" data-case="kwik">
+              <a class="index__link" href="#case/kwik" data-case="kwik" data-preview="assets/brag/kwik.mp4">
                 <span class="index__media"><img src="assets/kwik-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
                 <span class="index__num" aria-hidden="true">06</span>
                 <span class="index__name">KwikCare</span>
@@ -262,7 +262,7 @@
               </a>
             </li>
             <li class="reveal">
-              <a class="index__link" href="#case/kwikweb" data-case="kwikweb">
+              <a class="index__link" href="#case/kwikweb" data-case="kwikweb" data-preview="assets/brag/kwikweb.mp4">
                 <span class="index__media"><img src="assets/kwikweb-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
                 <span class="index__num" aria-hidden="true">07</span>
                 <span class="index__name">KwikCare Web</span>
@@ -273,7 +273,7 @@
               </a>
             </li>
             <li class="reveal">
-              <a class="index__link" href="#case/brew" data-case="brew" data-preview="assets/previews/brew.mp4">
+              <a class="index__link" href="#case/brew" data-case="brew" data-preview="assets/brag/brew.mp4">
                 <span class="index__media"><img src="assets/brew-cover.jpg?v=6" alt="" loading="lazy" width="1600" height="960"></span>
                 <span class="index__num" aria-hidden="true">08</span>
                 <span class="index__name">Brew</span>
@@ -310,7 +310,7 @@
               <p class="label reveal">Experience</p>
               <h2 class="h-lg" id="resume-title" data-split>Eleven years, from graphic design to UX <span class="nowrap">architecture<span class="dot">.</span></span></h2>
             </div>
-            <a class="btn btn--pill reveal" href="assets/kenneth-dulfo-resume.pdf" download>
+            <a class="btn btn--pill reveal" href="assets/kenneth-dulfo-resume.pdf?v=2" download="Kenneth-Dulfo-Resume.pdf">
               Download résumé
             </a>
           </header>
@@ -764,9 +764,14 @@
           </dl>
         </header>
 
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/ewb-hero.png');aspect-ratio:1600/960"
-             role="img" aria-label="Policy Linking and Cross-Sell — the EastWest Bank dashboard, consent and verification screens"></div>
+        <!-- Demo film: a wrong code and an expired code each get their own answer. -->
+        <div class="cs__hero-img cs__hero-img--video cs__hero-img--demo">
+          <video src="assets/brag/ewb.mp4" poster="assets/brag/ewb.jpg" controls muted loop playsinline preload="metadata" width="1200" height="720"
+                 aria-label="Linking a policy in the EastWest Bank app: a wrong code and an expired code each get their own message, then the right code puts the policy beside the customer's accounts">
+            Your browser can't play this video.
+            <a href="assets/brag/ewb.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
           <section>
@@ -1026,9 +1031,14 @@
           </dl>
         </header>
 
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/entrego-cover.jpg?v=6')"
-             role="img" aria-label="myEntrego delivery app cover"></div>
+        <!-- Demo film: tracking a parcel with no account, through to delivered. -->
+        <div class="cs__hero-img cs__hero-img--video cs__hero-img--demo">
+          <video src="assets/brag/entrego.mp4" poster="assets/brag/entrego.jpg" controls muted loop playsinline preload="metadata" width="1200" height="720"
+                 aria-label="myEntrego tracking a parcel without signing in: the tracking ID is typed in and the parcel shows as delivered">
+            Your browser can't play this video.
+            <a href="assets/brag/entrego.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
           <section>
@@ -1280,9 +1290,14 @@
           </dl>
         </header>
 
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/kwik-cover.jpg?v=6')"
-             role="img" aria-label="KwikCare in GCash cover"></div>
+        <!-- Demo film: the popular plan, then the purchase's own four-step bar. -->
+        <div class="cs__hero-img cs__hero-img--video cs__hero-img--demo">
+          <video src="assets/brag/kwik.mp4" poster="assets/brag/kwik.jpg" controls muted loop playsinline preload="metadata" width="1200" height="720"
+                 aria-label="KwikCare in GCash: choosing the most popular plan, then moving through the four-step purchase to the review">
+            Your browser can't play this video.
+            <a href="assets/brag/kwik.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
           <section>
@@ -1501,7 +1516,7 @@
           </section>
         </div>
 
-        <button class="card next-project" data-case="kwikweb">
+        <button class="card next-project" data-case="kwikweb" data-preview="assets/brag/kwikweb.mp4">
           <div>
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">Rebuilding a Product Listing Page</div>
@@ -1538,9 +1553,14 @@
           </dl>
         </header>
 
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/kwikweb-cover.jpg?v=6')"
-             role="img" aria-label="KwikCare product listing page cover"></div>
+        <!-- Demo film: before and after, then the budget filter narrowing live. -->
+        <div class="cs__hero-img cs__hero-img--video cs__hero-img--demo">
+          <video src="assets/brag/kwikweb.mp4" poster="assets/brag/kwikweb.jpg" controls muted loop playsinline preload="metadata" width="1200" height="720"
+                 aria-label="The KwikCare plan listing before and after the rebuild, then the budget slider narrowing the plans live with no Apply button">
+            Your browser can't play this video.
+            <a href="assets/brag/kwikweb.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
 
@@ -1730,7 +1750,7 @@
 
         </div>
 
-        <button class="card next-project" data-case="entrego">
+        <button class="card next-project" data-case="entrego" data-preview="assets/brag/entrego.mp4">
           <div>
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">myEntrego Delivery App</div>
@@ -1766,9 +1786,14 @@
           </dl>
         </header>
 
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/brew-cover.jpg?v=6')"
-             role="img" aria-label="Brew — a pour-over coffee timer connected to a Bluetooth scale"></div>
+        <!-- Demo film: grams left counting to zero, then seconds to the next pour. -->
+        <div class="cs__hero-img cs__hero-img--video cs__hero-img--demo">
+          <video src="assets/brag/brew.mp4" poster="assets/brag/brew.jpg" controls muted loop playsinline preload="metadata" width="1200" height="720"
+                 aria-label="Brew's pour card: the big number counts grams left down to zero, then counts the seconds until the next pour">
+            Your browser can't play this video.
+            <a href="assets/brag/brew.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
 
@@ -2227,9 +2252,14 @@
           </dl>
         </header>
 
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/cws-cover.jpg?v=6')"
-             role="img" aria-label="Manulife CWS referral module"></div>
+        <!-- Demo film: agree, and the same page becomes a sharing tool. -->
+        <div class="cs__hero-img cs__hero-img--video cs__hero-img--demo">
+          <video src="assets/brag/cws.mp4" poster="assets/brag/cws.jpg" controls muted loop playsinline preload="metadata" width="1200" height="720"
+                 aria-label="The Manulife referral page: agreeing to the terms generates a referral code, it is shared on WhatsApp, and the friend's page names the same consultant">
+            Your browser can't play this video.
+            <a href="assets/brag/cws.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
 
@@ -2804,7 +2834,7 @@
           </section>
         </div>
 
-        <button class="card next-project" data-case="kwik">
+        <button class="card next-project" data-case="kwik" data-preview="assets/brag/kwik.mp4">
           <div>
             <span class="eyebrow" style="margin-bottom:6px">Next Project</span>
             <div class="next-project__title">KwikCare in GCash</div>
@@ -2839,6 +2869,6 @@
 <script src="js/vendor/gsap.min.js?v=3.15.0"></script>
 <script src="js/vendor/SplitText.min.js?v=3.15.0"></script>
 <script src="js/vendor/lenis.min.js?v=1.3.26"></script>
-<script src="js/main.js?v=35"></script>
+<script src="js/main.js?v=36"></script>
 </body>
 </html>
