@@ -1,6 +1,6 @@
 /* ==========================================================================
    Kenneth Dulfo — Portfolio
-   Vanilla JS: theming, view routing, nav state, scroll reveal.
+   Vanilla JS: view routing, header state, scroll reveal and effects.
    ========================================================================== */
 (function () {
   'use strict';
@@ -11,14 +11,48 @@
   // lives here rather than inside whichever one happened to need it first.
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  /* ---------------------------------------------------------------- Theme */
-  // Which glyph shows is CSS, keyed off .dark. It used to be the hidden
-  // attribute, which does nothing here: hidden is an HTML attribute and the UA
-  // rule that acts on it does not match an SVG element, so both icons rendered
-  // on top of each other.
-  function toggleTheme() {
-    root.classList.toggle('dark');
-    localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+  /* --------------------------------------------------------------- Header */
+  // Transparent over the hero, solid once the page moves. Reading down tucks
+  // it away; any move back up brings it back.
+  var nav = document.getElementById('site-nav');
+  var lastY = window.scrollY;
+
+  function paintNav() {
+    if (!nav) return;
+    var y = window.scrollY;
+    nav.classList.toggle('is-solid', y > 24);
+    var goingDown = y > lastY + 4;
+    var goingUp = y < lastY - 4;
+    if (y < 120 || goingUp) nav.classList.remove('is-tucked');
+    else if (goingDown) nav.classList.add('is-tucked');
+    if (goingDown || goingUp) lastY = y;
+  }
+
+  function setMenu(open) {
+    if (!nav) return;
+    nav.classList.toggle('is-open', open);
+    var btn = nav.querySelector('[data-action="menu"]');
+    if (btn) {
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Close' : 'Menu';
+    }
+  }
+
+  /* ------------------------------------------------------------ Card fan */
+  // The three covers under the hero start stacked and fan out as the panel
+  // rises into view. One custom property drives it; CSS does the geometry.
+  var fan = document.querySelector('[data-fan]');
+
+  function paintFan() {
+    if (!fan || reduced.matches || !fan.offsetParent) return;
+    var r = fan.getBoundingClientRect();
+    var vh = window.innerHeight;
+    // 0 while the fan sits at the bottom edge, 1 once its middle reaches the
+    // middle of the screen.
+    var p = (vh - r.top) / (vh / 2 + r.height / 2);
+    p = Math.max(0, Math.min(1, p));
+    var eased = 1 - Math.pow(1 - p, 3);
+    fan.style.setProperty('--spread', (0.35 + eased * 0.65).toFixed(3));
   }
 
   /* ----------------------------------------------------------- View router */
@@ -81,12 +115,11 @@
       window.scrollTo(0, 0);   // old engines reject the unknown enum value
     }
 
+    setMenu(false);
     revealAll(target);
     syncVideos(target);
     armShots();
     syncRails(target);
-    // No easing across a view change — the tip starts where it belongs.
-    threadTip = null;
     paintScroll();
   }
 
@@ -113,7 +146,7 @@
     var actionEl = e.target.closest('[data-action]');
     if (actionEl) {
       var action = actionEl.getAttribute('data-action');
-      if (action === 'theme')      { toggleTheme(); return; }
+      if (action === 'menu')       { setMenu(!nav.classList.contains('is-open')); return; }
       if (action === 'load-figma') { mountFigma(actionEl.closest('.figma-embed')); return; }
       if (action === 'back')       { showView('home'); return; }
     }
@@ -121,6 +154,9 @@
     // Project cards, next-project cards, and anything else that opens a view
     var viewEl = e.target.closest('[data-case], [data-view]');
     if (viewEl) {
+      // Some of these are real links (#case/aia) so they can be opened in a
+      // new tab; here the router handles them instead of the hash change.
+      e.preventDefault();
       showView(viewEl.getAttribute('data-case') || viewEl.getAttribute('data-view'));
       return;
     }
@@ -132,6 +168,7 @@
       var section = document.getElementById(id);
       if (section) {
         e.preventDefault();
+        setMenu(false);
         if (document.getElementById('view-home').hidden) {
           showView('home', false);
           history.replaceState({ view: 'home' }, '', '#' + id);
@@ -198,6 +235,12 @@
       for (var k = 0; k < kids.length; k++) {
         var el = kids[k];
         if (el.tagName === 'P' || el.classList.contains('reveal')) continue;
+        // Result figures arrive card by card, the way the About stats do,
+        // rather than the whole grid fading in as one block.
+        if (el.classList.contains('results')) {
+          for (var r = 0; r < el.children.length; r++) el.children[r].classList.add('reveal');
+          continue;
+        }
         el.classList.add('reveal');
       }
     }
@@ -251,7 +294,8 @@
       return;
     }
     var pos = window.scrollY + window.innerHeight * 0.32;
-    var current = sections[0];
+    // Nothing is current while the reader is still above the first section.
+    var current = null;
     sections.forEach(function (s) { if (s.offsetTop <= pos) current = s; });
     navLinks.forEach(function (l) {
       l.classList.toggle('is-active', current && l.getAttribute('data-nav') === current.id);
@@ -621,167 +665,6 @@
     }
   }
 
-  /* ------------------------------------------------- Scroll-driven effects */
-  // Two effects share one scroll loop: the hero's layers drifting against each
-  // other, and the statement under it lighting word by word while pinned.
-
-  // How much of the pinned scroll is spent lighting words. The remainder is a
-  // beat where the finished sentence sits still before the page releases —
-  // without it the last word lights at the exact moment the text starts
-  // leaving, and the completed sentence is never actually seen.
-  var LIGHT_THROUGH = 0.97;
-
-  // Rebuilding the sentence one element per word is done here rather than in
-  // the markup: nobody should hand-wrap forty words, and with JS off the
-  // sentence stays a sentence.
-  function splitWords(el) {
-    var words = el.textContent.trim().split(/\s+/);
-    var out = [];
-    el.textContent = '';
-    for (var i = 0; i < words.length; i++) {
-      var w = document.createElement('w');
-      w.textContent = words[i];
-      el.appendChild(w);
-      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
-      out.push(w);
-    }
-    return out;
-  }
-
-  var says = [].slice.call(document.querySelectorAll('[data-say]')).map(function (el) {
-    return { el: el, pin: el.closest('.say-pin'), words: splitWords(el) };
-  });
-
-  var fadeLayers = [].slice.call(document.querySelectorAll('[data-fade]'));
-
-  function paintSay(s) {
-    // A hidden view measures zero and every word would read as lit. Same trap
-    // as the story rails.
-    if (!s.pin || !s.pin.offsetParent) return;
-
-    // How far the sticky box can slide inside the section is how long it stays
-    // stuck. Read from the box itself rather than assumed to be a viewport: it
-    // hugs the statement now, so a viewport is the wrong number.
-    var box = s.pin.firstElementChild;
-    var travel = s.pin.offsetHeight - (box ? box.offsetHeight : window.innerHeight);
-
-    if (travel <= 0 || reduced.matches) {           // unpinned: show it whole
-      for (var k = 0; k < s.words.length; k++) {
-        s.words[k].style.color = '';
-        s.words[k].style.opacity = '';
-      }
-      return;
-    }
-
-    // Progress runs from the moment the box reaches its parking height.
-    var park = box ? (parseFloat(getComputedStyle(box).top) || 0) : 0;
-    var p = ((park - s.pin.getBoundingClientRect().top) / travel) / LIGHT_THROUGH;
-    p = Math.max(0, Math.min(1, p));
-
-    // The +6/-3 gives a soft leading edge instead of a hard wipe.
-    var lead = p * (s.words.length + 6) - 3;
-    for (var i = 0; i < s.words.length; i++) {
-      var t = Math.max(0, Math.min(1, lead - i));
-      s.words[i].style.color = t > 0.5 ? 'var(--fg)' : 'var(--say-dim)';
-      s.words[i].style.opacity = 0.35 + t * 0.65;
-    }
-  }
-
-  // The hero used to drift its layers at different speeds. The headline moved
-  // down while the buttons underneath it did not, so on the way out the
-  // descenders of "Designer." sat across "View Work". It fades instead —
-  // depth without two things occupying the same place.
-  // Fading from the moment the reader scrolls, over half a viewport. Keying it
-  // to the hero's own top crossing the screen edge meant nothing happened for
-  // the first couple of hundred pixels and the rest was spent off-screen — a
-  // fade nobody was around to see.
-  var FADE_OVER = 0.5;
-
-  function paintFade() {
-    var vh = window.innerHeight;
-    for (var i = 0; i < fadeLayers.length; i++) {
-      var el = fadeLayers[i];
-      if (!el.offsetParent) continue;
-
-      // The section's resting offset in the document, not its live position,
-      // so the hero need not be the first thing on the page.
-      var sec = el.closest('.section') || el;
-      var start = sec.getBoundingClientRect().top + window.scrollY;
-
-      var p = (window.scrollY - start) / (vh * FADE_OVER);
-      el.style.opacity = 1 - Math.max(0, Math.min(1, p));
-    }
-  }
-
-  /* ---------------------------------------------------------- Scroll thread */
-  // Grows out of the hero, parks just above the statement, resumes once that
-  // has scrolled by, and finishes at About.
-  //
-  // The pause is not scripted. The tip rides at a fixed point in the viewport
-  // and is told never to come within 30px of the statement, so as the statement
-  // arrives the tip is pushed up at exactly the rate the page is scrolling
-  // down — and the line stops growing on its own. Through the pin it stays put
-  // because the statement does.
-  var thread    = document.querySelector('.thread');
-  var threadTip = null;    // rendered tip, in viewport px
-  var threadRaf = false;
-
-  var TIP_AT    = 0.62;    // where the tip rides, as a share of the viewport
-  var TIP_GAP   = 30;      // how close it may come to the statement
-  var TIP_EASE  = 0.18;
-
-  function paintThread() {
-    if (!thread || reduced.matches) return;
-
-    var home = document.getElementById('view-home');
-    var acts = document.querySelector('.hero__actions');
-    var say  = document.querySelector('.say');
-    var about = document.getElementById('about');
-    if (!home || home.hidden || !acts || !say || !about) return;
-
-    var vh = window.innerHeight;
-    var y  = window.scrollY;
-    var natural = vh * TIP_AT;
-
-    var sayR = say.getBoundingClientRect();
-    var target = natural;
-    // Keep clear of the statement for as long as any of it is on screen. The
-    // min does the rest: while the statement is still below the fold it is far
-    // past the natural tip and changes nothing, and the clamp only begins to
-    // bite as it comes up. Testing against the tip's own position instead was
-    // wrong — the statement is centred, so it sits above the tip and the line
-    // ran straight over the words.
-    if (sayR.bottom > 0) target = Math.min(natural, sayR.top - TIP_GAP);
-
-    if (threadTip === null) threadTip = target;
-    threadTip += (target - threadTip) * TIP_EASE;
-
-    var startDoc = acts.getBoundingClientRect().bottom + y + 36;
-    var endDoc   = about.getBoundingClientRect().top + y - 40;
-    var tipDoc   = Math.min(y + threadTip, endDoc);
-    var height   = tipDoc - startDoc;
-
-    // Zeroed rather than just faded, so a hidden thread cannot keep a stale box.
-    if (height <= 2) {
-      thread.style.opacity = '0';
-      thread.style.height = '0px';
-      return;
-    }
-    thread.style.opacity = '1';
-    thread.style.top    = (startDoc - y) + 'px';
-    thread.style.height = height + 'px';
-
-    // Easing needs frames of its own; scrolling alone would leave the tip
-    // frozen part-way back whenever the reader stops.
-    if (Math.abs(target - threadTip) > 0.5 && !threadRaf) {
-      threadRaf = true;
-      requestAnimationFrame(function settle() {
-        threadRaf = false;
-        paintThread();
-      });
-    }
-  }
-
   /* --------------------------------------------------------- Media parallax */
   // Photographs drift inside their frames as those frames cross the screen.
   // The media overscans by 6% so there is room to move without a gap opening
@@ -808,7 +691,7 @@
   var COUNT_MS = 1100;
 
   function armCounters() {
-    var nums = document.querySelectorAll('.stat__num');
+    var nums = document.querySelectorAll('.stat__num, .result__num');
     if (!nums.length || !('IntersectionObserver' in window)) return;
 
     var seen = new WeakSet();
@@ -823,21 +706,25 @@
     }, { threshold: 0.4 });
 
     for (var i = 0; i < nums.length; i++) {
-      var m = /^(\D*)(\d[\d,]*)(.*)$/.exec(nums[i].textContent.trim());
+      var m = /^(\D*)(\d[\d,]*(?:\.\d+)?)(.*)$/.exec(nums[i].textContent.trim());
       if (!m) continue;                       // "Named", "Shipped" and friends
+      // "24/7", "6→1" and "1st" read as nonsense halfway up, so they stay put.
+      if (/\d/.test(m[3]) || /^(st|nd|rd|th)\b/i.test(m[3])) continue;
       nums[i].dataset.pre = m[1];
       nums[i].dataset.to = m[2].replace(/,/g, '');
+      nums[i].dataset.dec = (m[2].split('.')[1] || '').length;
       nums[i].dataset.post = m[3];
       co.observe(nums[i]);
     }
   }
 
   function runCounter(el) {
-    var to = parseInt(el.dataset.to, 10);
+    var to = parseFloat(el.dataset.to);
+    var dec = parseInt(el.dataset.dec, 10) || 0;   // "4.8" counts in tenths
     var pre = el.dataset.pre || '';
     var post = el.dataset.post || '';
 
-    if (reduced.matches) { el.textContent = pre + to + post; return; }
+    if (reduced.matches) { el.textContent = pre + to.toFixed(dec) + post; return; }
 
     // Falls in behind its own card, which is already staggered by --i.
     var delay = (parseFloat(getComputedStyle(el.closest('.reveal') || el).getPropertyValue('--i')) || 0) * 55;
@@ -848,11 +735,11 @@
       var t = Math.min(1, (now - t0) / COUNT_MS);
       // Decelerating, so it lands on the number rather than stopping dead.
       var eased = 1 - Math.pow(1 - t, 3);
-      el.textContent = pre + Math.round(to * eased) + post;
+      el.textContent = pre + (to * eased).toFixed(dec) + post;
       if (t < 1) requestAnimationFrame(step);
     }
 
-    el.textContent = pre + '0' + post;
+    el.textContent = pre + (0).toFixed(dec) + post;
     setTimeout(function () { requestAnimationFrame(step); }, delay);
   }
 
@@ -910,9 +797,8 @@
   }
 
   function paintScroll() {
-    if (!reduced.matches) paintFade();
-    for (var i = 0; i < says.length; i++) paintSay(says[i]);
-    paintThread();
+    paintNav();
+    paintFan();
     paintDrift();
   }
 
@@ -930,9 +816,9 @@
     });
   }
 
-  // Armed unconditionally: even with no statement and no fade on a page, the
-  // reveal catch-up rides on this listener and is needed everywhere. The
-  // painters loop over empty lists and cost nothing.
+  // Armed unconditionally: the reveal catch-up rides on this listener and is
+  // needed everywhere, and the painters return early where they have nothing
+  // to do.
   function armScrollEffects() {
     window.addEventListener('scroll', onScrollEffects, { passive: true });
     window.addEventListener('resize', onScrollEffects);

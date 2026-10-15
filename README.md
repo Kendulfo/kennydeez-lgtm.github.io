@@ -17,9 +17,11 @@ but a server is closer to production.)
 ## Files
 
 ```
-index.html        Everything: sidebar, home sections, both case studies
-css/styles.css    Design tokens + all styling
-js/main.js        Theme toggle, view routing, scrollspy, scroll reveal, lightbox
+index.html        Everything: header, home sections, every case study
+css/site.css      The current look: tokens, header, home sections, and the
+                  fonts and colours the case studies inherit
+css/styles.css    The original stylesheet; still styles the case studies
+js/main.js        View routing, header state, scrollspy, scroll reveal, lightbox
 assets/           Images pulled from the original site
 ```
 
@@ -36,27 +38,28 @@ assets/           Images pulled from the original site
 `js/main.js` shows one and hides the others. Anything with `data-case="x"` opens
 `#view-x` when clicked — that's how the project cards and the "Next Project" cards work.
 
-**`css/styles.css`** starts with the design tokens, lifted from the original build.
-Change a token at the top and it cascades everywhere. Dark mode redefines the same
-tokens under `.dark`; nothing else needs touching.
+**`css/site.css`** starts with the design tokens: two grounds (`--dark`, `--light`),
+the text colours on each, one `--accent` (the coloured full stops), and the two faces
+(Newsreader for headings, Albert Sans for text). Its section 2 maps those onto the
+older token names that `styles.css` and the case studies still use.
 
 ## Common edits
 
 **Change any copy** — edit the text directly in `index.html`. It's all plain markup.
 
-**Add a job to the resume** — copy an `<article class="job">` block inside `.timeline`.
+**Add a job to the resume** — copy an `<li class="job">` block inside `.jobs`.
 
-**Add a project card** — copy a `<button class="card project" data-case="…">` block
-in the `#work` grid. For a card with no case study yet, use
-`<div class="card project" data-soon>` and a `<span class="badge-soon">` instead.
+**Add a project card** — copy an `<a class="proj" href="#case/…" data-case="…">` block
+in `.work__grid`. Every second card sits lower; keep them in pairs so the two
+columns stay balanced around the dark results card.
 
 **Add a new case study** —
 1. Copy the whole `<article class="view" id="view-banking">` block.
 2. Give it a new id, e.g. `id="view-ecommerce"`.
 3. Point a project card at it with `data-case="ecommerce"`.
 
-**Retheme** — edit the tokens in `:root` and `.dark` at the top of `styles.css`.
-The accent tiles in the hero use `--accent-1` / `--accent-2`.
+**Retheme** — edit the tokens at the top of `site.css`. `--accent` alone recolours
+every full stop and the focus ring.
 
 **Icons** — defined once as `<g>` blocks in the `<defs>` at the top of `index.html`,
 used via `<svg class="ic" viewBox="0 0 24 24"><use href="#i-name"/></svg>`.

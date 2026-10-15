@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kenneth Dulfo — Product Designer</title>
 <meta name="description" content="Kenneth Dulfo — UX product designer. Research and information architecture through to shipped interfaces and the design systems behind them. Eleven years across insurance, banking and logistics.">
-<link rel="stylesheet" href="css/styles.css?v=45">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=47">
+<link rel="stylesheet" href="css/site.css?v=1">
 <script>
-  // Set theme before paint to avoid a flash of the wrong theme.
-  (function () {
-    var t = localStorage.getItem('theme');
-    if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    }
-  })();
+  // Lets the stylesheet hold back entrance animations until script is known
+  // to be running; without it everything simply shows.
+  document.documentElement.classList.add('js');
 </script>
 </head>
 <body>
@@ -28,6 +28,7 @@
     <g id="i-brief"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></g>
     <g id="i-mail"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g>
     <g id="i-arrow"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></g>
+    <g id="i-arrow-ur"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></g>
     <g id="i-back"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></g>
     <g id="i-cal"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></g>
     <g id="i-pin"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></g>
@@ -59,35 +60,27 @@
 
 <div class="app" id="app">
 
-  <!-- Dock ================================================================ -->
-  <header class="dock" id="dock">
-    <button class="dock__back" data-action="back" title="Back to work" aria-label="Back to work">
-      <svg class="ic" viewBox="0 0 24 24" width="16" height="16"><use href="#i-back"/></svg>
-    </button>
+  <!-- Header =========================================================== -->
+  <header class="nav" id="site-nav">
+    <div class="nav__inner">
+      <button class="nav__back" data-action="back">
+        <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-back"/></svg>
+        <span>All work</span>
+      </button>
+      <a class="brand" href="#hero" data-view="home">Kenneth Dulfo<span class="dot">.</span></a>
 
-    <a class="dock__name" href="#hero" data-view="home">
-      <span class="dock__name-long">Kenneth Dulfo</span>
-      <span class="dock__name-short" aria-hidden="true">KD</span>
-    </a>
+      <nav class="nav__links" id="nav" aria-label="Sections">
+        <a href="#work"    data-nav="work"><span class="roll" data-text="Work">Work</span></a>
+        <a href="#about"   data-nav="about"><span class="roll" data-text="About">About</span></a>
+        <a href="#resume"  data-nav="resume"><span class="roll" data-text="Experience">Experience</span></a>
+        <a href="#contact" data-nav="contact"><span class="roll" data-text="Contact">Contact</span></a>
+      </nav>
 
-    <nav class="dock__nav" id="nav" aria-label="Sections">
-      <a class="nav__item" href="#hero"   data-nav="hero"   title="Home"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-home"/></svg><span class="nav__label">Home</span></a>
-      <a class="nav__item" href="#about"  data-nav="about"  title="About"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-user"/></svg><span class="nav__label">About</span></a>
-      <a class="nav__item" href="#work"   data-nav="work"   title="Work"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-brief"/></svg><span class="nav__label">Work</span></a>
-      <a class="nav__item" href="#resume" data-nav="resume" title="Resume"><svg class="ic" viewBox="0 0 24 24" width="17" height="17"><use href="#i-file"/></svg><span class="nav__label">Resume</span></a>
-    </nav>
+      <a class="nav__status" href="#contact"><i aria-hidden="true"></i>Available for work</a>
 
-    <a class="dock__cta" href="#contact" title="Get in Touch">
-      <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
-      <span class="dock__cta-label">Get in Touch</span>
-    </a>
+      <button class="nav__menu" data-action="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+    </div>
   </header>
-
-  <!-- Its own control in the corner, rather than a sixth thing in the dock -->
-  <button class="theme-switch" data-action="theme" aria-label="Toggle theme" title="Toggle theme">
-    <svg class="ic ic--sun" viewBox="0 0 24 24" width="16" height="16"><use href="#i-sun"/></svg>
-    <svg class="ic ic--moon" viewBox="0 0 24 24" width="16" height="16"><use href="#i-moon"/></svg>
-  </button>
 
   <!-- Main =============================================================== -->
   <main class="main">
@@ -95,513 +88,282 @@
     <!-- ===== HOME VIEW ================================================= -->
     <div class="view" id="view-home">
 
-      <!-- Hero -->
-      <section class="section section--hero" id="hero">
-        <div class="container">
-          <div class="hero" data-fade>
-            <div class="hero__tiles">
-              <div class="tile tile--light"><svg class="figma-mark" viewBox="0 0 38 57" width="20" height="30" role="img" aria-label="Figma"><use href="#b-figma-color"/></svg></div>
-              <div class="tile tile--one"><svg class="ic" viewBox="0 0 24 24" width="28" height="28"><use href="#i-code"/></svg></div>
-              <div class="tile tile--two"><svg class="ic" viewBox="0 0 24 24" width="28" height="28"><use href="#i-users"/></svg></div>
-              <div class="tile tile--dark"><svg class="brand" viewBox="0 0 24 24" width="28" height="28" role="img" aria-label="Claude"><use href="#b-claude"/></svg></div>
-            </div>
+      <!-- Hero, with the first look at the work sliding up over it -->
+      <div class="stack">
+        <section class="hero" id="hero" aria-labelledby="hero-title">
+          <div class="wrap wrap--wide hero__inner">
+            <p class="hero__hello">Hi, I'm Kenneth</p>
+            <h1 class="hero__title" id="hero-title">
+              <span class="line"><span>Systems-First</span></span>
+              <span class="line"><span>Product</span></span>
+              <span class="line"><span>Designer<span class="dot">.</span></span></span>
+            </h1>
 
-            <p class="hero__eyebrow">Hi! My name is Kenneth!</p>
-            <h1 class="hero__title">I am a Product Designer.</h1>
-
-            <div class="hero__actions">
-              <a class="btn btn--primary" href="#work">
-                View Work
-                <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg>
-              </a>
-              <a class="btn btn--outline" href="#contact">
-                <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
-                Get in Touch
-              </a>
+            <div class="hero__foot">
+              <div class="hero__stats">
+                <div class="stat">
+                  <span class="stat__num">11+</span>
+                  <span class="stat__label">Years of experience</span>
+                </div>
+                <div class="stat">
+                  <span class="stat__num">18</span>
+                  <span class="stat__label">Markets on one design system</span>
+                </div>
+              </div>
+              <p class="hero__intro">
+                I'm a Manila-based product designer and UX architect. I take products from
+                research and information architecture through to shipped interfaces, and build
+                the design systems that hold them together across insurance, banking and logistics.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Scroll thread: hero -> statement -> About. Decorative; main.js drives it. -->
-      <div class="thread" aria-hidden="true"><i class="thread__dot"></i></div>
-
-      <section class="say-pin" aria-label="Introduction">
-        <div class="say-sticky">
-          <p class="say" data-say>
-            I take products from research and information architecture through to
-            shipped interfaces and the design systems that hold them together. Eleven
-            years across insurance, banking and logistics.
-          </p>
-        </div>
-      </section>
+        <section class="showcase" aria-label="A first look at the work">
+          <div class="fan" data-fan>
+            <a class="fan__card fan__card--left" href="#case/cws" data-case="cws">
+              <img src="assets/cws-cover.jpg" alt="CWS referral module for Manulife, three phone screens" width="1600" height="900">
+            </a>
+            <a class="fan__card fan__card--right" href="#case/kwik" data-case="kwik">
+              <img src="assets/kwik-cover.png?v=4" alt="KwikCare health plans inside GCash" width="1600" height="960">
+            </a>
+            <a class="fan__card fan__card--center" href="#case/aia" data-case="aia">
+              <img src="assets/aia-cover.jpg" alt="AIA digital design system, component library" width="1600" height="960">
+            </a>
+          </div>
+        </section>
+      </div>
 
       <!-- About -->
-      <section class="section" id="about">
-        <div class="container">
-          <div class="about__grid">
-            <div class="about__body">
-              <span class="eyebrow reveal">About</span>
-              <h2 class="h-section reveal">Setting the structure products get built on</h2>
-              <p class="lede reveal">
-                Eleven years in, the work is mostly structural: information architecture,
-                interaction models, and the systems that keep a portfolio coherent while it grows.
-                I lead across concurrent product streams rather than owning a single screen set.
-              </p>
-              <p class="lede reveal">
-                That work has shipped in insurance, banking and logistics — a cross-market
-                system running in 18 Asian markets, a parcel app live in both stores at 4.8 stars,
-                and health cover sold inside the wallet app most of the Philippines already has.
-              </p>
-            </div>
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="wrap about__grid">
+          <div class="about__intro">
+            <p class="label reveal">About me</p>
+            <h2 class="h-md reveal" id="about-title">Somebody has to care about the plumbing<span class="dot">.</span></h2>
+            <ul class="pills reveal" aria-label="Skills and tools">
+              <li>Figma</li>
+              <li>Design tokens</li>
+              <li>Information architecture</li>
+              <li>UX research</li>
+              <li>Prototyping</li>
+              <li>Workshops</li>
+            </ul>
+          </div>
 
-            <div class="portrait reveal">
-              <img src="assets/portrait.png" alt="Kenneth Dulfo portrait" width="2048" height="2048">
-            </div>
+          <figure class="about__portrait reveal">
+            <img src="assets/portrait.png" alt="Kenneth Dulfo on a lit street at night" width="2048" height="2048" loading="lazy">
+          </figure>
 
-            <div class="grid-3 about__stats">
-              <div class="card stat reveal"><div class="stat__num">200+</div><div class="stat__label">Designers Supported</div></div>
-              <div class="card stat reveal"><div class="stat__num">15+</div><div class="stat__label">Products Shipped</div></div>
-              <div class="card stat reveal"><div class="stat__num">10+</div><div class="stat__label">Design Systems</div></div>
-            </div>
+          <div class="about__side">
+            <figure class="about__process reveal">
+              <img src="assets/kwik-wireframes.png" alt="Wireframes for the KwikCare purchase flow" loading="lazy">
+            </figure>
+            <p class="body reveal">
+              Eleven years in, most of my work is the part nobody screenshots: how things are
+              organised, what happens when you tap, and the design systems that stop twenty
+              designers building the same button twenty different ways.
+            </p>
+            <p class="body reveal">
+              I usually have a few products running at once rather than one screen I'm
+              precious about.
+            </p>
+            <a class="arrow-link reveal" href="#resume">
+              <span class="roll" data-text="See my experience">See my experience</span>
+              <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-arrow-ur"/></svg>
+            </a>
           </div>
         </div>
       </section>
 
       <!-- Work -->
-      <section class="section" id="work">
-        <div class="container">
-          <div class="reveal">
-            <span class="eyebrow">Featured Work</span>
-            <h2 class="h-section">Design Systems &amp; Products</h2>
-            <p class="lede">
-              A collection of design systems, component libraries, and products I've designed
-              and built over the years. Click on any project to view the detailed case study.
-            </p>
-          </div>
+      <section class="work" id="work" aria-labelledby="work-title">
+        <div class="wrap">
+          <header class="work__head">
+            <p class="label reveal">Selected work</p>
+            <h2 class="h-lg reveal" id="work-title">Design Systems &amp; Products<span class="dot">.</span></h2>
+          </header>
 
           <div class="work__grid">
+            <a class="proj reveal" href="#case/aia" data-case="aia">
+              <span class="proj__media"><img src="assets/aia-cover.jpg" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">One Design System for Eighteen Asian Markets<span class="dot">.</span></span>
+              <span class="proj__desc">Qi, built for AIA and adopted by the Vitality app and the public site. In a timed test, twenty designers built the same page about 60% faster with it.</span>
+            </a>
+            <a class="proj reveal" href="#case/cws" data-case="cws">
+              <span class="proj__media"><img src="assets/cws-cover.jpg" alt="" loading="lazy" width="1600" height="900"></span>
+              <span class="proj__title">Asking Someone to Recommend You, Without Making It Weird<span class="dot">.</span></span>
+              <span class="proj__desc">A referral programme for Manulife's customer website: three moments it can be offered, one set of rules underneath, and a friend who has to feel invited rather than sold to.</span>
+            </a>
+            <a class="proj reveal" href="#case/ewb" data-case="ewb">
+              <span class="proj__media"><img src="assets/ewb-cover.png" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">Linking an Insurance Policy Inside a Banking App<span class="dot">.</span></span>
+              <span class="proj__desc">EastWest Ageas policies inside the EastWest Bank app: identity, consent, every way the link can fail, and a lead path for customers who hold no policy yet.</span>
+            </a>
+            <a class="proj reveal" href="#case/segstream" data-case="segstream">
+              <span class="proj__media"><img src="assets/segstream-cover.png" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">A Design System That Rethemes in Five Edits<span class="dot">.</span></span>
+              <span class="proj__desc">Segstream rebuilt on three tiers of tokens: forty component sets, 485 variants, real dark mode, and a full retheme that takes five edits.</span>
+            </a>
 
-            <button class="card project reveal" data-case="cws">
-              <div class="project__media">
-                <img src="assets/cws-cover.jpg" alt="Manulife CWS referral module" loading="lazy">
+            <div class="proof reveal">
+              <div class="proof__side">
+                <p class="proof__label">Measured, not guessed</p>
+                <p class="proof__note">Figures from the AIA, EastWest and Entrego work.</p>
               </div>
-              <div class="project__body">
-                <h3 class="project__title">CWS Referral Module</h3>
-                <p class="project__desc">
-                  A referral programme for Manulife's Customer Website — three different moments
-                  where it can be offered, one set of rules underneath, and a friend on the other
-                  end who has to feel invited rather than sold to.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Service Design</span><span class="chip">Insurance</span>
-                  <span class="chip">Referral</span><span class="chip">Consent</span>
-                  <span class="chip">Web &amp; Mobile</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
+              <div class="proof__main">
+                <p class="proof__lead">Twenty designers built the same page about 60% faster with Qi than without it.</p>
+                <dl class="proof__figures">
+                  <div><dt class="stat__num">30 → 5</dt><dd>Minutes per field-agent task at EastWest, after the forms became a guided flow</dd></div>
+                  <div><dt class="stat__num">4.8</dt><dd>myEntrego's rating on the App Store and Google Play</dd></div>
+                  <div><dt class="stat__num">200+</dt><dd>Designers building on the Manulife design system I help govern</dd></div>
+                </dl>
               </div>
-            </button>
+            </div>
 
-            <button class="card project reveal" data-case="aia">
-              <div class="project__media">
-                <img src="assets/aia-cover.jpg" alt="AIA Digital Design System" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">AIA Digital Design System</h3>
-                <p class="project__desc">
-                  Qi — a cross-market system running in 18 Asian markets, adopted by the AIA Vitality
-                  app and the public site. In a timed build test, 20 designers assembled the same page
-                  around 60% faster with it than building the page themselves.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Figma</span><span class="chip">React</span>
-                  <span class="chip">Vue</span><span class="chip">AEM</span>
-                  <span class="chip">React Native</span><span class="chip">Design Tokens</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="kwikweb">
-              <div class="project__media">
-                <img src="assets/kwikweb-cover.jpg?v=2" alt="KwikCare product listing page" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">KwikCare Product Listing</h3>
-                <p class="project__desc">
-                  A plan listing rebuilt into a comparison — price leading every card, the popular
-                  plan marked, filters applying live against a running count, and the empty and
-                  loading states designed rather than left to the build.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Web</span><span class="chip">E-commerce</span>
-                  <span class="chip">Filtering</span><span class="chip">Responsive</span>
-                  <span class="chip">Empty States</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="segstream">
-              <div class="project__media">
-                <img src="assets/segstream-cover.png" alt="Segstream Design System" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">Segstream Design System</h3>
-                <p class="project__desc">
-                  A full rebuild around a three-tier token architecture: 40 component sets at
-                  485 variants, seven variable collections, real dark mode, and an entire
-                  retheme that takes five edits.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Figma</span><span class="chip">Design Tokens</span>
-                  <span class="chip">Design Systems</span><span class="chip">Dark Mode</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="ewb">
-              <div class="project__media">
-                <img src="assets/ewb-cover.png" alt="EastWest Ageas policy linking" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">Policy Linking &amp; Cross-Sell</h3>
-                <p class="project__desc">
-                  Bringing EastWest Ageas insurance policies into the EastWest Bank app —
-                  identity, consent, and every way the link can fail, plus a lead path for
-                  customers who hold no policy yet.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Mobile</span><span class="chip">User Flows</span>
-                  <span class="chip">UX Writing</span><span class="chip">Edge Cases</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="entrego">
-              <div class="project__media">
-                <img src="assets/entrego-cover.png?v=2" alt="myEntrego delivery app" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">myEntrego Delivery App</h3>
-                <p class="project__desc">
-                  A customer-facing parcel app taken from user research and journey mapping
-                  through to 113 shipped screens — live on the App Store and Google Play at
-                  4.8 stars.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Mobile</span><span class="chip">UX Research</span>
-                  <span class="chip">Journey Mapping</span><span class="chip">iOS &amp; Android</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="kwik">
-              <div class="project__media">
-                <img src="assets/kwik-cover.png?v=4" alt="KwikCare health plans in GCash" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">KwikCare in GCash</h3>
-                <p class="project__desc">
-                  Health cover sold inside a wallet app — five plan tiers, a guided four-step
-                  purchase with health declaration and document upload, and a policy dashboard
-                  for every plan.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Mobile</span><span class="chip">Fintech</span>
-                  <span class="chip">Insurance</span><span class="chip">Purchase Flow</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
-            <button class="card project reveal" data-case="brew">
-              <div class="project__media">
-                <img src="assets/brew-cover.jpg?v=4" alt="Brew — a V60 timer driven by a Bluetooth scale" loading="lazy">
-              </div>
-              <div class="project__body">
-                <h3 class="project__title">Brew — Timemore Dot</h3>
-                <p class="project__desc">
-                  A coffee scale whose own app shows you numbers but never tells you what to do
-                  with them. I connected to the scale directly and built the missing half — the
-                  big number counts down to zero, and a pour ends when you actually get there.
-                </p>
-                <div class="chips project__tags">
-                  <span class="chip">Hardware &amp; BLE</span><span class="chip">Interaction Design</span>
-                  <span class="chip">Sound Design</span><span class="chip">AI-Assisted Build</span>
-                  <span class="chip">Zero to One</span>
-                </div>
-                <span class="project__cta">View case study <svg class="ic arrow" viewBox="0 0 24 24" width="14" height="14"><use href="#i-arrow"/></svg></span>
-              </div>
-            </button>
-
+            <a class="proj reveal" href="#case/entrego" data-case="entrego">
+              <span class="proj__media"><img src="assets/entrego-cover.png?v=2" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">Designing a Delivery App from Research to Launch<span class="dot">.</span></span>
+              <span class="proj__desc">A customer-facing parcel app taken from user research and journey mapping through to 113 shipped screens, live on the App Store and Google Play at 4.8 stars.</span>
+            </a>
+            <a class="proj reveal" href="#case/kwik" data-case="kwik">
+              <span class="proj__media"><img src="assets/kwik-cover.png?v=4" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">Selling Health Cover Inside a Wallet App<span class="dot">.</span></span>
+              <span class="proj__desc">KwikCare in GCash: five plan tiers, a guided four-step purchase with health declaration and document upload, and a policy dashboard for every plan.</span>
+            </a>
+            <a class="proj reveal" href="#case/kwikweb" data-case="kwikweb">
+              <span class="proj__media"><img src="assets/kwikweb-cover.jpg?v=2" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">Rebuilding a Product Listing Page<span class="dot">.</span></span>
+              <span class="proj__desc">A plan listing rebuilt into a comparison: price leading every card, the popular plan marked, filters applying live, and the empty and loading states designed.</span>
+            </a>
+            <a class="proj reveal" href="#case/brew" data-case="brew">
+              <span class="proj__media"><img src="assets/brew-cover.jpg?v=4" alt="" loading="lazy" width="1600" height="960"></span>
+              <span class="proj__title">A Coffee Scale That Tells You Everything Except What To Do<span class="dot">.</span></span>
+              <span class="proj__desc">A side project. I connected to my scale over Bluetooth and built the missing half: the number counts down to zero, and a pour ends when you actually get there.</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- Resume -->
-      <section class="section" id="resume">
-        <div class="container">
-          <div class="resume__grid">
-            <!-- The section header lives in the left column so the skills card
-                 starts level with the heading rather than below the intro -->
+      <!-- Experience -->
+      <section class="resume" id="resume" aria-labelledby="resume-title">
+        <div class="wrap">
+          <header class="resume__head">
             <div>
-              <div class="resume__intro reveal">
-                <span class="eyebrow">Resume</span>
-                <h2 class="h-section">Experience &amp; Background</h2>
-                <p class="lede">
-                  Eleven years, moving from graphic design into product, and from single products
-                  into the architecture behind portfolios of them.
-                </p>
-                <div class="resume__actions">
-                  <a class="btn btn--primary" href="assets/kenneth-dulfo-resume.pdf" download>
-                    <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-download"/></svg>
-                    Download Resume
-                  </a>
-                  <a class="btn btn--outline" href="assets/kenneth-dulfo-resume.pdf" target="_blank" rel="noopener">
-                    View Full Resume
-                    <svg class="ic arrow" viewBox="0 0 24 24" width="15" height="15"><use href="#i-arrow"/></svg>
-                  </a>
-                </div>
-              </div>
-
-              <div class="block reveal">
-                <h3 class="block-title">Professional Experience</h3>
-                <div class="timeline">
-
-                  <article class="job">
-                    <div class="job__head">
-                      <h4 class="job__title">User Experience Architect</h4>
-                      <span class="job__logo">
-                        <img src="assets/logos/manulife.svg" alt="" width="74" height="14" loading="lazy">
-                      </span>
-                    </div>
-                    <p class="job__org">Manulife IT Delivery Center Asia</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Dec 2025 – Present</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Lead designer across multiple concurrent product streams, owning UX architecture, information architecture, and interaction models end to end</li>
-                      <li>Core contributor to the global internal design system serving 200+ designers worldwide, building and governing shared components so teams ship without rebuilding patterns</li>
-                      <li>Partner with product, engineering, and business stakeholders to set experience principles across the portfolio</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <div class="job__head">
-                      <h4 class="job__title">UI/UX Manager</h4>
-                      <span class="job__logo">
-                        <img src="assets/logos/eastwest.svg" alt="" width="71" height="14" loading="lazy">
-                      </span>
-                    </div>
-                    <p class="job__org">East West Ageas Insurance</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Jun 2024 – Nov 2025</span>
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>BGC, Taguig</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Cut agent task completion from 30 minutes to 5 by replacing form-heavy flows with a guided step-by-step model in the field agent application</li>
-                      <li>Led and mentored a team of 5 designers, running design reviews as the final quality gate before development handoff</li>
-                      <li>Set design strategy and aligned research output with business goals</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <div class="job__head">
-                      <h4 class="job__title">UX Consultant</h4>
-                      <span class="job__logo">
-                        <img src="assets/logos/aia.svg" alt="" width="37" height="14" loading="lazy">
-                      </span>
-                    </div>
-                    <p class="job__org">AIA Digital+</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Feb 2023 – May 2024</span>
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>Makati, NCR</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Built Qi, a cross-market design system deployed across 18 Asian markets and adopted by the AIA Vitality app and the public customer website</li>
-                      <li>Ran a timed build study with 20 designers to measure the system's effect — the same page took around 60% less time to assemble with Qi than without it</li>
-                      <li>Shipped 300+ components with complex variant models covering multi-scenario use, multi-script typography, and brand-constrained colour</li>
-                      <li>Architected the Figma file and library structure so new designers onboard and contribute without hand-holding</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <div class="job__head">
-                      <h4 class="job__title">Lead UI/UX Designer</h4>
-                      <span class="job__logo">
-                        <img src="assets/logos/entrego.png" alt="" width="92" height="16" loading="lazy">
-                      </span>
-                    </div>
-                    <p class="job__org">Entrego</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Jun 2020 – Feb 2023</span>
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>MCX, Muntinlupa</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Built the company's first design system and established the design review process still used to vet work before development</li>
-                      <li>Led and mentored 3 designers across mobile and web logistics products</li>
-                      <li>Designed internal operational tools and defined success metrics for design impact</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <h4 class="job__title">Senior UI/UX Designer</h4>
-                    <p class="job__org">Contentserv AG</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Apr 2018 – Jun 2020</span>
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>Makati, NCR</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Translated user requirements into design concepts, mockups, and prototypes for enterprise SaaS</li>
-                      <li>Maintained brand consistency across platforms through agile sprints</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <h4 class="job__title">UI/UX Designer</h4>
-                    <p class="job__org">Triple One Technologies</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>May 2017 – Mar 2018</span>
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-pin"/></svg>Makati, NCR</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Designed UI elements, mockups, and prototypes for web and mobile products</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <h4 class="job__title">UI/UX Designer</h4>
-                    <p class="job__org">Tri7 Solutions</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Apr 2015 – May 2017</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Produced web and mobile UI designs, plus infographics and marketing collateral</li>
-                    </ul>
-                  </article>
-
-                  <article class="job">
-                    <h4 class="job__title">Senior Graphic Designer</h4>
-                    <p class="job__org">Mobilepaid</p>
-                    <p class="job__meta">
-                      <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>Oct 2014 – Apr 2015</span>
-                    </p>
-                    <ul class="bullets">
-                      <li>Established company branding and the internal design process; owned all design assets</li>
-                    </ul>
-                  </article>
-
-                </div>
-              </div>
-
-              <div class="block reveal">
-                <h3 class="block-title">Education</h3>
-                <div class="card">
-                  <h4 class="job__title">Bachelor of Arts in Multimedia Arts</h4>
-                  <p class="job__org">De La Salle College of Saint Benilde</p>
-                  <p class="job__meta">
-                    <span><svg class="ic" viewBox="0 0 24 24" width="13" height="13"><use href="#i-cal"/></svg>2010 – 2014</span>
-                  </p>
-                  <ul class="bullets">
-                    <li>Graduated Dean's Lister</li>
-                    <li>Multimedia Max</li>
-                  </ul>
-                </div>
-              </div>
+              <p class="label reveal">Experience</p>
+              <h2 class="h-lg reveal" id="resume-title">Eleven years, from graphic design to UX architecture<span class="dot">.</span></h2>
             </div>
+            <a class="btn btn--pill reveal" href="assets/kenneth-dulfo-resume.pdf" download>
+              <span class="roll" data-text="Download résumé">Download résumé</span>
+            </a>
+          </header>
 
-            <!-- Skills + quick stats -->
-            <div class="resume__aside">
-              <div class="card aside-card reveal">
-                <h3 class="block-title">Core Skills</h3>
-
-                <div class="skills__group">
-                  <h4>Tools</h4>
-                  <div class="chips">
-                    <span class="chip"><svg class="figma-mark" viewBox="0 0 38 57" width="9" height="13" aria-hidden="true"><use href="#b-figma-color"/></svg>Figma</span>
-                    <span class="chip"><svg class="figma-mark" viewBox="0 0 38 57" width="9" height="13" aria-hidden="true"><use href="#b-figma-color"/></svg>FigJam</span>
-                    <span class="chip"><svg class="brand brand--sketch" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><use href="#b-sketch"/></svg>Sketch</span>
-                    <span class="chip"><svg class="brand brand--adobe" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><use href="#b-adobe"/></svg>Adobe Suite</span>
-                    <span class="chip"><svg class="brand brand--miro" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><use href="#b-miro"/></svg>Miro</span>
-                    <span class="chip"><svg class="brand brand--jira" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><use href="#b-jira"/></svg>Jira</span>
-                    <span class="chip"><img class="chip__logo" src="assets/logos/teams.png" alt="" width="12" height="13" loading="lazy">Teams</span>
-                  </div>
-                </div>
-
-                <div class="skills__group">
-                  <h4>Research &amp; Discovery</h4>
-                  <div class="chips">
-                    <span class="chip">Product discovery</span><span class="chip">UX research</span>
-                    <span class="chip">User testing</span><span class="chip">Customer journey mapping</span>
-                    <span class="chip">A/B testing</span><span class="chip">Business analysis</span>
-                  </div>
-                </div>
-
-                <div class="skills__group">
-                  <h4>Design</h4>
-                  <div class="chips">
-                    <span class="chip">UI design</span><span class="chip">Interaction design</span>
-                    <span class="chip">Information architecture</span><span class="chip">Wireframing</span>
-                    <span class="chip">Prototyping</span>
-                  </div>
-                </div>
-
-                <div class="skills__group">
-                  <h4>Systems &amp; Facilitation</h4>
-                  <div class="chips">
-                    <span class="chip">Design systems</span><span class="chip">Design tokens</span>
-                    <span class="chip">Component libraries</span><span class="chip">Design sprints</span>
-                    <span class="chip">Workshop facilitation</span>
-                  </div>
-                </div>
-
-                <div class="skills__group">
-                  <h4>Certifications</h4>
-                  <div class="chips">
-                    <span class="chip"><img class="chip__logo" src="assets/logos/nng.png" alt="" width="42" height="13" loading="lazy">NN/g UX Certification</span>
-                    <span class="chip"><img class="chip__logo" src="assets/logos/luma.png" alt="" width="8" height="13" loading="lazy">LUMA Human-Centered Design</span>
-                    <span class="chip"><img class="chip__logo" src="assets/logos/scrum.png" alt="" width="13" height="13" loading="lazy">Professional Scrum Master I</span>
-                    <span class="chip"><img class="chip__logo" src="assets/logos/google.png" alt="" width="12" height="13" loading="lazy">Google Foundations of UX Design</span>
-                  </div>
-                </div>
+          <ol class="jobs">
+            <li class="job reveal">
+              <span class="job__years">2025 – Now</span>
+              <div class="job__what">
+                <h3 class="job__role">User Experience Architect</h3>
+                <p class="job__org">Manulife IT Delivery Center Asia</p>
               </div>
+              <p class="job__note">Lead designer across concurrent product streams, and a core contributor to the global design system serving 200+ designers.</p>
+            </li>
+            <li class="job reveal">
+              <span class="job__years">2024 – 2025</span>
+              <div class="job__what">
+                <h3 class="job__role">UI/UX Manager</h3>
+                <p class="job__org">EastWest Ageas Insurance · BGC, Taguig</p>
+              </div>
+              <p class="job__note">Cut field-agent task time from 30 minutes to 5 with a guided flow, and led a team of five designers.</p>
+            </li>
+            <li class="job reveal">
+              <span class="job__years">2023 – 2024</span>
+              <div class="job__what">
+                <h3 class="job__role">UX Consultant</h3>
+                <p class="job__org">AIA Digital+ · Makati</p>
+              </div>
+              <p class="job__note">Built Qi, a design system for 18 Asian markets with 300+ components, and measured its effect with twenty designers.</p>
+            </li>
+            <li class="job reveal">
+              <span class="job__years">2020 – 2023</span>
+              <div class="job__what">
+                <h3 class="job__role">Lead UI/UX Designer</h3>
+                <p class="job__org">Entrego · Muntinlupa</p>
+              </div>
+              <p class="job__note">Built the company's first design system and the design review process still used before development. Led three designers.</p>
+            </li>
+            <li class="job reveal">
+              <span class="job__years">2018 – 2020</span>
+              <div class="job__what">
+                <h3 class="job__role">Senior UI/UX Designer</h3>
+                <p class="job__org">Contentserv AG · Makati</p>
+              </div>
+              <p class="job__note">Concepts, mockups and prototypes for enterprise SaaS.</p>
+            </li>
+            <li class="job reveal">
+              <span class="job__years">2015 – 2018</span>
+              <div class="job__what">
+                <h3 class="job__role">UI/UX Designer</h3>
+                <p class="job__org">Triple One Technologies · Tri7 Solutions</p>
+              </div>
+              <p class="job__note">Web and mobile interfaces, prototypes, infographics and marketing collateral.</p>
+            </li>
+            <li class="job reveal">
+              <span class="job__years">2014 – 2015</span>
+              <div class="job__what">
+                <h3 class="job__role">Senior Graphic Designer</h3>
+                <p class="job__org">Mobilepaid</p>
+              </div>
+              <p class="job__note">Company branding and the internal design process.</p>
+            </li>
+          </ol>
 
+          <div class="resume__more">
+            <div class="reveal">
+              <h3 class="resume__sub">Education</h3>
+              <p>BA Multimedia Arts, De La Salle–College of Saint Benilde, 2010–2014. Dean's Lister.</p>
+            </div>
+            <div class="reveal">
+              <h3 class="resume__sub">Certifications</h3>
+              <p>NN/g UX Certification · LUMA Human-Centered Design · Professional Scrum Master I · Google Foundations of UX Design</p>
+            </div>
+            <div class="reveal">
+              <h3 class="resume__sub">Tools</h3>
+              <p>Figma, FigJam, Sketch, Adobe Suite, Miro, Jira</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Contact -->
-      <section class="section" id="contact">
-        <div class="container">
-          <div class="contact reveal">
-            <h2 class="h-section" style="margin:0 auto">Let's work together</h2>
-            <p class="lede">
-              I'm open to conversations about product design roles, end-to-end UX problems,
-              or systems work that has outgrown the team maintaining it.
-            </p>
-            <div class="hero__actions">
-              <button class="btn btn--primary" data-view="contact-form">
-                <svg class="ic" viewBox="0 0 24 24" width="15" height="15"><use href="#i-mail"/></svg>
-                Send me a message
-              </button>
-            </div>
-            <p class="contact__note">
-              Opens a short form — name, email, message. Based in Manila, available for remote
-              work worldwide.
-            </p>
+      <!-- Closing call to action -->
+      <section class="cta" id="contact" aria-labelledby="cta-title">
+        <div class="wrap cta__inner">
+          <h2 class="cta__title reveal" id="cta-title">Open to product design roles and systems work that has outgrown its team<span class="dot">.</span></h2>
+          <div class="cta__actions reveal">
+            <button class="btn btn--pill" data-view="contact-form">
+              <span class="roll" data-text="Send me a message">Send me a message</span>
+            </button>
+            <a class="arrow-link" href="mailto:kendulfo@gmail.com">
+              <span class="roll" data-text="kendulfo@gmail.com">kendulfo@gmail.com</span>
+              <svg class="ic" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><use href="#i-arrow-ur"/></svg>
+            </a>
           </div>
         </div>
       </section>
 
       <footer class="footer">
-        <div class="container">
-          <span>© <span data-year>2026</span> Kenneth Dulfo. All rights reserved.</span>
-          <span>Manila, Philippines</span>
+        <div class="wrap wrap--wide">
+          <div class="footer__top">
+            <a class="brand" href="#hero">Kenneth Dulfo<span class="dot">.</span></a>
+            <nav class="footer__links" aria-label="Footer">
+              <a href="#work"><span class="roll" data-text="Work">Work</span></a>
+              <a href="#about"><span class="roll" data-text="About">About</span></a>
+              <a href="#resume"><span class="roll" data-text="Experience">Experience</span></a>
+              <a href="#contact"><span class="roll" data-text="Contact">Contact</span></a>
+            </nav>
+          </div>
+          <div class="footer__bottom">
+            <span>© <span data-year>2026</span> Kenneth Dulfo · Manila, Philippines</span>
+            <a href="mailto:kendulfo@gmail.com">kendulfo@gmail.com</a>
+          </div>
         </div>
       </footer>
     </div>
@@ -693,11 +455,21 @@
           </dl>
         </header>
 
-        <!-- Cover frame exported from the Figma file. Uses a background image so a
-             missing file degrades to a plain panel instead of a broken-image icon. -->
-        <div class="cs__hero-img cs__hero-shot"
-             style="background-image:url('assets/segstream-cover.png')"
-             role="img" aria-label="Segstream Design System cover"></div>
+        <!-- Launch film: one brand/500 edit retheming the exported templates live. -->
+        <div class="cs__hero-img cs__hero-img--video">
+          <video
+            src="assets/segstream-brag.mp4"
+            poster="assets/segstream-brag-poster.jpg"
+            controls
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            width="1920" height="1080">
+            Your browser can't play this video.
+            <a href="assets/segstream-brag.mp4">Download it instead</a>.
+          </video>
+        </div>
 
         <div class="prose">
           <section>
@@ -2997,6 +2769,6 @@
   </main>
 </div>
 
-<script src="js/main.js?v=25"></script>
+<script src="js/main.js?v=26"></script>
 </body>
 </html>
