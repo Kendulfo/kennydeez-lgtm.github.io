@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=53">
-<link rel="stylesheet" href="css/site.css?v=26">
+<link rel="stylesheet" href="css/site.css?v=27">
 <script>
   // Lets the stylesheet hold back entrance animations until script is known
   // to be running; without it everything simply shows.
@@ -21,6 +21,12 @@
 </script>
 </head>
 <body>
+
+<!-- Loading screen: holds the first screen until the reel can play (main.js) -->
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__text">© <em>Kenneth</em> Dulfo<br>Research to shipped screens,<br>and the systems that hold them together.</p>
+  <p class="loader__count"><span id="loader-count">0</span>%</p>
+</div>
 
 <!-- Reusable icons ------------------------------------------------------- -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -2868,6 +2874,6 @@
 <script src="js/vendor/gsap.min.js?v=3.15.0"></script>
 <script src="js/vendor/SplitText.min.js?v=3.15.0"></script>
 <script src="js/vendor/lenis.min.js?v=1.3.26"></script>
-<script src="js/main.js?v=36"></script>
+<script src="js/main.js?v=37"></script>
 </body>
 </html>

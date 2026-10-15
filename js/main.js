@@ -109,14 +109,63 @@
       }, { threshold: 0.3 });
       heroIO.observe(hero);
     }
+  }
 
-    // Opening: the frame widens from a centred window to full screen.
-    if (window.gsap && !reduced.matches && window.scrollY < 10 && reel.offsetParent) {
+  // Opening: the frame widens from a centred window to full screen. It waits
+  // for the loading screen, so it plays where it can be seen.
+  function openReel() {
+    if (reel && window.gsap && !reduced.matches && window.scrollY < 10 && reel.offsetParent) {
       gsap.from(reel.querySelector('.reel__frame'), {
         clipPath: 'inset(22% 26% 22% 26%)', duration: 1.6, ease: 'expo.inOut', delay: 0.1,
         clearProps: 'clipPath'
       });
     }
+  }
+
+  /* -------------------------------------------------------- Loading screen */
+  // On a slow connection the reel takes a while to arrive. The loader holds the
+  // first screen until three seconds of it have buffered, counting the real
+  // progress. A fast connection sees it for about a second; it never holds the
+  // page past eight. The reel already plays underneath (iOS buffers nothing
+  // until play() is called), so it is rewound as the loader leaves.
+  function armLoader(done) {
+    var el = document.getElementById('loader');
+    if (!el) return done();
+    if (!reelVideo || !reel.offsetParent) {   // opened on a case study: no reel to wait for
+      el.parentNode.removeChild(el);
+      return done();
+    }
+    var count = document.getElementById('loader-count');
+    var start = Date.now(), shown = 0, fonts = !document.fonts;
+    if (document.fonts) document.fonts.ready.then(function () { fonts = true; });
+    lockScroll(true);
+
+    function buffered() {
+      if (reelVideo.readyState >= 4) return 1;
+      var b = reelVideo.buffered;
+      return b.length ? Math.min(1, b.end(0) / Math.min(3, reelVideo.duration || 3)) : 0;
+    }
+    function tick() {
+      var waited = Date.now() - start;
+      var p = waited > 8000 ? 1 : 0.15 * (fonts ? 1 : 0) + 0.85 * buffered();
+      shown += (p * 100 - shown) * 0.12;   // ease toward the real figure, never past it
+      if (p === 1 && shown > 99) shown = 100;
+      count.textContent = Math.floor(shown);
+      if (shown === 100 && waited > 1100) leave();
+      else requestAnimationFrame(tick);
+    }
+    function leave() {
+      lockScroll(false);
+      try { reelVideo.currentTime = 0; } catch (e) {}
+      if (!window.gsap || reduced.matches) {
+        el.parentNode.removeChild(el);
+        return done();
+      }
+      gsap.to(el.children, { opacity: 0, y: -14, duration: 0.4, ease: 'power2.in', stagger: 0.06 });
+      gsap.to(el, { opacity: 0, duration: 0.6, ease: 'power2.inOut', delay: 0.35, onComplete: function () { el.parentNode.removeChild(el); } });
+      gsap.delayedCall(0.3, done);
+    }
+    tick();
   }
 
   /* ----------------------------------------------------------- View router */
@@ -1149,6 +1198,7 @@
   armLoops();
   armIndex();
   armReel();
+  armLoader(openReel);
   armLight();
   brewCta();
   updateActiveNav();
