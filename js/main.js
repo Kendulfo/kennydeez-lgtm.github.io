@@ -85,7 +85,41 @@
   }
 
   // Views: 'home' | 'contact-form' | 'aia' | 'banking'
+  //
+  // A click from one view to another dips the old one out, swaps while nothing
+  // is showing, and lets the new one rise in. Only clicks: boot and back/forward
+  // land instantly, and so does an anchor link leaving a case study, which
+  // scrolls smoothly straight after and would fight the fade.
   function showView(name, push) {
+    var views = document.querySelectorAll('.view');
+    var gsap = window.gsap;
+    if (gsap) {
+      // A swap still in flight is dropped, along with what it left inline.
+      gsap.killTweensOf(views);
+      gsap.set(views, { clearProps: 'opacity,visibility,transform' });
+    }
+
+    var from = document.querySelector('.view:not([hidden])');
+    var to = document.getElementById('view-' + name) || document.getElementById('view-home');
+    if (push === false || !gsap || reduced.matches || !from || from === to) {
+      swapView(name, push);
+      return;
+    }
+
+    gsap.to(from, {
+      autoAlpha: 0, y: -16, duration: 0.22, ease: 'power2.in',
+      onComplete: function () {
+        gsap.set(from, { clearProps: 'opacity,visibility,transform' });
+        swapView(name, push);
+        gsap.fromTo(to, { autoAlpha: 0, y: 24 }, {
+          autoAlpha: 1, y: 0, duration: 0.6, ease: 'expo.out',
+          clearProps: 'opacity,visibility,transform'
+        });
+      }
+    });
+  }
+
+  function swapView(name, push) {
     var views = document.querySelectorAll('.view');
     for (var i = 0; i < views.length; i++) views[i].hidden = true;
 
@@ -825,6 +859,31 @@
     paintScroll();
   }
 
+  /* --------------------------------------------------------------- Marquee */
+  // The name crosses the page once more before the footer. The track holds its
+  // group twice, so sliding by exactly half lands on a frame identical to the
+  // first and the loop has no seam. It only runs while it is on screen.
+  function armMarquee() {
+    var band = document.querySelector('[data-marquee]');
+    if (!band || !window.gsap || reduced.matches || !('IntersectionObserver' in window)) return;
+    var track = band.querySelector('.marquee__track');
+    track.appendChild(track.firstElementChild.cloneNode(true));
+
+    var loop = gsap.to(track, { xPercent: -50, duration: 40, ease: 'none', repeat: -1, paused: true });
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) loop.play();
+      else loop.pause();
+    }).observe(band);
+
+    // Slows to a stop under the pointer rather than freezing mid-word.
+    band.addEventListener('mouseenter', function () {
+      gsap.to(loop, { timeScale: 0, duration: 0.6, ease: 'power2.out' });
+    });
+    band.addEventListener('mouseleave', function () {
+      gsap.to(loop, { timeScale: 1, duration: 0.6, ease: 'power2.in' });
+    });
+  }
+
   /* ------------------------------------------------------------------ Boot */
   // Stamped rather than hard-coded, so the footer can't quietly go stale again.
   var year = String(new Date().getFullYear());
@@ -840,6 +899,7 @@
   armDrift();
   armCounters();
   armScrollEffects();
+  armMarquee();
   brewCta();
   updateActiveNav();
 })();

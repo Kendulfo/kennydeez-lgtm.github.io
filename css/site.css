@@ -664,6 +664,27 @@ body.is-case-study .nav__status { display: none; }
   margin-top: 40px;
 }
 
+/* One line of the name, wider than any screen. main.js loops it; without
+   script it simply sits there, cropped by the edge. */
+.marquee {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: clamp(24px, 4vw, 56px) 0;
+  background: var(--dark);
+  color: var(--on-dark);
+  border-top: 1px solid var(--line-dark);
+}
+.marquee__track { display: flex; width: max-content; }
+.marquee__group { display: flex; flex-shrink: 0; }
+.marquee__group > span {
+  padding-right: 0.5em;
+  font: 300 clamp(88px, 15vw, 240px)/1 var(--serif);
+  font-optical-sizing: auto;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
 .footer {
   position: relative;
   z-index: 1;
