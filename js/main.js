@@ -455,8 +455,14 @@
     }
     var pos = window.scrollY + window.innerHeight * 0.32;
     // Nothing is current while the reader is still above the first section.
+    // Lowest section that has been passed, by position rather than by array
+    // order: `sections` follows the nav links, so taking the last match made
+    // the highlight depend on the nav being written in page order. It was not,
+    // and Work highlighted About.
     var current = null;
-    sections.forEach(function (s) { if (s.offsetTop <= pos) current = s; });
+    sections.forEach(function (s) {
+      if (s.offsetTop <= pos && (!current || s.offsetTop > current.offsetTop)) current = s;
+    });
     navLinks.forEach(function (l) {
       l.classList.toggle('is-active', current && l.getAttribute('data-nav') === current.id);
     });
