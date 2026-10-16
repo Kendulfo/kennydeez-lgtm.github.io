@@ -236,7 +236,7 @@ a:focus-visible > .link-text,
 }
 .nav__pill > a:hover,
 .nav__pill > a.is-active { color: var(--on-dark); background: rgba(250, 249, 247, 0.08); }
-.nav__pill > .brand { gap: 9px; padding: 0 16px 0 14px; font: 600 17px/1 var(--serif); color: var(--on-dark); }
+.nav__pill > .brand { padding: 0 16px 0 14px; font: 600 17px/1 var(--serif); color: var(--on-dark); }
 .nav__pill > .brand:hover { background: none; }
 
 .brand {
@@ -248,9 +248,11 @@ a:focus-visible > .link-text,
 /* Available for work: a live dot beside the name */
 .nav__live {
   position: relative;
+  top: -0.15em; /* centre on the capitals, not the line box */
   flex: none;
   width: 7px;
   height: 7px;
+  margin-right: 9px; /* spacing lives here, not as a flex gap, so the "." hugs the name */
   border-radius: 50%;
   background: var(--live);
 }
