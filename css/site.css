@@ -890,9 +890,11 @@ body.is-case-study { background: var(--light); }
   .about__open { grid-template-columns: minmax(0, 1fr); }
   .about__open > .about__quote, .about__open > .arrow-link { grid-column: auto; }
   .about__cap { width: min(70%, 18rem); aspect-ratio: 4 / 5; margin: 0 0 28px; }
-  /* Held for a screen of scrolling while the words light, as on desktop */
-  .about--lit .about__track { display: block; height: 210svh; }
-  .about--lit .about__lit { position: sticky; top: 0; display: flex; flex-direction: column; justify-content: center; height: 100svh; }
+  /* Held at the middle of the screen for a screen of scrolling while the words
+     light, as on desktop. main.js measures the pair into --story, so the frame
+     is exactly their height and nothing opens up above or below them. */
+  .about--lit .about__track { display: block; height: calc(var(--story) + 110svh); }
+  .about--lit .about__lit { position: sticky; top: calc((100svh - var(--story)) / 2); display: block; }
   .reel__frame { inset: 8px; }
   /* As Onda does: the name and the two links that matter; the rest is a scroll away */
   .nav { bottom: 14px; }

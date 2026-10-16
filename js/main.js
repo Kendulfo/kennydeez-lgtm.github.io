@@ -1112,7 +1112,9 @@
   var lightSection = lightText && lightText.closest('section');
   var lightWords = [];
   var lightCount = -1;
-  var lightPin = null;   // whatever is held still while the words light, if anything
+  var lightPin = null;   // the track whatever is held still travels through, if anything
+  var lightHold = 0;     // how far down the screen the held block sits
+  var lightHeld = 0;     // and how tall it is
 
   // On a wide screen the whole section is held where it fits. On a phone the
   // section is taller than the screen, so only the photo and story are held,
@@ -1123,9 +1125,12 @@
     var story = lightText.offsetHeight + lightSection.querySelector('.about__cap').offsetHeight + 28;
     var wide = window.innerWidth > 860 && grid.offsetHeight + 120 <= window.innerHeight;
     var phone = window.innerWidth <= 600 && story + 140 <= window.innerHeight;   // 140: the nav pill and some air
+    lightSection.style.setProperty('--story', story + 'px');
     lightSection.classList.toggle('about--pin', wide);
     lightSection.classList.toggle('about--lit', phone);
     lightPin = wide ? lightSection : phone ? lightSection.querySelector('.about__track') : null;
+    lightHeld = wide ? window.innerHeight : story;
+    lightHold = phone ? parseFloat(getComputedStyle(lightSection.querySelector('.about__lit')).top) || 0 : 0;
   }
 
   function paintLight() {
@@ -1136,7 +1141,7 @@
       // Through the pin's travel; the words finish early so the lit story
       // holds for a beat before the page moves on.
       var s = lightPin.getBoundingClientRect();
-      p = -s.top / (s.height - vh) / 0.85;
+      p = (lightHold - s.top) / (s.height - lightHeld) / 0.85;
     } else {
       // Begins as its top passes 80% of the screen; every word is lit by the
       // time its last line reaches the middle.
