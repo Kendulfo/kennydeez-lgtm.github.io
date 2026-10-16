@@ -194,7 +194,9 @@
   var PLAIN_HASH = { 'contact-form': '#contact-form' };
 
   function hashFor(name) {
-    if (name === 'home') return '#hero';
+    // #top, not #hero: the hero sits a screen below the reel, so a reload or a
+    // shared link with #hero had the browser jump straight past the reel.
+    if (name === 'home') return '#top';
     return PLAIN_HASH[name] || ('#case/' + name);
   }
 
@@ -1191,6 +1193,9 @@
   var stamps = document.querySelectorAll('[data-year]');
   for (var y = 0; y < stamps.length; y++) stamps[y].textContent = year;
 
+  // Older links and reopened tabs still carry #hero. Swapping it before the page
+  // finishes parsing means the browser's own fragment jump targets #top instead.
+  if (location.hash === '#hero') history.replaceState(null, '', '#top');
   routeFromHash();
   if (confirmSent) confirmSent();
   revealAll(document);
