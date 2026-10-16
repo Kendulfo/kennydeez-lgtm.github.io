@@ -490,6 +490,9 @@ a:focus-visible > .link-text,
   grid-template-columns: clamp(200px, 19vw, 290px) minmax(0, 1fr);
   column-gap: calc(var(--lead) * 0.65);
 }
+/* Phones pin just the photo and story (main.js adds .about--lit); everywhere
+   else these two wrappers step aside and the grid lays out as if they weren't there. */
+.about__track, .about__lit { display: contents; }
 /* The quote and the link run under both, from the photo's left edge */
 .about__open > .about__quote,
 .about__open > .arrow-link { grid-column: 1 / -1; justify-self: start; }
@@ -886,7 +889,10 @@ body.is-case-study { background: var(--light); }
   /* No room to set text beside it: the portrait leads the story full width */
   .about__open { grid-template-columns: minmax(0, 1fr); }
   .about__open > .about__quote, .about__open > .arrow-link { grid-column: auto; }
-  .about__cap { width: min(100%, 26rem); aspect-ratio: 4 / 5; margin: 0 0 28px; }
+  .about__cap { width: min(70%, 18rem); aspect-ratio: 4 / 5; margin: 0 0 28px; }
+  /* Held for a screen of scrolling while the words light, as on desktop */
+  .about--lit .about__track { display: block; height: 210svh; }
+  .about--lit .about__lit { position: sticky; top: 0; display: flex; flex-direction: column; justify-content: center; height: 100svh; }
   .reel__frame { inset: 8px; }
   /* As Onda does: the name and the two links that matter; the rest is a scroll away */
   .nav { bottom: 14px; }

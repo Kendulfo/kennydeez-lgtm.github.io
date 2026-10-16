@@ -1112,26 +1112,30 @@
   var lightSection = lightText && lightText.closest('section');
   var lightWords = [];
   var lightCount = -1;
-  var lightPinned = false;
+  var lightPin = null;   // whatever is held still while the words light, if anything
 
-  // Held in place only where the whole section fits on screen. On a phone it
-  // is taller than the screen, so pinning would hide part of it; there the
-  // words light as it scrolls past instead.
+  // On a wide screen the whole section is held where it fits. On a phone the
+  // section is taller than the screen, so only the photo and story are held,
+  // where those two fit; otherwise the words light as it scrolls past.
   function fitLight() {
     if (!lightWords.length || !lightSection.offsetParent) return;
     var grid = lightSection.querySelector('.about__grid');
-    lightPinned = window.innerWidth > 860 && grid.offsetHeight + 120 <= window.innerHeight;
-    lightSection.classList.toggle('about--pin', lightPinned);
+    var story = lightText.offsetHeight + lightSection.querySelector('.about__cap').offsetHeight + 28;
+    var wide = window.innerWidth > 860 && grid.offsetHeight + 120 <= window.innerHeight;
+    var phone = window.innerWidth <= 600 && story + 140 <= window.innerHeight;   // 140: the nav pill and some air
+    lightSection.classList.toggle('about--pin', wide);
+    lightSection.classList.toggle('about--lit', phone);
+    lightPin = wide ? lightSection : phone ? lightSection.querySelector('.about__track') : null;
   }
 
   function paintLight() {
     if (!lightWords.length || !lightText.offsetParent) return;
     var vh = window.innerHeight;
     var p;
-    if (lightPinned) {
+    if (lightPin) {
       // Through the pin's travel; the words finish early so the lit story
       // holds for a beat before the page moves on.
-      var s = lightSection.getBoundingClientRect();
+      var s = lightPin.getBoundingClientRect();
       p = -s.top / (s.height - vh) / 0.85;
     } else {
       // Begins as its top passes 80% of the screen; every word is lit by the

@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css?v=53">
-<link rel="stylesheet" href="css/site.css?v=27">
+<link rel="stylesheet" href="css/site.css?v=28">
 <script>
   // Lets the stylesheet hold back entrance animations until script is known
   // to be running; without it everything simply shows.
@@ -158,8 +158,10 @@
 
             <div class="about__story">
               <div class="about__open">
+                <!-- On a phone these two hold the photo and story still while it lights -->
+                <div class="about__track"><div class="about__lit">
                 <div class="about__cap">
-                  <img src="assets/portrait-640.jpg" srcset="assets/portrait-640.jpg 640w, assets/portrait-1200.jpg 1200w" sizes="(max-width: 600px) min(calc(100vw - 40px), 26rem), 22rem" alt="Kenneth Dulfo on a lit street at night" width="1200" height="1500" loading="lazy">
+                  <img src="assets/portrait-640.jpg" srcset="assets/portrait-640.jpg 640w, assets/portrait-1200.jpg 1200w" sizes="(max-width: 600px) min(calc(70vw - 28px), 18rem), 22rem" alt="Kenneth Dulfo on a lit street at night" width="1200" height="1500" loading="lazy">
                 </div>
                 <p class="about__lead" data-light>
                   <strong>I'm Kenneth, and I design apps and websites that are easy to use.</strong>
@@ -167,6 +169,7 @@
                   back. Since then I've designed for banks, insurers and a delivery app, and built
                   the design libraries that keep every screen looking and working the same.
                 </p>
+                </div></div>
                 <blockquote class="about__quote reveal">
                   <p>The part I love is seeing it at work, when people get through a flow without
                   thinking and the usability results come back better. I work in the open and keep
@@ -2874,6 +2877,6 @@
 <script src="js/vendor/gsap.min.js?v=3.15.0"></script>
 <script src="js/vendor/SplitText.min.js?v=3.15.0"></script>
 <script src="js/vendor/lenis.min.js?v=1.3.26"></script>
-<script src="js/main.js?v=39"></script>
+<script src="js/main.js?v=40"></script>
 </body>
 </html>
