@@ -980,6 +980,11 @@ body.is-case-study { background: var(--light); }
 @media (max-width: 860px) {
   :root { --nav-h: 68px; }
 
+  /* The desktop clamp is driven by vw, so on a phone it simply sits on its
+     30px floor and the section titles come out smaller than the body of the
+     page deserves. Phone widths get their own, steeper ramp. */
+  .h-lg { font-size: clamp(34px, 10.5vw, 46px); }
+
   .hero__foot { grid-template-columns: 1fr; gap: 32px; }
 
   .about__grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
