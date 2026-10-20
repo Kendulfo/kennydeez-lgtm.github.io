@@ -1008,44 +1008,11 @@
     }
   }
 
-  /* ------------------------------------------------------------ Card deck */
-  // The featured four pin at the same offset and stack. CSS does the pinning;
-  // this only sets how far each card has receded, which is what turns "hidden
-  // behind the next one" into a deck you can see the depth of.
-  //
-  // Depth is measured from the cards above, not from a card's own position: a
-  // card is as sunk as the number of cards currently covering it, counted
-  // continuously so the shrink tracks the scroll rather than stepping.
-  var STACK_STEP = 0.07;   // scale lost per covering card
-  var STACK_MIN  = 0.78;   // matches the reference's deepest card
-
-  function paintStack() {
-    var decks = document.querySelectorAll('[data-stack]');
-    for (var d = 0; d < decks.length; d++) {
-      var cards = decks[d].children;
-      if (!cards.length || !decks[d].offsetParent) continue;
-
-      var pin = cards[0].getBoundingClientRect().top;
-      // While the deck is still below the pin line nothing is covering anything.
-      for (var i = 0; i < cards.length; i++) {
-        var depth = 0;
-        for (var j = i + 1; j < cards.length; j++) {
-          var r = cards[j].getBoundingClientRect();
-          var h = r.height || 1;
-          depth += Math.max(0, Math.min(1, (pin + h - r.top) / h));
-        }
-        var s = Math.max(STACK_MIN, 1 - depth * STACK_STEP);
-        cards[i].style.setProperty('--s', s.toFixed(4));
-      }
-    }
-  }
-
   function paintScroll() {
     paintReel();
     paintFan();
     paintLight();
     paintDrift();
-    if (!reduced.matches) paintStack();
   }
 
   var scrollTicking = false;
@@ -1069,9 +1036,9 @@
     window.addEventListener('scroll', onScrollEffects, { passive: true });
     window.addEventListener('resize', onScrollEffects);
     // Lenis drives the scrolling, and in its wrapper mode the window never
-    // fires a scroll event — so the window listener above runs once at boot
-    // and then never again, leaving every scroll painter frozen. Subscribing
-    // to Lenis itself is the only way to hear about a scroll on this page.
+    // fires a scroll event — so the listener above runs once at boot and then
+    // never again, leaving every scroll painter frozen on its first frame.
+    // Subscribing to Lenis is the only way to hear about a scroll here.
     if (lenis && lenis.on) lenis.on('scroll', onScrollEffects);
     paintScroll();
   }
@@ -1227,7 +1194,20 @@
   // seconds of the project inside that cover, where a clip exists; the clip
   // is built on first hover, so nobody downloads a film they never point at.
   // Touch screens and reduced motion keep the still cover.
+  // Each row's expanded block opens to a measured height rather than to auto,
+  // which cannot be transitioned. Re-measured on resize because the tags wrap
+  // at narrow widths and a stale height would clip them.
+  function measureIndex() {
+    var blocks = document.querySelectorAll('.index__more');
+    for (var i = 0; i < blocks.length; i++) {
+      var inner = blocks[i].firstElementChild;
+      if (inner) blocks[i].style.setProperty('--more-h', inner.scrollHeight + 'px');
+    }
+  }
+
   function armIndex() {
+    measureIndex();
+    window.addEventListener('resize', measureIndex);
     if (reduced.matches || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     var links = document.querySelectorAll('.index__link[data-preview]');
     for (var i = 0; i < links.length; i++) {
