@@ -1008,11 +1008,44 @@
     }
   }
 
+  /* ------------------------------------------------------------ Card deck */
+  // The featured four pin at the same offset and stack. CSS does the pinning;
+  // this only sets how far each card has receded, which is what turns "hidden
+  // behind the next one" into a deck you can see the depth of.
+  //
+  // Depth is measured from the cards above, not from a card's own position: a
+  // card is as sunk as the number of cards currently covering it, counted
+  // continuously so the shrink tracks the scroll rather than stepping.
+  var STACK_STEP = 0.07;   // scale lost per covering card
+  var STACK_MIN  = 0.78;   // matches the reference's deepest card
+
+  function paintStack() {
+    var decks = document.querySelectorAll('[data-stack]');
+    for (var d = 0; d < decks.length; d++) {
+      var cards = decks[d].children;
+      if (!cards.length || !decks[d].offsetParent) continue;
+
+      var pin = cards[0].getBoundingClientRect().top;
+      // While the deck is still below the pin line nothing is covering anything.
+      for (var i = 0; i < cards.length; i++) {
+        var depth = 0;
+        for (var j = i + 1; j < cards.length; j++) {
+          var r = cards[j].getBoundingClientRect();
+          var h = r.height || 1;
+          depth += Math.max(0, Math.min(1, (pin + h - r.top) / h));
+        }
+        var s = Math.max(STACK_MIN, 1 - depth * STACK_STEP);
+        cards[i].style.setProperty('--s', s.toFixed(4));
+      }
+    }
+  }
+
   function paintScroll() {
     paintReel();
     paintFan();
     paintLight();
     paintDrift();
+    if (!reduced.matches) paintStack();
   }
 
   var scrollTicking = false;
@@ -1035,6 +1068,11 @@
   function armScrollEffects() {
     window.addEventListener('scroll', onScrollEffects, { passive: true });
     window.addEventListener('resize', onScrollEffects);
+    // Lenis drives the scrolling, and in its wrapper mode the window never
+    // fires a scroll event — so the window listener above runs once at boot
+    // and then never again, leaving every scroll painter frozen. Subscribing
+    // to Lenis itself is the only way to hear about a scroll on this page.
+    if (lenis && lenis.on) lenis.on('scroll', onScrollEffects);
     paintScroll();
   }
 

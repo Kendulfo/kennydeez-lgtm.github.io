@@ -548,6 +548,96 @@ a:focus-visible > .link-text,
 .work .label { color: var(--on-light-faint); }
 .work__head { margin-bottom: clamp(56px, 7vw, 96px); }
 
+/* The featured four, as a deck that stacks. Each card pins at the same offset,
+   so the next one scrolls up and covers it; later cards paint over earlier ones
+   on DOM order alone, no z-index needed. Sticky does all the pinning — script
+   only sets --s, the scale that makes a covered card recede instead of simply
+   being hidden behind the next. */
+.stack {
+  margin-bottom: clamp(56px, 7vw, 104px);
+}
+
+.stack__card {
+  position: sticky;
+  top: clamp(72px, 10vh, 132px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);
+  gap: clamp(24px, 3vw, 48px);
+  align-items: center;
+  margin-bottom: clamp(40px, 5vw, 72px);
+  padding: clamp(24px, 2.6vw, 40px);
+  border: 1px solid var(--line-light);
+  border-radius: clamp(14px, 1.4vw, 22px);
+  background: var(--paper, #fff);
+  /* Scaled from the top edge, so a receding card sinks away from the reader
+     rather than drifting up out of its own pinned position. */
+  transform: scale(var(--s, 1));
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.stack__body { display: flex; flex-direction: column; align-items: flex-start; }
+
+.stack__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 clamp(12px, 1.4vw, 20px);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted, #737373);
+}
+.stack__num { color: var(--accent); font-weight: 650; }
+
+.stack__title {
+  margin: 0 0 clamp(10px, 1.2vw, 16px);
+  font: 400 clamp(21px, 2.1vw, 30px)/1.25 var(--serif);
+  letter-spacing: -0.01em;
+}
+
+.stack__desc {
+  margin: 0 0 clamp(20px, 2.2vw, 30px);
+  max-width: 46ch;
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.65;
+  color: var(--muted, #737373);
+}
+
+.stack__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s var(--ease);
+}
+.stack__cta:hover { opacity: 0.88; }
+
+.stack__media {
+  overflow: hidden;
+  border-radius: clamp(10px, 1vw, 14px);
+  aspect-ratio: 5 / 3;
+}
+.stack__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+@media (max-width: 860px) {
+  /* Side by side at phone width would leave the text a column too narrow to
+     read, and the deck too tall to pin usefully. */
+  .stack__card { grid-template-columns: 1fr; gap: 20px; }
+  .stack__media { order: -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The pinning is the motion here, not just the scale, so the deck becomes a
+     plain stack of cards. */
+  .stack__card { position: static; transform: none; }
+}
+
 /* The work index: one row per project, and every row shows the work. The
    number and the name share a baseline at the top; the cover fills the
    right-hand column; the title and description settle at the foot of the
