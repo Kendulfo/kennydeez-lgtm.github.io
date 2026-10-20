@@ -1008,11 +1008,43 @@
     }
   }
 
+  /* ------------------------------------------------------- Index card deck
+     On touch the index rows are sticky cards that pile up — see the
+     (hover: none) block in site.css. Sticky does all the pinning; this only
+     sets --s, the scale that makes a covered card recede rather than simply
+     hide behind the next one. */
+  var STACK_STEP = 0.07;   // scale lost per covering card
+  var STACK_MIN = 0.78;    // the deepest a card sinks
+  var coarse = window.matchMedia('(hover: none), (pointer: coarse)');
+
+  function paintStack() {
+    if (!coarse.matches || reduced.matches) return;
+    var deck = document.querySelector('.index');
+    if (!deck || !deck.offsetParent || !deck.children.length) return;
+
+    var cards = deck.children;
+    // While the deck is on screen the first card is pinned, so its own top is
+    // the offset every other card pins at.
+    var pin = cards[0].getBoundingClientRect().top;
+
+    for (var i = 0; i < cards.length; i++) {
+      var depth = 0;
+      for (var j = i + 1; j < cards.length; j++) {
+        var r = cards[j].getBoundingClientRect();
+        var h = r.height || 1;
+        depth += Math.max(0, Math.min(1, (pin + h - r.top) / h));
+      }
+      cards[i].style.setProperty(
+        '--s', Math.max(STACK_MIN, 1 - depth * STACK_STEP).toFixed(4));
+    }
+  }
+
   function paintScroll() {
     paintReel();
     paintFan();
     paintLight();
     paintDrift();
+    paintStack();
   }
 
   var scrollTicking = false;

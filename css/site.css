@@ -709,10 +709,44 @@ a:focus-visible > .link-text,
   color: rgba(255, 255, 255, 0.82);
 }
 
-/* No pointer means no hover, and a row that can never open would simply hide
-   its stat and tags forever. They stay visible instead. */
+/* No pointer means no hover, so a row can never be opened on demand — and
+   eight rows left open at once was 4838px of index, six screens of it, all
+   reading the same. On touch the list becomes the card deck instead: every
+   row open, pinned at the same offset, each one sliding up over the last and
+   shrinking as it is covered. Script sets --s; everything else is here. */
 @media (hover: none), (pointer: coarse) {
   .index__more { height: auto; opacity: 1; }
+
+  .index { border-bottom: 0; }
+
+  .index > li {
+    position: sticky;
+    top: clamp(20px, 3vh, 36px);
+    /* The pile needs somewhere to travel: with the cards flush, each one pins
+       the moment the one before it does and nothing ever slides over. */
+    margin-bottom: clamp(16px, 4vw, 26px);
+  }
+
+  .index__link {
+    /* The scale sits on the link, not on the <li>: the <li> is a .reveal, and
+       .reveal.is-visible's transform:none is the more specific rule, so a
+       scale written there is simply discarded the moment the row reveals. */
+    transform: scale(var(--s, 1));
+    transform-origin: top center;
+    will-change: transform;
+    /* Opaque, or the card underneath reads straight through the one on top. */
+    background: var(--dark);
+    color: var(--on-dark);
+    border-top: 0;
+    border-radius: 14px;
+    padding: clamp(20px, 5vw, 28px);
+  }
+  /* The full-bleed hover ground would now escape the card's rounded corners. */
+  .index__link::before { display: none; }
+  .index__title { color: var(--on-dark); }
+  .index__desc { color: rgba(255, 255, 255, 0.72); }
+  .index__num { color: rgba(255, 255, 255, 0.5); }
+  .index__media { background: rgba(255, 255, 255, 0.08); border-radius: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1052,4 +1086,6 @@ html.lenis, html.lenis body { height: auto; }
   .reel { height: auto; }
   .reel__pin { position: relative; }
   .index__link, .index__name, .index__media img { transition: none; }
+  .index > li { position: static; }
+  .index__link { transform: none; }
 }
