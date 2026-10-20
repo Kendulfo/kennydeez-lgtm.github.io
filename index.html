@@ -2874,9 +2874,24 @@
   </main>
 </div>
 
+<!-- Analytics. Swap YOUR-CODE for the code you chose at goatcounter.com and
+     nothing else needs touching; until then the tag is inert, so an unsigned-up
+     site does not fire requests at an endpoint that is not there. No cookies,
+     so no consent banner. Counts of pushState views are sent from main.js. -->
+<script>
+  window.GC_CODE = 'YOUR-CODE';
+  if (window.GC_CODE !== 'YOUR-' + 'CODE') {
+    var gc = document.createElement('script');
+    gc.async = true;
+    gc.src = '//gc.zgo.at/count.js';
+    gc.setAttribute('data-goatcounter', 'https://' + window.GC_CODE + '.goatcounter.com/count');
+    document.head.appendChild(gc);
+  }
+</script>
+
 <script src="js/vendor/gsap.min.js?v=3.15.0"></script>
 <script src="js/vendor/SplitText.min.js?v=3.15.0"></script>
 <script src="js/vendor/lenis.min.js?v=1.3.26"></script>
-<script src="js/main.js?v=41"></script>
+<script src="js/main.js?v=42"></script>
 </body>
 </html>

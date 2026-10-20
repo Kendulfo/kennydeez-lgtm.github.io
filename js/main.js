@@ -235,6 +235,26 @@
     });
   }
 
+  /* ----------------------------------------------------------- Analytics */
+  // The case studies are pushState routes, so the browser never loads a second
+  // document and a plain page-load beacon would record one homepage hit and
+  // nothing else — all eight case studies reading zero forever. Each view
+  // change is reported by hand instead.
+  //
+  // The first view is skipped: the GoatCounter tag counts its own page load, so
+  // counting here as well would double every session's entry page.
+  var firstView = true;
+
+  function countView() {
+    if (firstView) { firstView = false; return; }
+    if (!window.goatcounter || !window.goatcounter.count) return;   // not configured, or still loading
+    window.goatcounter.count({
+      path: location.pathname + location.hash,
+      title: document.title,
+      event: false
+    });
+  }
+
   function swapView(name, push) {
     var views = document.querySelectorAll('.view');
     for (var i = 0; i < views.length; i++) views[i].hidden = true;
@@ -269,6 +289,8 @@
         window.scrollTo(0, 0);   // old engines reject the unknown enum value
       }
     }
+
+    countView();
 
     revealAll(target);
     syncVideos(target);
