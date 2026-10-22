@@ -23,6 +23,8 @@ css/site.css      The current look: tokens, header, home sections, and the
 css/styles.css    The original stylesheet; still styles the case studies
 js/main.js        View routing, header state, scrollspy, scroll reveal, lightbox
 assets/           Images pulled from the original site
+tuktok/           A built copy of the Tuktok demo shop, linked from its case study.
+                  Replace the whole folder with a fresh build (relative paths) to update it
 ```
 
 ## How it's organised
