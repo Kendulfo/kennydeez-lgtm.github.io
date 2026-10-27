@@ -475,8 +475,12 @@
 
           <input type="hidden" name="_subject" value="New message from mynameiskennethdulfo.com">
           <input type="hidden" name="_template" value="table">
-          <!-- Captcha is a redirect challenge, so this form posts natively rather
-               than over fetch. _next brings the sender back here afterwards. -->
+          <!-- Without this FormSubmit answers the POST with a reCAPTCHA page
+               ("Almost There") and holds the message until the box is ticked.
+               Anyone who closed that page was never sent. The honeypot below
+               is the spam defence instead. -->
+          <input type="hidden" name="_captcha" value="false">
+          <!-- Where FormSubmit returns the sender once the message is away. -->
           <input type="hidden" name="_next" value="https://mynameiskennethdulfo.com/?sent=1">
           <!-- Bots fill this in; humans never see it -->
           <input type="text" name="_honey" class="form__honey" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -508,7 +512,7 @@
           </div>
 
           <p class="form__hint">
-            You'll be asked to confirm you're human, then brought straight back here.
+            Your message goes straight to my inbox, and you'll be brought back here.
           </p>
         </form>
 
@@ -3238,6 +3242,6 @@
 <script src="js/vendor/gsap.min.js?v=3.15.0"></script>
 <script src="js/vendor/SplitText.min.js?v=3.15.0"></script>
 <script src="js/vendor/lenis.min.js?v=1.3.26"></script>
-<script src="js/main.js?v=45"></script>
+<script src="js/main.js?v=46"></script>
 </body>
 </html>

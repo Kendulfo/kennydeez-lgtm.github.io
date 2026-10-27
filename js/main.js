@@ -810,19 +810,19 @@
     var cfStatus = document.getElementById('cf-status');
     var cfSubmit = document.getElementById('cf-submit');
 
-    // The form posts natively so FormSubmit can serve its captcha challenge —
-    // intercepting with fetch would only ever receive the challenge, not a send.
+    // The form posts natively; FormSubmit answers with a redirect back to
+    // _next, so the page navigates away and returns rather than staying put.
     contactForm.addEventListener('submit', function () {
       if (!contactForm.checkValidity()) return;   // let the browser show its own prompts
 
       cfStatus.className = 'form__status';
-      cfStatus.textContent = 'Taking you to a quick human check…';
+      cfStatus.textContent = 'Sending…';
       contactForm.classList.add('is-sending');
       // deferred: disabling a submit button synchronously can cancel the post
       setTimeout(function () { cfSubmit.disabled = true; }, 0);
     });
 
-    // FormSubmit sends people back to ?sent=1 once the captcha is cleared.
+    // FormSubmit sends people back to ?sent=1 once the message is away.
     // Called from Boot, after routing, so it isn't immediately overridden.
     confirmSent = function () {
       if (new URLSearchParams(location.search).get('sent') !== '1') return;
