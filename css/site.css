@@ -733,7 +733,8 @@ a:focus-visible > .link-text,
        scale written there is simply discarded the moment the row reveals. */
     transform: scale(var(--s, 1));
     transform-origin: top center;
-    will-change: transform;
+    /* No will-change. It would promote all eight cards to their own layer for
+       the whole page, and only one card is ever mid-scale now. */
     /* Opaque, or the card underneath reads straight through the one on top. */
     background: var(--dark);
     color: var(--on-dark);
@@ -741,8 +742,21 @@ a:focus-visible > .link-text,
     border-radius: 14px;
     padding: clamp(20px, 5vw, 28px);
   }
-  /* The full-bleed hover ground would now escape the card's rounded corners. */
-  .index__link::before { display: none; }
+
+  /* The hover ground becomes the shade that darkens a card as the next one
+     lands on it. Scale alone reads as a card shrinking; with the shade it
+     reads as a card going behind. --d is set per frame, so the inherited
+     0.35s transition has to go or the shade would trail the scroll. */
+  .index__link::before {
+    inset: 0;
+    width: auto;
+    margin: 0;
+    border-radius: inherit;
+    background: #000;
+    opacity: var(--d, 0);
+    transition: none;
+    z-index: 1;
+  }
   .index__title { color: var(--on-dark); }
   .index__desc { color: rgba(255, 255, 255, 0.72); }
   .index__num { color: rgba(255, 255, 255, 0.5); }

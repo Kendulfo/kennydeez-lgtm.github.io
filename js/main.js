@@ -296,6 +296,7 @@
     syncVideos(target);
     armShots();
     syncRails(target);
+    measureStack();   // the deck only measures in the view that is showing
     paintScroll();
     // Split lines can only be measured in a view that is showing.
     if (target.id === 'view-home') {
@@ -1010,32 +1011,64 @@
 
   /* ------------------------------------------------------- Index card deck
      On touch the index rows are sticky cards that pile up — see the
-     (hover: none) block in site.css. Sticky does all the pinning; this only
-     sets --s, the scale that makes a covered card recede rather than simply
-     hide behind the next one. */
-  var STACK_STEP = 0.07;   // scale lost per covering card
-  var STACK_MIN = 0.78;    // the deepest a card sinks
+     (hover: none) block in site.css. Sticky does the pinning; this sets --s,
+     the scale a card gives up as the next one lands on it, and --d, how far
+     the shade over it has come up.
+
+     Each card is driven by exactly one other: the next one, travelling from
+     the foot of the screen to its own pin. The first version instead summed
+     over every later card, so the whole deck was being rescaled on every
+     frame — nine full-card repaints where one would do — and a card went on
+     creeping long after it was buried, then stopped dead on a floor of
+     0.78. That mid-motion clamp is a break in the curve, and it is the
+     stutter you could feel. One card, one bounded span, done.
+
+     Modelled on the stack on annalie-nicole.site, which gives each pair its
+     own scrubbed ScrollTrigger over the same span. GSAP is loaded here but
+     ScrollTrigger is not, and the arithmetic below is the whole of what it
+     would be doing. */
+  var STACK_TO = 0.9;        // what a card scales to once the next has landed
+  var STACK_RISE = 0.012;    // ...and each card after it sinks a little less
+  var STACK_SHADE = 0.55;    // how dark a fully covered card goes
   var coarse = window.matchMedia('(hover: none), (pointer: coarse)');
+  var stackCards = [];
+  var stackTops = [];        // flow position of each card, in document space
+  var stackPin = 0;
+
+  function measureStack() {
+    stackTops = [];
+    stackCards = coarse.matches && !reduced.matches
+      ? [].slice.call(document.querySelectorAll('.index > li')) : [];
+    if (!stackCards.length || !stackCards[0].offsetParent) { stackCards = []; return; }
+
+    var deck = stackCards[0].parentNode;
+    stackPin = parseFloat(window.getComputedStyle(stackCards[0]).top) || 0;
+    // A stuck element's own offsetTop travels with it, so the flow positions
+    // are built from the deck's top — the deck is never sticky — plus the
+    // height of each card above. offsetHeight ignores the scale transform.
+    var top = deck.getBoundingClientRect().top + window.pageYOffset;
+    for (var i = 0; i < stackCards.length; i++) {
+      stackTops.push(top);
+      top += stackCards[i].offsetHeight +
+             (parseFloat(window.getComputedStyle(stackCards[i]).marginBottom) || 0);
+    }
+  }
 
   function paintStack() {
-    if (!coarse.matches || reduced.matches) return;
-    var deck = document.querySelector('.index');
-    if (!deck || !deck.offsetParent || !deck.children.length) return;
+    if (!stackCards.length) return;   // fine pointer, or the deck is not showing
 
-    var cards = deck.children;
-    // While the deck is on screen the first card is pinned, so its own top is
-    // the offset every other card pins at.
-    var pin = cards[0].getBoundingClientRect().top;
-
-    for (var i = 0; i < cards.length; i++) {
-      var depth = 0;
-      for (var j = i + 1; j < cards.length; j++) {
-        var r = cards[j].getBoundingClientRect();
-        var h = r.height || 1;
-        depth += Math.max(0, Math.min(1, (pin + h - r.top) / h));
-      }
-      cards[i].style.setProperty(
-        '--s', Math.max(STACK_MIN, 1 - depth * STACK_STEP).toFixed(4));
+    var y = window.pageYOffset;
+    var vh = window.innerHeight;
+    // Reads nothing from layout: every number below was measured already, so
+    // a scroll frame never forces the page to reflow before it can paint.
+    for (var i = 0; i < stackCards.length - 1; i++) {
+      var from = stackTops[i + 1] - vh;          // next card at the foot of the screen
+      var to = stackTops[i + 1] - stackPin;      // next card home on its pin
+      var p = to > from ? (y - from) / (to - from) : 0;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      var s = stackCards[i].style;
+      s.setProperty('--s', (1 + p * (STACK_TO + i * STACK_RISE - 1)).toFixed(4));
+      s.setProperty('--d', (p * STACK_SHADE).toFixed(3));
     }
   }
 
@@ -1235,6 +1268,7 @@
       var inner = blocks[i].firstElementChild;
       if (inner) blocks[i].style.setProperty('--more-h', inner.scrollHeight + 'px');
     }
+    measureStack();   // the rows just changed height, so the deck has moved
   }
 
   function armIndex() {
